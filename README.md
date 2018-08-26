@@ -1,1 +1,1 @@
-# proyectoArmedia
+# proyectoPsicosocial
