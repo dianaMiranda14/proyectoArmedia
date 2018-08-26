@@ -1,14 +1,12 @@
 <?php
+	include_once("conexion.php");
+
 	class Cuestionario{
-		private $id_cuestionario;
-		private $nombre_cuestionario;
+		private $objConexion=new Conexion();
 
-		public function get($campo){
-			return $this->$campo;
-		}
-
-		public function set($campo,$valor){
-			$this->$campo=$valor;
+		public function listar(){
+			$consulta="select * from cuestionario";
+			return $this->objConexion->consultaRetorno($consulta);
 		}
 	}
 

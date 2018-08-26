@@ -1,60 +1,79 @@
 <?php
-	include_once("../modelo/conexion.php");
 	include_once("../modelo/observacion.php");
+	include_once("../modelo/cuestionario.php");
 
-	class observacionControlador{
-		private $objObservacion;
-		private $objConexion;
+	$objObservacion=new Observacion();
+	$objCuestionario=new Cuestionario();
 
-		public function __construct(){
-			$this->objObservacion=new Observacion();
-			$this->objConexion=new Conexion();
+	function validarDatos($validacion){
+		if ($validacion) {
+			if ($_POST['txtId']=="") {
+				return  "Ei id esta vacio";
+			}
 		}
-
-		public function registrar($idCuestionario, $tipo, $contenido, $descripcion){
-			$consulta="insert into observacion (id_cuestionario_observacion, tipo_observacion, contenido_observacion, descripcion_observacion, estado_observacion) values (".$idCuestionario.", '".$tipo."','".$contenido."','".$descripcion."','activo')";
-			$this->objConexion->consultaSimple($consulta);
+		if ($_POST['comboCuestionario']=="") {
+			return "El cuestionario esta vacio"
+		}else if (mysqli_num_rows($objCuestionario->consultarId($_POST['comboCuestionario']))==0) {
+			return "El cuestionario seleccionado no existe";
+		}else if ($_POST['comboTipo']=="") {
+			return "El tipo es obligatorio";
+		}else if ($_POST['comboContenido']=="") {
+			return "El contenido es obligatorio";
+		}else if ($_POST['txtDescripcion']=="") {
+			return "La descripcion es obligatoria";
+		}else{
+			return true;
 		}
+	}
 
-		public function modificar($id, $idCuestionario, $tipo, $contenido, $descripcion, $estado){
-			$consulta="update observacion set id_cuestionario_observacion = ".$idCuestionario.", tipo_observacion = '".$tipo."', contenido_observacion = '".$contenido."', descripcion_observacion = '".$descripcion."', estado_observacion = '".$estado."' where id_observacion = ".$id;
-			$this->objConexion->consultaSimple($consulta);
+	function registrar(){
+		$val=validarDatos(false);
+		if ($val) {
+			$objObservacion->registrar($_POST['comboCuestionario'],$_POST['comboTipo'], $_POST['comboContenido'],$_POST['txtDescripcion']);
+		}else{
+			echo $val;
 		}
+	}
 
-		public function eliminar($id){
-			$consulta="delete from observacion where id_observacion = ".$id;
-			$this->objConexion->consultaSimple($consulta);
+	function modificar(){
+		$val=validarDatos(false);
+		if ($val) {
+			$objObservacion->modificar($_POST['txtId'],$_POST['comboCuestionario'],$_POST['comboTipo'], $_POST['comboContenido'],$_POST['txtDescripcion'], $_POST['comboEstado']);
+		}else{
+			echo $val;
 		}
+	}
 
-		public function listar(){
-			$consulta="select * from observacion";
-			return $this->objConexion->consultaRetorno($consulta);
+	function eliminar(){
+		if ($_POST['txtId']=="") {
+			echo "El id esta vacio";
+		}else{
+			$objObservacion->eliminar($_POST['txtId']);
 		}
+	}
 
-		public function listarCuestionario($idCuestionario){
-			$consulta="select * from observacion where id_cuestionario_observacion = ".$idCuestionario;
-			return $this->objConexion->consultaRetorno($consulta);
-		}
+	function listar(){
+		print_r($objObservacion->listar());
+	}
 
-		public function listarDescripcion($descripcion){
-			$consulta="select * from observacion where descripcion_observacion like '".$descripcion."%'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
+	function consultarId(){
+		print_r($objObservacion->consultarId($_POST['txtConsultaId']));
+	}
 
-		public function listarTipo($tipo){
-			$consulta="select * from observacion where tipo_observacion like '".$tipo."'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
+	function consultarDescripcion(){
+		print_r($objObservacion->consultarDescripcion($_POST['txtConsultarDescripcion']));
+	}
 
-		public function listarContenido($contenido){
-			$consulta="select * from observacion where contenido_observacion like '".$contenido."%'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
+	function consultarTipo(){
+		print_r($objObservacion->consultarTipo($_POST['comboConsultarTipo']));
+	}
 
-		public function listarEstado($estado){
-			$consulta="select * from observacion where estado_observacion like '".$estado."'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
+	function consultarContenido(){
+		print_r($objObservacion->consultarContenido($_POST['txtConsultarContenido']));
+	}
+
+	function consultarEstado(){
+		print_r($objObservacion->consultarEstado($_POST['comboConsultarEstado']));
 	}
 
 ?>

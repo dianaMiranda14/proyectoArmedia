@@ -1,51 +1,80 @@
 <?php
-	include_once("../modelo/conexion.php");
 	include_once("../modelo/plan_accion.php");
+	include_once("../modelo/dimension.php");
 
-	class PlanAccionControlador{
-		private $objPlanAccion;
-		private $objConexion;
+	$objPlanAccion= new PlanAccion();
+	$objDimension=new Dimension();
 
-		public function __construct(){
-			$this->objPlanAccion= new PlanAccion();
-			$this->objConexion=new Conexion();
+	function validarDatos($validacion){
+		if ($validacion) {
+			if ($_POST['txtId']=="") {
+				return "El id esta vacio";
+			}
 		}
-
-		public function registrar($idDimension, $descripcion){
-			$consulta="insert into plan_accion (id_dimension_plan_accion, descripcion_plan_accion, estado_plan_accion) values (".$idDimension.", '".$descripcion."', 'activo')";
-			$this->objConexion->consultaSimple($consulta);
+		if ($_POST['comboDimension']=="") {
+			return "La dimension es obligatoria";
+		}else if (mysqli_num_rows($objDimension->consultarId($_POST['txtId']))==0) {
+			return "La dimension seleccionada no existe";
+		}else if ($_POST['txtDescripcion']=="") {
+			return "La descripcion es obligatoria";
+		}else {
+			return true;
 		}
-
-		public function modificar($id, $idDimension, $descripcion, $estado){
-			$consulta="update plan_accion set id_dimension_plan_accion = ".$idDimension.", descripcion_plan_accion = '".$descripcion."', estado_plan_accion = '".$estado."' where id_plan_accion = ".$id;
-			$this->objConexion->consultaSimple($consulta);
-		}
-
-		public function eliminar($id){
-			$consulta="delete from plan_accion where id_plan_accion = ".$id;
-			$this->objConexion->consultaSimple($consulta);
-		}
-
-		public function listar(){
-			$consulta="select * from plan_accion";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarDescripcion($descripcion){
-			$consulta="select * from plan_accion where descripcion_plan_accion like '".$descripcion."'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarDimension($idDimension){
-			$consulta="select * from plan_accion id_dimension_plan_accion = ".$idDimension;
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarEstado($estado){
-			$consulta="select * from plan_accion estado_plan_accion like '".$estado."'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		
 	}
+
+	function registrar(){
+		$val=validarDatos(false);
+		if ($val) {
+			$objPlanAccion->registrar($_POST['comboDimension'],$_POST['txtDescripcion']);
+		}else {
+			echo $val;
+		}
+	}
+
+	function modificar(){
+		$val=validarDatos(false);
+		if ($val) {
+			$objPlanAccion->modificar($_POST['txtId'],$_POST['comboDimension'],$_POST['txtDescripcion'], $_POST['comboEstado']);
+		}else {
+			echo $val;
+		}
+	}
+
+	function eliminar(){
+		if ($_POST['txtId']=="") {
+			echo ">El id esta vacio";
+		}else{
+			$objPlanAccion->eliminar($_POST['txtId']);
+		}
+	}
+
+	function listar(){
+		print_r($objPlanAccion->listar());
+	}
+
+	function consultarDescripcion(){
+		if ($_POST['txtConsultaDescripcion']=="") {
+			echo "la descripcion esta vacia";
+		}else{
+			print_r($objPlanAccion->consultarDescripcion($_POST['txtConsultaDescripcion']));
+		}
+	}
+
+	function listarDimension(){
+		if ($_POST['comboConsultaDimension']=="") {
+			echo "la Dimension esta vacia";
+		}else{
+			print_r($objPlanAccion->consultarDimension($_POST['comboConsultaDimension']));
+		}
+	}
+
+	function listarEstado(){
+		if ($_POST['comboConsultaEstado']=="") {
+			echo "El Estado esta vacia";
+		}else{
+			print_r($objPlanAccion->consultarEstado($_POST['comboConsultaEstado']));
+		}
+	}
+
+
 ?>

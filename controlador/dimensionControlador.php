@@ -1,19 +1,14 @@
 <?php
-	include_once("../modelo/conexion.php");
 	include_once("../modelo/Dimension.php");
+	$objDimension=new Dimension();
 
-	class dimensionControlador{
-		private $objDimension;
-		private $objConexion;
-
-		public function __construct(){
-			$this->objDimension=new Dimension();
-			$this->objConexion=new Conexion();
-		}
-
-		public function listar(){
-			$consulta="select * from dimension";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
+	switch ($_POST['accion']) {
+		case 'listar':
+			print_r($objDimension->listar());
+			break;
+		
+		default:
+			# code...
+			break;
 	}
 ?>

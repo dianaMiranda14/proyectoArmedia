@@ -1,5 +1,8 @@
 <?php
+	include_once("conexion.php");
 	class AccionRecomendada{
+		private $objConexion=new Conexion();
+
 		public function registrar($idDimension, $descripcion){
 			$consulta="insert into accion_recomendada (id_dimension_accion_recomendada, descripcion_accion_recomendada, estado_accion_recomedada) values (".$idDimension.",'".$descripcion."','activo')";
 			$this->objConexion->consultaSimple($consulta);
@@ -20,17 +23,17 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function listarEstado($estado){
+		public function consultarEstado($estado){
 			$consulta="select * from accion_recomendada where estado_accion_recomedada like '".$estado."'";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function listarDescripcion($descripcion){
+		public function consultarDescripcion($descripcion){
 			$consulta="select * from accion_recomendada where descripcion_accion_recomendada like '".$descripcion."'";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function listarDimension($idDimension){
+		public function consultarDimension($idDimension){
 			$consulta="select * from accion_recomendada where id_dimension_accion_recomendada = ".$idDimension;
 			return $this->objConexion->consultaRetorno($consulta);
 		}

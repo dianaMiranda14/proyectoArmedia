@@ -1,15 +1,16 @@
 <?php
+	include_once("conexion.php");
 	class Dimension{
-		private $id_dimension;
-		private $descripcion_dimension;
-		private $id_dominio_dimension;
+		private $objConexion=new Conexion();
 
-		public function get($campo){
-			return $this->$campo;
+		public function listar(){
+			$consulta="select * from dimension";
+			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function set($campo,$valor){
-			$this->$campo=$valor;
+		public function consultarId($id){
+			$consulta="select * from dimension where id_dimension = ".$id;
+			return $this->objConexion->consultaRetorno($consulta);
 		}
 	}
 

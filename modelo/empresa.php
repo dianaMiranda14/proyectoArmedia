@@ -1,21 +1,58 @@
 <?php
+	include_once("conexion.php");
+
 	class Empresa{
-		private $nit_empresa;
-		private $nombre_usuario;
-		private $ciudad_empresa;
-		private $direccion_empresa;
-		private $telefono_empresa;
-		private $contacto_empresa;
-		private $estado_empresa;
-		private $habilitado_empresa;
+		private $objConexion= new Conexion();
 
-
-		public function get($campo){
-			return $this->$campo;
+		public function registrar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto, $habilitado){
+			$consulta="insert into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."', '".$habilitado."', 'activo')";
+			$this->objConexion->consultaSimple($consulta);
 		}
 
-		public function set($campo,$valor){
-			$this->$campo=$valor;
+		public function modificar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto, $habilitado, $estado){
+			$consulta="update empresa set nombre_empresa = '".$nombre."', ciudad_empresa = '".$ciudad."', direccion_empresa = '".$direccion."', telefono_empresa = '".$telefono."', contacto_empresa = '".$contacto."', habilitado_empresa = '".$habilitado."', estado_empresa = '".$estado."' where nit_empresa = ".$nit;
+			$this->objConexion->consultaSimple($consulta);
+		}
+
+		public function eliminar($nit){
+			$consulta="delete from empresa where nit_empresa = ".$nit;
+			$this->objConexion->consultaSimple($consulta);
+		}
+
+		public function listar(){
+			$consulta="select * from empresa";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarNit($nit){
+			$consulta="select * from empresa where nit_empresa = ".$nit;
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarNombre($nombre){
+			$consulta="select from empresa where nombre_empresa like '".$nombre."%'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarCiudad($ciudad){
+			$consulta="select * from empresa where ciudad_empresa like '".$ciudad."%'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarContacto($contacto){
+			$consulta="select * from empresa where contacto_empresa '".$contacto."%'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarEstado($estado){
+			$consulta="select * from empresa where estado_empresa like '".$estado."'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarUsuarios($nit){
+			$consulta="select * from empresa, usuario where nit_empresa = id_empresa_usuario and nit_empresa = ".$nit;
+			return $this->objConexion->consultaRetorno($consulta);
+
 		}
 	}
 

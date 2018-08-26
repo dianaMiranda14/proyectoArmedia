@@ -1,19 +1,14 @@
 <?php
-	include_once("../modelo/conexion.php");
 	include_once("../modelo/dominio.php");
+	$objDominio=new Dominio();
 
-	class dominioControlador{
-		private $objDominio;
-		private $objConexion;
-
-		public function __construct(){
-			$this->objDominio=new Dominio();
-			$this->objConexion=new Conexion();
-		}
-
-		public function listrar(){
-			$consulta="select * from dominio";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
+	switch ($_POST['accion']) {
+		case 'listar':
+			print_r($objDominio->listar());
+			break;
+		
+		default:
+			# code...
+			break;
 	}
 ?>

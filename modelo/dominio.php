@@ -1,14 +1,10 @@
 <?php
 	class Dominio{
-		private $id_dominio;
-		private $descripcion_dominio;
+		private $objConexion = new Conexion();
 
-		public function get($campo){
-			return $this->$campo;
-		}
-
-		public function set($campo,$valor){
-			$this->$campo=$valor;
+		public function listar(){
+			$consulta="select * from dominio";
+			return $this->objConexion->consultaRetorno($consulta);
 		}
 	}
 

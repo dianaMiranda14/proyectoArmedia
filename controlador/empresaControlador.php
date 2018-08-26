@@ -1,66 +1,115 @@
 <?php
-	include_once("../modelo/conexion.php");
 	include_once("../modelo/empresa.php");
+	$objEmpresa=new Empresa();
+	
 
-	class empresaControlador{
-		private $objEmpresa;
-		private $objConexion;
-
-		public function __construct(){
-			$this->objEmpresa=new Empresa();
-			$this->objConexion= new Conexion();
+	function validarDatos($validacion){
+		if ($_POST['txtNit']==="") {
+			return "El nit es obligatorio";
+		}else {
+			if ($validacion) {
+				if (mysqli_num_rows($objEmpresa->consultarId($_POST['txtNit']))!=0) ) {
+					return "Ya existe una empresa con ese nit";
+				}
+			} else{
+				if (mysqli_num_rows($objEmpresa->consultarId($_POST['txtNit']))==0) ) {
+					return "No existe una empresa con ese nit";
+				}
+			}
 		}
-
-		public function registrar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto, $habilitado){
-			$consulta="insert into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."', '".$habilitado."', 'activo')";
-			$this->objConexion->consultaSimple($consulta);
-		}
-
-		public function modificar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto, $habilitado, $estado){
-			$consulta="update empresa set nombre_empresa = '".$nombre."', ciudad_empresa = '".$ciudad."', direccion_empresa = '".$direccion."', telefono_empresa = '".$telefono."', contacto_empresa = '".$contacto."', habilitado_empresa = '".$habilitado."', estado_empresa = '".$estado."' where nit_empresa = ".$nit;
-			$this->objConexion->consultaSimple($consulta);
-		}
-
-		public function eliminar($nit){
-			$consulta="delete from empresa where nit_empresa = ".$nit;
-			$this->objConexion->consultaSimple($consulta);
-		}
-
-		public function listar(){
-			$consulta="select * from empresa";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarNit($nit){
-			$consulta="select * from empresa where nit_empresa = ".$nit;
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarNombre($nombre){
-			$consulta="select from empresa where nombre_empresa like '".$nombre."%'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarCiudad($ciudad){
-			$consulta="select * from empresa where ciudad_empresa like '".$ciudad."%'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarContacto($contacto){
-			$consulta="select * from empresa where contacto_empresa '".$contacto."%'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarEstado($estado){
-			$consulta="select * from empresa where estado_empresa like '".$estado."'";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
-		public function listarUsuarios($nit){
-			$consulta="select * from empresa, usuario where nit_empresa = id_empresa_usuario and nit_empresa = ".$nit;
-			return $this->objConexion->consultaRetorno($consulta);
-
+		if($_POST['txtNombre']==""){
+			return "El nombre es obligatorio";
+		}else if($_POST['comboCiudad']==""){
+			return "La ciudad es obligatoria";
+		}else if ($_POST['txtDireccion']=="") {
+			return "La direccion es olbigatoria";
+		}else if ($_POST['txtTelefono']=="") {
+			return "El telefono es obligatorio";
+		}else if ($_POST['txtContacto']=="") {
+			return "El contacto es obligatorio";
+		}else {
+			return true;
 		}
 	}
+
+	function registrar(){
+		$val=validarDatos(true);
+		if ($val) {
+			$objEmpresa->registrar($_POST['txtNit'],$_POST['txtNombre'],$_POST['comboCiudad'],$_POST['txtDireccion'],$_POST['txtTelefono'],$_POST['txtContacto'],$_POST['checkHabilitado']);
+		}else{
+			echo $val;
+		}
+	}
+
+	function modificar(){
+		$val=validarDatos(false);
+		if ($val) {
+			$objEmpresa->modificar($_POST['txtNit'],$_POST['txtNombre'],$_POST['comboCiudad'],$_POST['txtDireccion'],$_POST['txtTelefono'],$_POST['txtContacto'],$_POST['checkHabilitado'],$_POST['comboEstado']);
+		}else{
+			echo $val;
+		}
+	}
+
+	function eliminar(){
+		if ($_POST['txtNit']=="") {
+			echo "El nit esta vacio";
+		}else{
+			$objEmpresa->eliminar($_POST['txtNit']);
+		}
+	}
+
+	function listar(){
+		print_r($objEmpresa->listar());
+	}
+
+	function consultarNit(){
+		if ($_POST['txtConsultaNit']=="") {
+			echo "El nit esta vacio";
+		}else{
+			print_r($objEmpresa->consultarNit($_POST['txtConsultaNit']));
+		}
+	}
+
+	function consultarNombre(){
+		if ($_POST['txtConsultaNombre']=="") {
+			echo "El nombre esta vacio";
+		}else{
+			print_r($objEmpresa->consultarNombre($_POST['txtConsultaNombre']));
+		}
+	}
+
+	function consultarCiudad(){
+		if ($_POST['comboConsultaCiudad']=="") {
+			echo "La ciudad esta vacia";
+		}else{
+			print_r($objEmpresa->consultarCiudad($_POST['comboConsultaCiudad']));
+		}
+	}
+
+	function consultarContacto(){
+		if ($_POST['txtConsultaContacto']=="") {
+			echo "El Contacto esta vacio";
+		}else{
+			print_r($objEmpresa->consultarContacto($_POST['txtConsultaContacto']));
+		}
+	}
+
+	function consultarEstado(){
+		if ($_POST['comboConsultaEstado']=="") {
+			echo "El Estado esta vacio";
+		}else{
+			print_r($objEmpresa->consultarEstado($_POST['comboConsultaEstado']));
+		}
+	}
+
+	function consultarUsuarios(){
+		if ($_POST['txtConsultaNit']=="") {
+			echo "El nit esta vacio";
+		}else{
+			print_r($objEmpresa->consultarUsuarios($_POST['txtConsultaNit']));
+		}
+	}
+
+
 
 ?>

@@ -1,19 +1,17 @@
 <?php
-	include_once("../modelo/conexion.php");
 	include_once("../modelo/pregunta.php");
 
 	class preguntaControlador{
-		private $objPregunta;
-		private $objConexion;
+		$objPregunta=new Pregunta();
 
-		public function __construct(){
-			$this->objPregunta=new Pregunta();
-			$this->objConexion=new Conexion();
-		}
-
-		public function listar(){
-			$consulta="select * from pregunta";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
+		switch ($_POST['accion']) {
+		case 'listar':
+			print_r($objPregunta->listar());
+			break;
+		
+		default:
+			# code...
+			break;
+	}
 	}
 ?>

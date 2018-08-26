@@ -1,16 +1,12 @@
 <?php
-	function Pregunta{
-		private $id_pregunta;
-		private $id_cuestionario_pregunta;
-		private $id_dimension_pregunta;
-		private $descripcion_pregunta;
+	include_once("conexion.php");
 
-		public function get($campo){
-			return $this->$campo;
-		}
-
-		public function set($campo,$valor){
-			$this->$campo=$valor;
+	class Pregunta{
+		private $objConexion=new Conexion();
+		
+		public function listar(){
+			$consulta="select * from pregunta";
+			return $this->objConexion->consultaRetorno($consulta);
 		}
 	}
 ?>
