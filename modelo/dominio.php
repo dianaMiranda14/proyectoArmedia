@@ -1,6 +1,10 @@
 <?php
 	class Dominio{
-		private $objConexion = new Conexion();
+		private $objConexion;
+
+		public function __construct(){
+			$this->objConexion=new Conexion();
+		}
 
 		public function listar(){
 			$consulta="select * from dominio";

@@ -1,0 +1,42 @@
+.filtro{
+	border: none;
+	border-bottom: solid 1px gray;
+}
+
+table .form-control{
+	background: transparent !important;
+	width: 100px !important;
+}
+
+.filtro::placeholder{
+	font-weight: bold;
+	color: black;
+}
+
+.filtro:focus{
+	background: transparent;
+}
+
+.filtro option{
+	font-weight: bold;
+	color: black;
+}
+
+.readOnly::placeholder{
+	font-weight: bold;
+	color: black;
+}
+
+.readOnly:disabled{
+	border: none;
+	background: transparent;
+}
+
+.readOnly:focus{
+	background: red;
+	border: none;
+}
+
+textarea {
+	resize: none;
+}

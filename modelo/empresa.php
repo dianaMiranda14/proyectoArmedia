@@ -2,10 +2,14 @@
 	include_once("conexion.php");
 
 	class Empresa{
-		private $objConexion= new Conexion();
+		private $objConexion;
 
-		public function registrar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto, $habilitado){
-			$consulta="insert into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."', '".$habilitado."', 'activo')";
+		public function __construct(){
+			$this->objConexion=new Conexion();
+		}
+
+		public function registrar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto){
+			$consulta="insert into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."','Activo','0')";
 			$this->objConexion->consultaSimple($consulta);
 		}
 
@@ -30,7 +34,7 @@
 		}
 
 		public function consultarNombre($nombre){
-			$consulta="select from empresa where nombre_empresa like '".$nombre."%'";
+			$consulta="select * from empresa where nombre_empresa like '".$nombre."%'";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
@@ -40,7 +44,7 @@
 		}
 
 		public function consultarContacto($contacto){
-			$consulta="select * from empresa where contacto_empresa '".$contacto."%'";
+			$consulta="select * from empresa where contacto_empresa like '".$contacto."%'";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
@@ -50,7 +54,7 @@
 		}
 
 		public function consultarUsuarios($nit){
-			$consulta="select * from empresa, usuario where nit_empresa = id_empresa_usuario and nit_empresa = ".$nit;
+			$consulta="select usuario.* from empresa, usuario where nit_empresa = id_empresa_usuario and nit_empresa = ".$nit;
 			return $this->objConexion->consultaRetorno($consulta);
 
 		}

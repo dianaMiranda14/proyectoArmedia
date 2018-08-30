@@ -6,6 +6,14 @@
 		case 'listar':
 			print_r($objDimension->listar());
 			break;
+
+		case 'mostrarOption':
+			echo $resultado=$objDimension->mostrarOption();
+			break;
+
+		case 'mostrarContenido':
+			echo $resultado=$objDimension->mostrarContenido();
+			break;
 		
 		default:
 			# code...
