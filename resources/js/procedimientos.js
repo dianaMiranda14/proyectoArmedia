@@ -532,4 +532,15 @@ function validarModalObservacion(){
 	}
 }
 
+function config(formulario){
+	console.log(formulario);
+	$.ajax({
+		data:$(formulario).serialize(),
+		type:"post",
+		url:"../controlador/usuarioControlador.php",
+		success:function(res){
+			console.log(res);	
+		}
+	});
+}
  

@@ -14,6 +14,12 @@
 			$this->objConexion->consultaSimple($consulta);
 		}
 
+		public function remplazar($cedula, $idEmpresa, $nombre, $sexo, $estadoCivil, $fechaNacimiento, $personasDepende, $departamentoResidencia, $ciudadResidencia, $estrato, $tipoVivienda, $nivelEstudio, $profesion, $departamentoTrabajo, $ciudadTrabajo, $yearsTrabajo, $cargo, $tipoCargo, $yearsCargo, $departamentoLaboral, $tipoContrato, $horasTrabajo, $tipoSalario){
+
+			$consulta="replace into usuario (cedula_usuario, id_empresa_usuario, nombre_usuario, sexo_usuario, estado_civil_usuario, fecha_nacimiento_usuario, personas_dependen_usuario, departamento_residencia_usuario, ciudad_residencia_usuario, estrato_usuario, tipo_vivienda_usuario, nivel_estudio_usuario, profesion_usuario, departamento_trabajo_usuario, ciudad_trabajo_usuario, years_trabajo_usuario, cargo_usuario, tipo_cargo_usuario, years_cargo_usuario, departamento_laboral_usuario, tipo_contrato_usuario, horas_dia_trabajo_usuario, tipo_salario_usuario, tipo_usuario, estado_usuario) values(".$cedula.",".$idEmpresa.",'".$nombre."','".$sexo."','".$estadoCivil."','".$fechaNacimiento."',".$personasDepende.",'".$departamentoResidencia."','".$ciudadResidencia."','".$estrato."','".$tipoVivienda."','".$nivelEstudio."','".$profesion."','".$departamentoTrabajo."','".$ciudadTrabajo."',".$yearsTrabajo.",'".$cargo."','".$tipoCargo."',".$yearsCargo.",'".$departamentoLaboral."','".$tipoContrato."',".$horasTrabajo.",'".$tipoSalario."','Usuario','Activo')";
+			$this->objConexion->consultaSimple($consulta);
+		}
+
 		public function modificar($cedula, $idEmpresa, $nombre, $sexo, $estadoCivil, $fechaNacimiento, $personasDepende, $departamentoResidencia, $ciudadResidencia, $estrato, $tipoVivienda, $nivelEstudio, $profesion, $departamentoTrabajo, $ciudadTrabajo, $yearsTrabajo, $cargo, $tipoCargo, $yearsCargo, $departamentoLaboral, $tipoContrato, $horasTrabajo, $tipoSalario, $estado){
 
 			$consulta="update usuario set id_empresa_usuario = ".$idEmpresa.", nombre_usuario = '".$nombre."', sexo_usuario = '".$sexo."', estado_civil_usuario = '".$estadoCivil."', fecha_nacimiento_usuario = '".$fechaNacimiento."', personas_dependen_usuario = ".$personasDepende.", departamento_residencia_usuario = '".$departamentoResidencia."', ciudad_residencia_usuario = '".$ciudadResidencia."', estrato_usuario = '".$estrato."', tipo_vivienda_usuario = '".$tipoVivienda."', nivel_estudio_usuario = '".$nivelEstudio."', profesion_usuario = '".$profesion."', departamento_trabajo_usuario = '".$departamentoTrabajo."', ciudad_trabajo_usuario = '".$ciudadTrabajo."', years_trabajo_usuario = ".$yearsTrabajo.", cargo_usuario = '".$cargo."', tipo_cargo_usuario = '".$tipoCargo."', years_cargo_usuario = ".$yearsCargo.", departamento_laboral_usuario = '".$departamentoLaboral."', tipo_contrato_usuario = '".$tipoContrato."', horas_dia_trabajo_usuario = ".$horasTrabajo.", tipo_salario_usuario = '".$tipoSalario."', estado_usuario = '".$estado."' where cedula_usuario = ".$cedula;
@@ -48,6 +54,53 @@
 		public function consultarLogin($correo, $pass){
 			$consulta="select * from usuario where correo_usuario like '".$correo."' and password_usuario like '".$pass."' and tipo_usuario like 'admin'";
 			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function vaciarTabla(){
+			$consulta="delete from usuario";
+			$this->objConexion->consultaSimple($consulta);
+		}
+
+		public function mostrar($resultado){
+			if (mysqli_num_rows($resultado)>0) {
+					while ($obj=mysqli_fetch_assoc($resultado)) {
+						echo
+						'<tr>
+							<td>'.$obj['cedula_usuario'].'</td>
+							<td>'.$obj['nombre_usuario'].'</td>
+							<td>'.$obj['sexo_usuario'].'</td>
+							<td>'.$obj['fecha_nacimiento_usuario'].'</td>
+							<td>'.$obj['profesion_usuario'].'</td>
+							<td>'.$obj['nombre_empresa'].'</td>
+							<td>'.$obj['cargo_usuario'].'</td>
+							<td>'.$obj['estado_usuario'].'</td>
+							<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalUsuario("modificar",'.json_encode($obj).')\' /></td>
+						</tr>';
+					}
+			}else{
+				echo 
+		    		'<tr>
+		    			<td colspan="9">No hay registros</td>
+		    		</tr>';
+			}
+		}
+
+		public function arrUsuarios($id){
+			if ($id==0) {
+				$resultado=$this->listar();
+			}else{
+				$resultado=$this->consultarEmpresa($id);
+			}
+			
+			if (mysqli_num_rows($resultado)>0) {
+				$i=0;
+				while ($obj = mysqli_fetch_assoc($resultado)) {
+					//guarda toda la informacion del usuario en una posicion del array
+					$arrUsuarios[$i]= array('cedula_usuario' => $obj['cedula_usuario'], 'nombre_usuario'=>$obj['nombre_usuario'],'id_empresa_usuario'=>$obj['id_empresa_usuario'], 'sexo_usuario'=>$obj['sexo_usuario'], 'estado_civil_usuario'=>$obj['estado_civil_usuario'], 'fecha_nacimiento_usuario'=>$obj['fecha_nacimiento_usuario'], 'personas_dependen_usuario'=>$obj['personas_dependen_usuario'], 'departamento_residencia_usuario'=>$obj['departamento_residencia_usuario'], 'ciudad_residencia_usuario'=>$obj['ciudad_residencia_usuario'], 'estrato_usuario'=>$obj['estrato_usuario'], 'tipo_vivienda_usuario'=>$obj['tipo_vivienda_usuario'],'nivel_estudio_usuario'=>$obj['nivel_estudio_usuario'], 'profesion_usuario'=>$obj['profesion_usuario'], 'departamento_trabajo_usuario'=>$obj['departamento_trabajo_usuario'], 'ciudad_trabajo_usuario'=>$obj['ciudad_trabajo_usuario'], 'years_trabajo_usuario'=>$obj['years_trabajo_usuario'], 'cargo_usuario'=>$obj['cargo_usuario'], 'tipo_cargo_usuario'=>$obj['tipo_cargo_usuario'], 'years_cargo_usuario'=>$obj['years_cargo_usuario'], 'departamento_laboral_usuario'=>$obj['departamento_laboral_usuario'], 'tipo_contrato_usuario'=>$obj['tipo_contrato_usuario'], 'horas_dia_trabajo_usuario'=>$obj['horas_dia_trabajo_usuario'], 'tipo_salario_usuario'=>$obj['tipo_salario_usuario'], 'tipo_usuario'=>$obj['tipo_usuario'], 'estado_usuario'=>$obj['estado_usuario']);
+					$i++;
+				}
+				return $arrUsuarios;
+			}
 		}
 
 	}

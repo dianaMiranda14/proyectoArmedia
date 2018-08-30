@@ -14,4 +14,7 @@
 	<li>
 		<a href="?cargar=observacion" class="btn">Gestionar Observaciones</a>
 	</li>
+	<li>
+		<a href="?cargar=configuracionLocal" class="btn">Configuración local</a>
+	</li>
 </ul>

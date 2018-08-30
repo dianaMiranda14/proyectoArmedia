@@ -44,36 +44,7 @@
 	    <?php
 	    	include_once("../modelo/empresa.php");
 	    	$objEmpresa=new Empresa();
-	    	$resultado=$objEmpresa->listar();
-	    	if (mysqli_num_rows($resultado)>0) {
-	    		while ($obj=mysqli_fetch_assoc($resultado)) {
-	    			$mostrar=
-	    			'<tr>
-	    				<td>'.$obj['nit_empresa'].'</td>
-	    				<td>'.$obj['nombre_empresa'].'</td>
-	    				<td>'.$obj['ciudad_empresa'].'</td>
-	    				<td>'.$obj['direccion_empresa'].'</td>
-	    				<td>'.$obj['telefono_empresa'].'</td>
-	    				<td>'.$obj['contacto_empresa'].'</td>
-	    				<td>'.$obj['estado_empresa'].'</td>';
-	    			if ($obj['habilitado_empresa']=='0') {
-	    				$habilitado="x";
-	    			}else{
-	    				$habilitado="✓";
-	    			}
-	    			$mostrar.='
-	    				<td>'.$habilitado.'</td>
-	    				<td> <input type="button" class="btn btn-primary" onclick=\'modalEmpresa("modificar",'.json_encode($obj).')\' value="Modificar"></td>
-	    				<td> <input type="button" class="btn btn-primary" onclick=\'modalEmpresa("eliminar",'.json_encode($obj).')\' value="Eliminar"></td>
-	    			</tr>';
-	    			echo $mostrar;
-	    		}
-	    	}else{
-	    		echo '
-	    		<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-	    	}
+	    	echo $objEmpresa->mostrar($objEmpresa->listar());
 	    ?>
 	  </tbody>
 	</table>

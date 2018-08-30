@@ -35,10 +35,7 @@
 			      	<select class="form-control filtro" name="comboConsultaEmpresa" id="comboConsultaEmpresa" onchange='filtrarUsuario("consultarEmpresa",this.value)'>
 			      		<option>Empresa</option>
 			      		<?php
-			      			$resultado=$objEmpresa->listar();
-			      			while ($obj=mysqli_fetch_assoc($resultado)) {
-			      				echo '<option value="'.$obj['nit_empresa'].'">'.$obj['nombre_empresa'].'</option>';
-			      			}
+			      			echo $objEmpresa->mostrarOption();
 			      		?>
 			      	</select>
 			    </th>
@@ -60,28 +57,7 @@
 			<?php
 				include_once("../modelo/usuario.php");
 				$objUsuario=new Usuario();
-				$resultado=$objUsuario->listar();
-				if (mysqli_num_rows($resultado)>0) {
-					while ($obj=mysqli_fetch_assoc($resultado)) {
-						echo
-						'<tr>
-							<td>'.$obj['cedula_usuario'].'</td>
-							<td>'.$obj['nombre_usuario'].'</td>
-							<td>'.$obj['sexo_usuario'].'</td>
-							<td>'.$obj['fecha_nacimiento_usuario'].'</td>
-							<td>'.$obj['profesion_usuario'].'</td>
-							<td>'.$obj['nombre_empresa'].'</td>
-							<td>'.$obj['cargo_usuario'].'</td>
-							<td>'.$obj['estado_usuario'].'</td>
-							<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalUsuario("modificar",'.json_encode($obj).')\' /></td>
-						</tr>';
-					}
-				}else{
-					echo 
-	    		'<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-				}
+				echo $objUsuario->mostrar($objUsuario->listar());
 			?>
 		</tbody>
 	</table>
@@ -288,10 +264,7 @@
 				      			<select name="comboEmpresa" id="comboEmpresa" class="form-control" >
 				      				<option value="">Seleccione</option>
 				      				<?php
-						      			$resultado=$objEmpresa->listar();
-						      			while ($obj=mysqli_fetch_assoc($resultado)) {
-						      				echo '<option value="'.$obj['nit_empresa'].'">'.$obj['nombre_empresa'].'</option>';
-						      			}
+						      			echo $objEmpresa->mostrarOption();
 						      		?>
 				      			</select>
 				      		</div>

@@ -3,8 +3,8 @@
 	include_once("../modelo/empresa.php");
 	$objUsuario= new Usuario();
 	$objEmpresa= new Empresa();
-	//print_r($_POST);
-
+	print_r($_POST);
+	print_r($_FILES);
 	switch ($_POST['accion']) {
 		case 'registrar':
 			$val=validarDatos(true);
@@ -27,88 +27,35 @@
 			break;
 
 		case 'listar':
-			$resultado=$objUsuario->listar();
-				if (mysqli_num_rows($resultado)>0) {
-					while ($obj=mysqli_fetch_assoc($resultado)) {
-						mostrar($obj);
-					}
-				}else{
-					echo 
-	    		'<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-				}
+			echo $objUsuario->mostrar($objUsuario->listar());
 			break;
 
 		case 'consultarCedula':
 			if ($_POST['valor']=="") {
-				$resultado=$objUsuario->listar();
+				echo $objUsuario->mostrar($objUsuario->listar());
 			}else{
-				$resultado=$objUsuario->consultarCedula($_POST['valor']);
-			}
-			if (mysqli_num_rows($resultado)>0) {
-				while ($obj=mysqli_fetch_assoc($resultado)) {
-					mostrar($obj);
-				}
-			}else{
-				echo 
-	    		'<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
+				echo $objUsuario->mostrar($objUsuario->consultarCedula($_POST['valor']));
 			}
 			break;
 
 		case 'consultarNombre':
-			$resultado=$objUsuario->consultarNombre($_POST['valor']);
-			if (mysqli_num_rows($resultado)>0) {
-				while ($obj=mysqli_fetch_assoc($resultado)) {
-					mostrar($obj);
-				}
-			}else{
-				echo 
-	    		'<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-			}
-			
+			echo $objUsuario->mostrar($objUsuario->consultarNombre($_POST['valor']));	
 			break;
 
 		case 'consultarEmpresa':
 			if ($_POST['valor']=="Empresa") {
-				$resultado=$objUsuario->listar();
+				echo $objUsuario->mostrar($objUsuario->listar());
 			}else{
-				$resultado=$objUsuario->consultarEmpresa($_POST['valor']);
+				echo $objUsuario->mostrar($objUsuario->consultarEmpresa($_POST['valor']));
 			}
-			if (mysqli_num_rows($resultado)>0) {
-				while ($obj=mysqli_fetch_assoc($resultado)) {
-					mostrar($obj);
-				}
-			}else{
-				echo 
-	    		'<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-			}
-			
 			break;
 
 		case 'consultarEstado':
 			if ($_POST['valor']=="Estado") {
-				$resultado=$objUsuario->listar();
+				echo $objUsuario->mostrar($objUsuario->listar());
 			}else{
-				$resultado=$objUsuario->consultarEstado($_POST['valor']);
+				echo $objUsuario->mostrar($objUsuario->consultarEstado($_POST['valor']));
 			}
-			if (mysqli_num_rows($resultado)>0) {
-				while ($obj=mysqli_fetch_assoc($resultado)) {
-					mostrar($obj);
-				}
-			}else{
-				echo 
-	    		'<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-			}
-			
 			break;
 
 		case 'consultarLogin':
@@ -120,24 +67,10 @@
 				echo "Datos incorrectos";
 			}
 			break;
+
 		default:
 			# code...
 			break;
-	}
-
-	function mostrar($obj){
-		echo
-			'<tr>
-				<td>'.$obj['cedula_usuario'].'</td>
-				<td>'.$obj['nombre_usuario'].'</td>
-				<td>'.$obj['sexo_usuario'].'</td>
-				<td>'.$obj['fecha_nacimiento_usuario'].'</td>
-				<td>'.$obj['profesion_usuario'].'</td>
-				<td>'.$obj['nombre_empresa'].'</td>
-				<td>'.$obj['cargo_usuario'].'</td>
-				<td>'.$obj['estado_usuario'].'</td>
-				<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalUsuario("modificar",'.json_encode($obj).')\' </td>
-			</tr>';
 	}
 
 	function validarDatos($validacion){
@@ -205,32 +138,5 @@
 		}else{
 			return true;
 		}
-	}
-
-
-
-
-	function modificar(){
-		
-	}
-
-	function listar(){
-		
-	}
-
-	function consultarCedula(){
-		
-	}
-
-	function consultarNombre(){
-		
-	}
-
-	function consultarEmpresa(){
-		
-	}
-
-	function consultarLogin(){
-		
 	}
 ?>

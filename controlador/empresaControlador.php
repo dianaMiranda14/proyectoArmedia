@@ -37,115 +37,40 @@
 			break;
 
 		case 'listar':
-			$resultado=$objEmpresa->listar();
-	    	if (mysqli_num_rows($resultado)>0) {
-	    		while ($obj=mysqli_fetch_assoc($resultado)) {
-	    			mostrarLista($obj);
-	    		}
-	    	}else{
-	    		echo '
-	    		<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-	    	}
-
+			echo $objEmpresa->mostrar($objEmpresa->listar());
 			break;
 
 		case 'consultarNit':
 			if ($_POST['valor']=="") {
-				$resultado=$objEmpresa->listar();
-		    	if (mysqli_num_rows($resultado)>0) {
-		    		while ($obj=mysqli_fetch_assoc($resultado)) {
-		    			mostrarLista($obj);
-		    		}
-		    	}
+				echo $objEmpresa->mostrar($objEmpresa->listar());
 			}else{
-				$resultado=$objEmpresa->consultarNit($_POST['valor']);
-		    	if (mysqli_num_rows($resultado)>0) {
-		    		while ($obj=mysqli_fetch_assoc($resultado)) {
-		    			mostrarLista($obj);
-		    		}
-		    	}else{
-		    		echo '
-		    		<tr>
-		    			<td colspan="9">No hay registros</td>
-		    		</tr>';
-		    	}
+				echo $objEmpresa->mostrar($objEmpresa->consultarNit($_POST['valor']));
 			}
 			break;
 
 		case 'consultarNombre':
-			$resultado=$objEmpresa->consultarNombre($_POST['valor']);
-	    	if (mysqli_num_rows($resultado)>0) {
-	    		while ($obj=mysqli_fetch_assoc($resultado)) {
-	    			mostrarLista($obj);
-	    		}
-	    	}else{
-	    		echo '
-	    		<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-	    	}
+			echo $objEmpresa->mostrar($objEmpresa->consultarNombre($_POST['valor']));
 			break;
 
 		case 'consultarCiudad':
-			$resultado=$objEmpresa->consultarCiudad($_POST['valor']);
-	    	if (mysqli_num_rows($resultado)>0) {
-	    		while ($obj=mysqli_fetch_assoc($resultado)) {
-	    			mostrarLista($obj);
-	    		}
-	    	}else{
-	    		echo '
-	    		<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-	    	}
+			echo $objEmpresa->mostrar($objEmpresa->consultarCiudad($_POST['valor']));
 			break;
 
 		case 'consultarContacto':
-			$resultado=$objEmpresa->consultarContacto($_POST['valor']);
-	    	if (mysqli_num_rows($resultado)>0) {
-	    		while ($obj=mysqli_fetch_assoc($resultado)) {
-	    			mostrarLista($obj);
-	    		}
-	    	}else{
-	    		echo '
-	    		<tr>
-	    			<td colspan="9">No hay registros</td>
-	    		</tr>';
-	    	}
+			echo $objEmpresa->mostrar($objEmpresa->consultarContacto($_POST['valor']));
 			break;
 
 		case 'consultarEstado':
 			if ($_POST['valor']=="Estado") {
-				$resultado=$objEmpresa->listar();
-				if (mysqli_num_rows($resultado)>0) {
-		    		while ($obj=mysqli_fetch_assoc($resultado)) {
-		    			mostrarLista($obj);
-		    		}
-		    	}
+				echo $objEmpresa->mostrar($objEmpresa->listar());
 			}else{
-				$resultado=$objEmpresa->consultarEstado($_POST['valor']);
-		    	if (mysqli_num_rows($resultado)>0) {
-		    		while ($obj=mysqli_fetch_assoc($resultado)) {
-		    			mostrarLista($obj);
-		    		}
-		    	}else{
-		    		echo '
-		    		<tr>
-		    			<td colspan="9">No hay registros</td>
-		    		</tr>';
-		    	}
+				echo $objEmpresa->mostrar($objEmpresa->consultarEstado($_POST['valor']));
 			}
 			
 			break;
 
-		case 'consultarUsuarios':
-			if ($_POST['txtConsultaNit']=="") {
-				echo "El nit esta vacio";
-			}else{
-				print_r($objEmpresa->consultarUsuarios($_POST['txtConsultaNit']));
-			}
+		case 'mostrarOption':
+			echo $objEmpresa->mostrarOption();
 			break;
 		default:
 			# code...
@@ -179,28 +104,5 @@
 		}else {
 			return true;
 		}
-	}
-
-	function mostrarLista($obj){
-		$mostrar=
-	    			'<tr>
-	    				<td>'.$obj['nit_empresa'].'</td>
-	    				<td>'.$obj['nombre_empresa'].'</td>
-	    				<td>'.$obj['ciudad_empresa'].'</td>
-	    				<td>'.$obj['direccion_empresa'].'</td>
-	    				<td>'.$obj['telefono_empresa'].'</td>
-	    				<td>'.$obj['contacto_empresa'].'</td>
-	    				<td>'.$obj['estado_empresa'].'</td>';
-	    			if ($obj['habilitado_empresa']=='0') {
-	    				$habilitado="x";
-	    			}else{
-	    				$habilitado="✓";
-	    			}
-	    			$mostrar.='
-	    				<td>'.$habilitado.'</td>
-	    				<td> <input type="button" class="btn btn-primary" onclick=\'modalEmpresa("modificar",'.json_encode($obj).')\' value="Modificar"></td>
-	    				<td> <input type="button" class="btn btn-primary" onclick=\'modalEmpresa("eliminar",'.json_encode($obj).')\' value="Eliminar"></td>
-	    			</tr>';
-	    			echo $mostrar;
 	}
 ?>

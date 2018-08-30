@@ -13,6 +13,11 @@
 			$this->objConexion->consultaSimple($consulta);
 		}
 
+		public function remplazar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto){
+			$consulta="replace into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."','Activo','0')";
+			$this->objConexion->consultaSimple($consulta);
+		}
+
 		public function modificar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto, $habilitado, $estado){
 			$consulta="update empresa set nombre_empresa = '".$nombre."', ciudad_empresa = '".$ciudad."', direccion_empresa = '".$direccion."', telefono_empresa = '".$telefono."', contacto_empresa = '".$contacto."', habilitado_empresa = '".$habilitado."', estado_empresa = '".$estado."' where nit_empresa = ".$nit;
 			$this->objConexion->consultaSimple($consulta);
@@ -57,6 +62,64 @@
 			$consulta="select usuario.* from empresa, usuario where nit_empresa = id_empresa_usuario and nit_empresa = ".$nit;
 			return $this->objConexion->consultaRetorno($consulta);
 
+		}
+
+		public function vaciarTabla(){
+			$consulta="delete from empresa";
+			$this->objConexion->consultaSimple($consulta);
+		}
+
+		public function mostrar($resultado){
+			if (mysqli_num_rows($resultado)>0) {
+	    		while ($obj=mysqli_fetch_assoc($resultado)) {
+	    			$mostrar=
+	    			'<tr>
+	    				<td>'.$obj['nit_empresa'].'</td>
+	    				<td>'.$obj['nombre_empresa'].'</td>
+	    				<td>'.$obj['ciudad_empresa'].'</td>
+	    				<td>'.$obj['direccion_empresa'].'</td>
+	    				<td>'.$obj['telefono_empresa'].'</td>
+	    				<td>'.$obj['contacto_empresa'].'</td>
+	    				<td>'.$obj['estado_empresa'].'</td>';
+	    			if ($obj['habilitado_empresa']=='0') {
+	    				$habilitado="x";
+	    			}else{
+	    				$habilitado="✓";
+	    			}
+	    			$mostrar.='
+	    				<td>'.$habilitado.'</td>
+	    				<td> <input type="button" class="btn btn-primary" onclick=\'modalEmpresa("modificar",'.json_encode($obj).')\' value="Modificar"></td>
+	    				<td> <input type="button" class="btn btn-primary" onclick=\'modalEmpresa("eliminar",'.json_encode($obj).')\' value="Eliminar"></td>
+	    			</tr>';
+	    			echo $mostrar;
+	    		}
+	    	}else{
+	    		echo '
+	    		<tr>
+	    			<td colspan="9">No hay registros</td>
+	    		</tr>';
+	    	}
+		}
+
+		public function mostrarOption(){
+			$resultado=$this->listar();
+			while ($obj=mysqli_fetch_assoc($resultado)) {
+			    echo '<option value="'.$obj['nit_empresa'].'">'.$obj['nombre_empresa'].'</option>';
+			}
+		}
+
+		public function arrEmpresa($id){
+			if ($id==0) {
+				$result=$this->listar();
+			}else{
+				$result=$this->consultarNit($id);
+			}
+			if (mysqli_num_rows($result)) {
+				while ($obj=mysqli_fetch_assoc($result)) {
+					$arrEmpresa[0]=array('nit_empresa'=>$obj['nit_empresa'], 'nombre_empresa'=>$obj['nombre_empresa'], 'ciudad_empresa'=>$obj['ciudad_empresa'], 'direccion_empresa'=>$obj['direccion_empresa'], 'telefono_empresa'=>$obj['telefono_empresa'], 'contacto_empresa'=>$obj['contacto_empresa'], 'estado_empresa'=>$obj['estado_empresa'], 'habilitado_empresa'=>$obj['habilitado_empresa']);
+				}
+				return $arrEmpresa;
+			}
 		}
 	}
 
