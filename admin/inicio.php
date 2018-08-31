@@ -17,4 +17,7 @@
 	<li>
 		<a href="?cargar=configuracionLocal" class="btn">Configuración local</a>
 	</li>
+	<li>
+		<a href="?cargar=cerrarSesion" class="btn">Cerrar sesion</a>
+	</li>
 </ul>

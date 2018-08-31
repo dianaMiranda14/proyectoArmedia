@@ -3,7 +3,7 @@
 	$objDimension=new Dimension();
 	session_start();
 	if (!isset($_SESSION['usuarioLogin'])) {
-		header('Location:');
+		header('Location:?cargar=login');
 	}
 ?>
 

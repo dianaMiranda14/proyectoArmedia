@@ -3,7 +3,7 @@
 	$objEmpresa=new Empresa();
 	session_start();
 	if (!isset($_SESSION['usuarioLogin'])) {
-		header('Location:');
+		header('Location:?cargar=login');
 	}
 ?>
 

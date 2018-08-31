@@ -3,7 +3,7 @@
 	$objCuestionario=new Cuestionario();
 	session_start();
 	if (!isset($_SESSION['usuarioLogin'])) {
-		header('Location:');
+		header('Location:?cargar=login');
 	}
 ?>
 

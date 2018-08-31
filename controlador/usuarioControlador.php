@@ -3,8 +3,9 @@
 	include_once("../modelo/empresa.php");
 	$objUsuario= new Usuario();
 	$objEmpresa= new Empresa();
-	print_r($_POST);
-	print_r($_FILES);
+	session_start();
+	//print_r($_POST);
+	//print_r($_FILES);
 	switch ($_POST['accion']) {
 		case 'registrar':
 			$val=validarDatos(true);

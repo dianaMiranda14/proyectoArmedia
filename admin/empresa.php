@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['usuarioLogin'])) {
-		header('Location:');
+		header('Location:?cargar=login');
 	}
 ?>
 <input type="button" class="btn btn-primary" value="Registrar" onclick='modalEmpresa("registrar",null)'>

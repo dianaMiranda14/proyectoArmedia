@@ -8,7 +8,7 @@
 	$objPresentacion=new Presentacion();
 	$objRespuesta=new Respuesta();
 	print_r($_POST);
-
+	print_r($_FILES);
 	switch ($_POST['accion']) {
 		case 'descargarUsuarios':
 			if ($_POST['comboEmpresa']=="") {
@@ -31,7 +31,7 @@
 			break;
 
 		case 'importarUsuarios':
-			$contenido=file_get_contents($_POST['archivoImportar']);
+			$contenido=file_get_contents($_FILES['archivoImportar']['tmp_name']);
 			print_r($contenido);
 			$jsonContenido=json_decode($contenido,true);
 			if ($jsonContenido!=="") {
@@ -94,7 +94,7 @@
 				break;
 
 			case 'importarInfo':
-				$contenido=file_get_contents($_POST['archivoInfo']);
+				$contenido=file_get_contents($_FILES['archivoInfo']['tmp_name']);
 				//print_r($contenido);
 				$jsonContenido=json_decode($contenido,true);
 				if ($jsonContenido!=="") {
