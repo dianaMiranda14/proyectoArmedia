@@ -17,6 +17,11 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
+		public function consultarCuestionario($id){
+			$consulta="select dimension.* from dimension, dominio, cuestionario where id_cuestionario = ".$id." and id_cuestionario_dominio = id_cuestionario and id_dominio = id_dominio_dimension";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
 		public function mostrarOption(){
 			$resultado=$this->listar();
 			if (mysqli_num_rows($resultado)>0) {
@@ -26,6 +31,22 @@
 				}
 				return $option;
 			}
+		}
+
+		public function sumaRespuestaDimension($idDimension, $idPresentacion){
+			$consulta="select sum(descripcion_respuesta) as 'suma' from respuesta, dimension, pregunta, presentacion where 
+				id_dimension = ".$idDimension." and id_dimension = id_dimension_pregunta and
+				id_pregunta = id_pregunta_respuesta and id_presentacion = id_presentacion_respuesta and 
+				id_presentacion = ".$idPresentacion;
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function promedioRespuestaDimension($idDimension, $idPresentacion){
+			$consulta="select avg(descripcion_respuesta) as 'promedio' from respuesta, dimension, pregunta, presentacion where 
+				id_dimension = ".$idDimension." and id_dimension = id_dimension_pregunta and
+				id_pregunta = id_pregunta_respuesta and id_presentacion = id_presentacion_respuesta and 
+				id_presentacion = ".$idPresentacion;
+			return $this->objConexion->consultaRetorno($consulta);
 		}
 
 		public function mostrarContenido(){

@@ -1,85 +1,10 @@
 <?php
-	include_once("../modelo/Empresa.php");
+	include_once("modelo/empresa.php");
 	$objEmpresa=new Empresa();
-	session_start();
-	if (!isset($_SESSION['usuarioLogin'])) {
-		header('Location:?cargar=login');
-	}
 ?>
-<input type="button" class="btn btn-primary" value="Registrar" onclick="modalUsuario('registrar',null)">
-<div class="table-responsive">
-	<table class="table table-hover">
-		<thead class="thead">
-			<tr>
-				<th scope="col" class="table-primary">
-			      	<input class="form-control filtro" type="text" name="txtConsultaCedula" id="txtConsultaCedula" placeholder="Cedula" onkeyup='filtrarUsuario("consultarCedula",this.value)' >
-			    </th>
-
-			    <th scope="col" class="table-primary">
-			      	<input class="form-control filtro" type="text" name="txtConsultaNombre" id="txtConsultaNombre" placeholder="Nombre" onkeyup='filtrarUsuario("consultarNombre",this.value)' >
-			    </th>
-
-			    <th scope="col" class="table-primary">
-			      	<input type="text" class="form-control readOnly" placeholder="Sexo" disabled="true" >
-			    </th>
-
-			    <th scope="col" class="table-primary">
-			      	<input type="text" class="form-control readOnly" placeholder="Edad" disabled="true" >
-			    </th>
-
-			    <th scope="col" class="table-primary">
-			      	<input type="text" class="form-control readOnly" placeholder="Profesión" disabled="true" >
-			    </th>
-
-			    <th scope="col" class="table-primary">
-			      	<select class="form-control filtro" name="comboConsultaEmpresa" id="comboConsultaEmpresa" onchange='filtrarUsuario("consultarEmpresa",this.value)'>
-			      		<option>Empresa</option>
-			      		<?php
-			      			echo $objEmpresa->mostrarOption();
-			      		?>
-			      	</select>
-			    </th>
-
-			    <th scope="col" class="table-primary">
-			      	<input type="text" class="form-control readOnly" placeholder="Cargo" disabled="true" >
-			    </th>
-
-			    <th scope="col" class="table-primary">
-			      	<select class="form-control filtro" name="comboConsultaEstado" id="comboConsultaEstado" onchange='filtrarUsuario("consultarEstado",this.value)'>
-			      		<option>Estado</option>
-			      		<option>Activo</option>
-			      		<option>Inactivo</option>
-			      	</select>
-			    </th>
-			</tr>
-		</thead>
-		<tbody id="cuerpoTablaUsuario">
-			<?php
-				include_once("../modelo/usuario.php");
-				$objUsuario=new Usuario();
-				echo $objUsuario->mostrar($objUsuario->listar());
-			?>
-		</tbody>
-	</table>
-</div>
-
-<!-- Modal -->
-<div class="modal fade bd-example-modal-lg" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="tituloModalUsuario">
-        	
-        </h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-      	<div class="container">
-      		<div id="mensajesUsuario"></div>
+<div id="mensajesUsuario"></div>
 	      	<form id="formularioUsuario">
-	      		<input type="hidden" name="accion" id="accionUsuario">
+	      		<input type="hidden" name="accion" id="accionUsuario" value="modificarUsuario">
 	      		<ul class="nav nav-tabs" role="tablist">
 				  <li class="nav-item">
 				    <a class="nav-link active" id="personal_tab" data-toggle="tab" href="#infoPersonal" role="tab" aria-controls="infoPersonal" aria-selected="true">Personal</a>
@@ -100,8 +25,7 @@
 				  		<div class="col">
 				  			<div class="form-group">
 				      			<label>Cedula</label>
-				      			<input type="hidden" name="txtId" id="txtId">
-				      			<input type="text" name="txtCedula" id="txtCedula" class="form-control" >
+				      			<input type="text" name="txtCedula" id="txtCedula" class="form-control" onblur="validarExistenciaUsuario(this.value)" >
 				      		</div>
 				  		</div>
 
@@ -145,7 +69,7 @@
 				  	<div class="row">
 				  		<div class="col">
 				  			<div class="form-group">
-				      			<label>Fecha de nacomiento</label>
+				      			<label>Fecha de nacimiento</label>
 				      			<input type="date" name="txtFechaNacimiento" id="txtFechaNacimiento" class="form-control" >
 				      		</div>
 				  		</div>
@@ -361,26 +285,10 @@
 				      			</select>
 				      		</div>
 				  		</div>
-
-				  		<div class="col" id="colEstadoUsuario">
-				  			<div class="form-group">
-				      			<label>Estado</label>
-				      			<select name="comboEstado" id="comboEstado" class="form-control" >
-				      				<option >Activo</option>
-				      				<option>Inactivo</option>
-				      			</select>
-				      		</div>
-				  		</div>
 				  	</div>
 
 				  </div>
 				</div>
 	      	</form>
-      	</div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" onclick="validarModalUsuario()">Aceptar</button>
-      </div>
-    </div>
-  </div>
-</div>
+
+	      	<input type="button" class="btn btn-primary" value="Siguiente" onclick="modificarUsuario()">

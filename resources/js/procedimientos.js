@@ -120,22 +120,17 @@ function validarModalEmpresa(){
 	}
 }
 
-$('#modalEmpresa').on('hidden.bs.modal', function (e) {
-  alert("cerroooo");
-})
-
 function modalUsuario(accion, objUsuario){
 	document.getElementById("formularioUsuario").reset();
 	document.getElementById("mensajesUsuario").style.display="none";
 	document.getElementById("accionUsuario").value=accion;
 	document.getElementById("tituloModalUsuario").innerHTML=accion.toUpperCase();
 	if (objUsuario==null) {
-		document.getElementById("txtCedula").readOnly=false;
 		document.getElementById("colEstadoUsuario").style.display="none";
 	}else{
 		document.getElementById("colEstadoUsuario").style.display="grid";
 		document.getElementById("txtCedula").value=objUsuario['cedula_usuario'];
-		document.getElementById("txtCedula").readOnly=true;
+		document.getElementById("txtId").value=objUsuario['cedula_usuario'];
 		document.getElementById("txtNombre").value=objUsuario['nombre_usuario'];
 		document.getElementById("comboSexo").value=objUsuario['sexo_usuario'];
 		document.getElementById("comboEstadoCivil").value=objUsuario['estado_civil_usuario'];
@@ -185,8 +180,7 @@ function actualizarTablaUsuario(){
 	});
 }
 
-function validarModalUsuario(){
-	alert("entro validar");
+function validarUsuario(){
 	var mensaje="";
 	if (document.getElementById("txtCedula").value=="") {
 		mensaje="La cedula es obligatoria";
@@ -234,7 +228,15 @@ function validarModalUsuario(){
 		mensaje="El tipo de contrato es obligatorio";
 	}else if (document.getElementById("comboTipoSalario").value=="") {
 		mensaje="El tipo de salario es obligatorio";
-	}else {
+	}else{
+		mensaje=true;
+	}
+	return mensaje;
+}
+
+function validarModalUsuario(){
+	var mensaje = validarUsuario();
+	if (mensaje===true) {
 		$.ajax({
 			data:$("#formularioUsuario").serialize(),
 			type:"post",
@@ -256,9 +258,7 @@ function validarModalUsuario(){
 				}
 			}
 		});
-	}
-
-	if (mensaje!=="") {
+	}else {
 		document.getElementById("mensajesUsuario").className="alert alert-danger";
 		document.getElementById("mensajesUsuario").innerHTML=mensaje;
 		document.getElementById("mensajesUsuario").style.display="block";
@@ -414,6 +414,7 @@ function validarModalPlan(){
 }
 
 function actualizarContenido(valor){
+	console.log(valor);
 	var select=document.getElementById("comboContenido");
 	$("#comboContenido > option").remove();
 	var option=document.createElement("option");
@@ -462,7 +463,6 @@ function modalObservacion(accion, objObservacion){
 		document.getElementById("comboCuestionario").value=objObservacion['id_cuestionario_observacion'];
 		document.getElementById("comboTipo").value=objObservacion['tipo_observacion'];
 		actualizarContenido(objObservacion['tipo_observacion']);
-		console.log(objObservacion['contenido_observacion']);
 		document.getElementById("comboContenido").value=objObservacion['contenido_observacion'];
 		document.getElementById("txtDescripcion").value=objObservacion['descripcion_observacion'];
 		document.getElementById("comboEstado").value=objObservacion['estado_observacion'];
@@ -543,4 +543,59 @@ function config(formulario){
 		}
 	});
 }
- 
+
+function validarExistenciaUsuario(valor){
+	$.ajax({
+		data:"accion=consultarUsuario&valor="+valor,
+		type:"post",
+		url:"controlador/usuarioControlador.php",
+		success:function(res){
+			console.log(res);
+			var datos = JSON.parse(res);
+			document.getElementById("txtCedula").readOnly=true;
+			document.getElementById("txtNombre").value=datos.nombre_usuario;
+			document.getElementById("txtNombre").readOnly=true;
+			document.getElementById("comboEmpresa").value=datos.id_empresa_usuario;
+			//document.getElementById("comboEmpresa").disabled=true;
+		}
+	});
+ }
+
+ function modificarUsuario(){
+ 	var mensaje = validarUsuario();
+ 	if (mensaje===true) {
+ 		$.ajax({
+			data:$("#formularioUsuario").serialize(),
+			type:"post",
+			url:"controlador/usuarioControlador.php",
+			success:function(res){
+				if (res==0) {
+					document.getElementById("mensajesUsuario").className="alert alert-success";
+					document.getElementById("mensajesUsuario").style.display="block";
+					document.getElementById("mensajesUsuario").innerHTML="Información Actualizada Exitosamente";
+					setTimeout('location.href ="?cargar=cuestionario"',2000);
+				}else{
+					document.getElementById("mensajesUsuario").className="alert alert-danger";
+					document.getElementById("mensajesUsuario").style.display="block";
+					document.getElementById("mensajesUsuario").innerHTML=res;
+				}
+			}
+		});
+ 	}else{
+ 		document.getElementById("mensajesUsuario").className="alert alert-danger";
+		document.getElementById("mensajesUsuario").innerHTML=mensaje;
+		document.getElementById("mensajesUsuario").style.display="block";
+ 	}
+ }
+
+ function preguntas(){
+ 	$.ajax({
+		data:$("#formularioPreguntas").serialize(),
+		type:"post",
+		url:"controlador/respuestaControlador.php",
+		success:function(res){
+			console.log(res);
+			//document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+		}
+	});
+ }

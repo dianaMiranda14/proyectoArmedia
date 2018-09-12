@@ -10,7 +10,7 @@
 		// metodo para validar si la vista esta vacia o no.
 		public function validarVista($variable){
 			if (empty($variable)) { // si variable esta vacia me llevara a donde esta todos los usuarios.
-				include_once("view/inicio.php");
+				include_once("vistas/inicio.php");
 			} else {
 				return true;
 			}

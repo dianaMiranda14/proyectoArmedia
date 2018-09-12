@@ -9,7 +9,7 @@
 	switch ($_POST['accion']) {
 		case 'registrar':
 			$val=validarDatos(true);
-			if ($val) {
+			if ($val===true) {
 				$objUsuario->registrar($_POST['txtCedula'],$_POST['comboEmpresa'],$_POST['txtNombre'], $_POST['comboSexo'],$_POST['comboEstadoCivil'],$_POST['txtFechaNacimiento'],$_POST['txtPersonasDependen'],$_POST['comboDepartamentoResidencia'],$_POST['comboCiudadResidencia'],$_POST['comboEstrato'], $_POST['comboTipoVivienda'],$_POST['comboNivelEstudio'],$_POST['txtProfesion'],$_POST['comboDepartamentoTrabajo'],$_POST['comboCiudadTrabajo'],$_POST['txtYearsTrabajo'],$_POST['txtCargo'],$_POST['comboTipoCargo'],$_POST['txtYearsCargo'],$_POST['txtDepartamentoLaboral'], $_POST['comboTipoContrato'],$_POST['txtHorasTrabajo'],$_POST['comboTipoSalario']);
 				echo "0";
 			}else{
@@ -19,12 +19,18 @@
 
 		case 'modificar':
 			$val=validarDatos(false);
-			if ($val) {
-				$objUsuario->modificar($_POST['txtCedula'],$_POST['comboEmpresa'],$_POST['txtNombre'], $_POST['comboSexo'],$_POST['comboEstadoCivil'],$_POST['txtFechaNacimiento'],$_POST['txtPersonasDependen'],$_POST['comboDepartamentoResidencia'],$_POST['comboCiudadResidencia'],$_POST['comboEstrato'], $_POST['comboTipoVivienda'],$_POST['comboNivelEstudio'],$_POST['txtProfesion'],$_POST['comboDepartamentoTrabajo'],$_POST['comboCiudadTrabajo'],$_POST['txtYearsTrabajo'],$_POST['txtCargo'],$_POST['comboTipoCargo'],$_POST['txtYearsCargo'],$_POST['txtDepartamentoLaboral'], $_POST['comboTipoContrato'],$_POST['txtHorasTrabajo'],$_POST['comboTipoSalario'],$_POST['comboEstado']);
+			if ($val===true) {
+				$objUsuario->modificar($_POST['txtId'],$_POST['txtCedula'],$_POST['comboEmpresa'],$_POST['txtNombre'], $_POST['comboSexo'],$_POST['comboEstadoCivil'],$_POST['txtFechaNacimiento'],$_POST['txtPersonasDependen'],$_POST['comboDepartamentoResidencia'],$_POST['comboCiudadResidencia'],$_POST['comboEstrato'], $_POST['comboTipoVivienda'],$_POST['comboNivelEstudio'],$_POST['txtProfesion'],$_POST['comboDepartamentoTrabajo'],$_POST['comboCiudadTrabajo'],$_POST['txtYearsTrabajo'],$_POST['txtCargo'],$_POST['comboTipoCargo'],$_POST['txtYearsCargo'],$_POST['txtDepartamentoLaboral'], $_POST['comboTipoContrato'],$_POST['txtHorasTrabajo'],$_POST['comboTipoSalario'],$_POST['comboEstado']);
 				echo "0";
 			}else{
 				echo $val;
 			}
+			break;
+
+		case 'modificarUsuario':
+			$objUsuario->modificar($_POST['txtCedula'],$_POST['txtCedula'],$_POST['comboEmpresa'],$_POST['txtNombre'], $_POST['comboSexo'],$_POST['comboEstadoCivil'],$_POST['txtFechaNacimiento'],$_POST['txtPersonasDependen'],$_POST['comboDepartamentoResidencia'],$_POST['comboCiudadResidencia'],$_POST['comboEstrato'], $_POST['comboTipoVivienda'],$_POST['comboNivelEstudio'],$_POST['txtProfesion'],$_POST['comboDepartamentoTrabajo'],$_POST['comboCiudadTrabajo'],$_POST['txtYearsTrabajo'],$_POST['txtCargo'],$_POST['comboTipoCargo'],$_POST['txtYearsCargo'],$_POST['txtDepartamentoLaboral'], $_POST['comboTipoContrato'],$_POST['txtHorasTrabajo'],$_POST['comboTipoSalario'],'Activo');
+			$_SESSION['usuarioCuestionario']=mysqli_fetch_assoc($objUsuario->consultarCedula($_POST['txtCedula']));
+			echo "0";
 			break;
 
 		case 'listar':
@@ -69,6 +75,15 @@
 			}
 			break;
 
+		case 'consultarUsuario':
+			$resultado=$objUsuario->consultarCedulaEstado($_POST['valor']);
+			if (mysqli_num_rows($resultado)>0) {
+				$fetch = mysqli_fetch_assoc($resultado);
+				$json = json_encode($fetch);
+				echo $json;
+				
+			}
+			break;
 		default:
 			# code...
 			break;
@@ -77,16 +92,19 @@
 	function validarDatos($validacion){
 		$objUsuario=new Usuario();
 		$objEmpresa=new Empresa();
+		print_r($_POST);
 		if ($_POST['txtCedula']=="") {
 			return "La cedula es obligatoria";
 		}else{
-			if ($validacion) {
+			if ($validacion==true) {
 				if (mysqli_num_rows($objUsuario->consultarCedula($_POST['txtCedula']))!=0) {
 					return "Ya exite un usuario registrado con la misma cedula";
 				}
 			}else{
-				if (mysqli_num_rows($objUsuario->consultarCedula($_POST['txtCedula']))==0) {
-					return "No exite un usuario registrado con la misma cedula";
+				if ($_POST['txtId']!==$_POST['txtCedula']) {
+					if (mysqli_num_rows($objUsuario->consultarCedula($_POST['txtCedula']))!=0) {
+						return "Ya exite un usuario registrado con la misma cedula";
+					}
 				}
 			}
 		}

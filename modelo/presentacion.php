@@ -35,6 +35,16 @@
 			$consulta="insert into presentacion (id_cuestionario_presentacion, id_usuario_presentacion, fecha_presentacion) values(".$idCuestionario.", ".$idUsuario.", '".$fecha."')";
 			$this->objConexion->consultaSimple($consulta);
 		}
+
+		public function consultarFecha($fecha, $idUsuario){
+			$consulta="select presentacion.* from presentacion where fecha_presentacion like '".$fecha."' and id_usuario_presentacion = ".$idUsuario. " order by id_presentacion desc limit 1";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function modificar($id, $result, $riesgo){
+			$consulta="update presentacion set resultado_presentacion = ".$result.", descripcion_presentacion = '".$riesgo."' where id_presentacion = ".$id;
+			$this->objConexion->consultaSimple($consulta);
+		}
 	}
 
 ?>

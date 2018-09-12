@@ -20,9 +20,9 @@
 			$this->objConexion->consultaSimple($consulta);
 		}
 
-		public function modificar($cedula, $idEmpresa, $nombre, $sexo, $estadoCivil, $fechaNacimiento, $personasDepende, $departamentoResidencia, $ciudadResidencia, $estrato, $tipoVivienda, $nivelEstudio, $profesion, $departamentoTrabajo, $ciudadTrabajo, $yearsTrabajo, $cargo, $tipoCargo, $yearsCargo, $departamentoLaboral, $tipoContrato, $horasTrabajo, $tipoSalario, $estado){
+		public function modificar($id,$cedula, $idEmpresa, $nombre, $sexo, $estadoCivil, $fechaNacimiento, $personasDepende, $departamentoResidencia, $ciudadResidencia, $estrato, $tipoVivienda, $nivelEstudio, $profesion, $departamentoTrabajo, $ciudadTrabajo, $yearsTrabajo, $cargo, $tipoCargo, $yearsCargo, $departamentoLaboral, $tipoContrato, $horasTrabajo, $tipoSalario, $estado){
 
-			$consulta="update usuario set id_empresa_usuario = ".$idEmpresa.", nombre_usuario = '".$nombre."', sexo_usuario = '".$sexo."', estado_civil_usuario = '".$estadoCivil."', fecha_nacimiento_usuario = '".$fechaNacimiento."', personas_dependen_usuario = ".$personasDepende.", departamento_residencia_usuario = '".$departamentoResidencia."', ciudad_residencia_usuario = '".$ciudadResidencia."', estrato_usuario = '".$estrato."', tipo_vivienda_usuario = '".$tipoVivienda."', nivel_estudio_usuario = '".$nivelEstudio."', profesion_usuario = '".$profesion."', departamento_trabajo_usuario = '".$departamentoTrabajo."', ciudad_trabajo_usuario = '".$ciudadTrabajo."', years_trabajo_usuario = ".$yearsTrabajo.", cargo_usuario = '".$cargo."', tipo_cargo_usuario = '".$tipoCargo."', years_cargo_usuario = ".$yearsCargo.", departamento_laboral_usuario = '".$departamentoLaboral."', tipo_contrato_usuario = '".$tipoContrato."', horas_dia_trabajo_usuario = ".$horasTrabajo.", tipo_salario_usuario = '".$tipoSalario."', estado_usuario = '".$estado."' where cedula_usuario = ".$cedula;
+			$consulta="update usuario set cedula_usuario =".$cedula.", id_empresa_usuario = ".$idEmpresa.", nombre_usuario = '".$nombre."', sexo_usuario = '".$sexo."', estado_civil_usuario = '".$estadoCivil."', fecha_nacimiento_usuario = '".$fechaNacimiento."', personas_dependen_usuario = ".$personasDepende.", departamento_residencia_usuario = '".$departamentoResidencia."', ciudad_residencia_usuario = '".$ciudadResidencia."', estrato_usuario = '".$estrato."', tipo_vivienda_usuario = '".$tipoVivienda."', nivel_estudio_usuario = '".$nivelEstudio."', profesion_usuario = '".$profesion."', departamento_trabajo_usuario = '".$departamentoTrabajo."', ciudad_trabajo_usuario = '".$ciudadTrabajo."', years_trabajo_usuario = ".$yearsTrabajo.", cargo_usuario = '".$cargo."', tipo_cargo_usuario = '".$tipoCargo."', years_cargo_usuario = ".$yearsCargo.", departamento_laboral_usuario = '".$departamentoLaboral."', tipo_contrato_usuario = '".$tipoContrato."', horas_dia_trabajo_usuario = ".$horasTrabajo.", tipo_salario_usuario = '".$tipoSalario."', estado_usuario = '".$estado."' where cedula_usuario = ".$id;
 			$this->objConexion->consultaSimple($consulta);		
 		}
 
@@ -33,6 +33,11 @@
 
 		public function consultarCedula($cedula){
 			$consulta="select usuario.*,nombre_empresa from usuario, empresa where cedula_usuario = ".$cedula." and tipo_usuario like 'usuario' and empresa.nit_empresa = usuario.id_empresa_usuario";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarCedulaEstado($cedula){
+			$consulta="select usuario.*,nombre_empresa from usuario, empresa where cedula_usuario = ".$cedula." and tipo_usuario like 'Usuario' and empresa.nit_empresa = usuario.id_empresa_usuario and estado_usuario like 'Activo'";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
