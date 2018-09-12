@@ -84,6 +84,11 @@
 				
 			}
 			break;
+
+		case 'mostrarOption':
+			echo $objUsuario->mostrarOption($_POST['idEmpresa']);
+			break;
+
 		default:
 			# code...
 			break;

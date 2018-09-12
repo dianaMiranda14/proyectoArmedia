@@ -102,9 +102,20 @@
 		}
 
 		public function mostrarOption(){
-			$resultado=$this->listar();
+			$resultado=$this->consultarEstado("Activo");
 			while ($obj=mysqli_fetch_assoc($resultado)) {
 			    echo '<option value="'.$obj['nit_empresa'].'">'.$obj['nombre_empresa'].'</option>';
+			}
+		}
+
+		public function mostrarOptionYear($idEmpresa){
+			$consulta="select distinct YEAR(presentacion.fecha_presentacion) as 'year' from presentacion, usuario, empresa where 
+				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
+				usuario.id_empresa_usuario = empresa.nit_empresa and 
+				empresa.nit_empresa = ".$idEmpresa;
+			$resultado= $this->objConexion->consultaRetorno($consulta);
+			while ($obj=mysqli_fetch_assoc($resultado)) {
+			    echo '<option>'.$obj['year'].'</option>';
 			}
 		}
 

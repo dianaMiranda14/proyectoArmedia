@@ -286,9 +286,10 @@
 				      		</div>
 				  		</div>
 				  	</div>
-
+				  	<input type="button" class="btn btn-primary" value="Siguiente" onclick="modificarUsuario()">
 				  </div>
+				  
 				</div>
 	      	</form>
 
-	      	<input type="button" class="btn btn-primary" value="Siguiente" onclick="modificarUsuario()">
+	      	

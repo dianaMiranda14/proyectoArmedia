@@ -588,14 +588,130 @@ function validarExistenciaUsuario(valor){
  	}
  }
 
- function preguntas(){
+//funcion para validar que elija una opcion de una pregunta
+function validarRadio(fin){
+	//recorre todas las preguntas
+	for(var i=(fin-10); i< fin; i++){
+		var radio=document.getElementsByName("radio"+i);
+		var validacion=false;
+		//recorre las opciones de cada pregunta
+		for(var j=0; j < radio.length; j++){
+			if (radio[j].checked==true) {
+				validacion=true;
+			}
+		}
+		//si no ha seleccionado ninguna opcion retorna el numero de la pregunta
+		if (validacion===false) {
+			return i;
+		}
+	}
+	return true;
+}
+
+//pinta la fila de la pregunta que no se ha seleccionado
+function colorTr(id, fin){
+	for (var i = (fin-10); i < fin; i++) {
+		if (i==id) {
+			document.getElementById("tr"+i).style.background="red";
+		}else{
+			document.getElementById("tr"+i).style.background="000";
+		}
+	}
+}
+
+function paginacion(pag){
+	var resultado=validarRadio(pag);
+	//valida si todas las preguntas tiene una opcion elejida
+	if (resultado===true) {
+		$.ajax({
+			data:$("#formularioCuestionario").serialize()+"&pag="+pag+"&accion=paginacion",
+			type:"post",
+			url:"controlador/preguntaControlador.php",
+			success:function(res){
+				console.log(res);
+				document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+			}
+		});
+	}else{
+		//muestra un dialog con la informacion
+		document.getElementById("tituloModalPreguntas").innerHTML="Error";
+		document.getElementById("cuerpoModalPregunta").innerHTML="Falta la pregunta número "+(resultado+1)+" por responder";
+		$('#modalMensjesPreguntas').modal('show');
+		setTimeout("$('#modalMensjesPreguntas').modal('hide')",2000);
+		colorTr(resultado,pag);
+	}
+}
+
+//aqui era donde mandaba todas las respuestas cuando no tenia la paginacion, este se llama en el boton de registrar 
+function preguntas(){
  	$.ajax({
 		data:$("#formularioPreguntas").serialize(),
 		type:"post",
 		url:"controlador/respuestaControlador.php",
 		success:function(res){
 			console.log(res);
-			//document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+			//location.reload(true);
+			document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
 		}
 	});
  }
+
+ function validarTipoInforme(valor){
+ 	if (valor=="0") {
+ 		document.getElementById("divCedula").style.display="grid";
+ 	}else{
+ 		document.getElementById("divCedula").style.display="none";
+ 	}
+ }
+
+ function mostrarUsuarios(valor){
+ 	console.log(valor);
+ 	$("#comboYear > option").remove();
+	$.ajax({
+		data:"accion=mostrarOptionYear&idEmpresa="+valor,
+		type:"post",
+		url:"../controlador/EmpresaControlador.php",
+		success:function(res){
+			console.log(res);
+			$('#comboYear').append(res);		
+		}
+	});	
+ 	if (valor!=="0") {
+		$("#listEmpleados > option").remove();
+		$.ajax({
+			data:"accion=mostrarOption&idEmpresa="+valor,
+			type:"post",
+			url:"../controlador/UsuarioControlador.php",
+			success:function(res){
+				console.log(res);
+				$('#listEmpleados').append(res);		
+			}
+		});
+ 	}
+ }
+
+function DescargarInforme(){
+	var mensaje="";
+	if (document.getElementById("comboTipoInforme").value=="") {
+		mensaje="El tipo de informe es obligatorio";
+	}else if (document.getElementById("comboEmpresa").value=="") {
+		mensaje="La empresa es obligatoria";
+	}else if (document.getElementById("comboTipoInforme").value=="0" && 
+		document.getElementById("txtCedula").value=="") {
+		mensaje="La cédula del empleado es obligatoria";
+	}else{
+		$.ajax({
+			data:$("#formularioInforme").serialize(),
+			type:"post",
+			url:"../controlador/informeControlador.php",
+			success:function(res){
+				console.log(res);
+			}
+		});
+	}
+	if (mensaje=="") {
+		document.getElementById("mensajesInforme").className="alert alert-danger";
+		document.getElementById("mensajesInforme").innerHTML=mensaje;
+		document.getElementById("mensajesInforme").style.display="block";	
+	}
+}

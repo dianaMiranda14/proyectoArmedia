@@ -61,6 +61,11 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
+		public function consultarUsuariosEmpresaEstado($estado, $idEmpresa){
+			$consulta="select usuario.*,nombre_empresa from usuario, empresa where id_empresa_usuario = ".$idEmpresa." and tipo_usuario like 'usuario' and empresa.nit_empresa = usuario.id_empresa_usuario and estado_usuario like '".$estado."'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
 		public function vaciarTabla(){
 			$consulta="delete from usuario";
 			$this->objConexion->consultaSimple($consulta);
@@ -105,6 +110,15 @@
 					$i++;
 				}
 				return $arrUsuarios;
+			}
+		}
+
+		public function mostrarOption($idEmpresa){
+			$resultado=$this->consultarUsuariosEmpresaEstado("Activo",$idEmpresa);
+			if (mysqli_num_rows($resultado)>0) {
+				while ($objU=mysqli_fetch_assoc($resultado)) {
+					echo '<option value="'.$objU['cedula_usuario'].'">'.$objU['nombre_usuario'].'</option>';
+				}
 			}
 		}
 

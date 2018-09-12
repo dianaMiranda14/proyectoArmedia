@@ -8,7 +8,25 @@
 	include_once("modelo/pregunta.php");
 	$objCuestionario=new Cuestionario();
 	$objPregunta=new Pregunta();
+	$_SESSION['posCuestionario']=0;
 ?>
+
+<!-- Modal -->
+<div class="modal fade" id="modalMensjesPreguntas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tituloModalPreguntas"></h5>
+      </div>
+      <div class="modal-body" id="cuerpoModalPregunta">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="table-responsive">
 	<table class="table table-hover">
@@ -18,17 +36,29 @@
 				<th>Pregunta</th>
 				<th>Siempre</th>
 				<th>Casi siempre</th>
-				<th>Algunas veces</th>
-				<th>Casi nunca</th>
+				
+				<?php
+					if ($_SESSION['posCuestionario']!==2) {
+						echo '<th>Algunas veces</th> 
+						<th>Casi nunca</th>';
+					}else{
+						echo "<th>A veces</th>";
+					}
+				?>
+				
 				<th>Nunca</th>
 			</tr>
 		</thead>
 		<tbody id="cuerpoTablaCuestionario">				
 			<?php
-				$objPregunta->listarPreguntasCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], 0),"registrar");
+				if ($_SESSION['posCuestionario']==2) {
+					$objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0);
+				}else{
+					$objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrar", 0);
+				}
 			?>
 		</tbody>
 	</table>
 
-	<input type="button" class="btn" value="Registrar" onclick="preguntas()">
+	
 </div>

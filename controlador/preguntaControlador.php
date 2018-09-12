@@ -1,9 +1,10 @@
 <?php
 	include_once("../modelo/pregunta.php");
-
+	$objPregunta=new Pregunta();
+	//print_r($_POST);
 	switch ($_POST['accion']) {
-		case 'listar':
-			print_r($objPregunta->listar());
+		case 'paginacion':
+			echo $objPregunta->mostrarPreguntasCuestionario($_POST['pag']);
 			break;
 
 		default:

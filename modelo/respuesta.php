@@ -18,18 +18,6 @@
 			$this->objConexion->consultaSimple($consulta);
 		}
 
-		public function arrRespuesta(){
-			$resultado=$this->listar();
-			if (mysqli_num_rows($resultado)>0) {
-				$i=0;
-				while ($obj = mysqli_fetch_assoc($resultado)) {
-					//guarda toda la informacion de la respuesta en una posicion del array
-					$arrPresentacion[$i]= array('id_presentacion_respuesta' => $obj['id_presentacion_respuesta'], 'id_pregunta_respuesta'=>$obj['id_pregunta_respuesta'],'descripcion_respuesta'=>$obj['descripcion_respuesta']);
-					$i++;
-				}
-			}
-		}
-
 		public function registrar($idPresentacion, $idPregunta, $descripcion){
 			$consulta="insert into respuesta (id_presentacion_respuesta, id_pregunta_respuesta, descripcion_respuesta) values (".$idPresentacion.",".$idPregunta.",'".$descripcion."')";
 			$this->objConexion->consultaSimple($consulta);
