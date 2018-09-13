@@ -620,9 +620,20 @@ function colorTr(id, fin){
 }
 
 function paginacion(pag){
-	var resultado=validarRadio(pag);
+	
+
 	//valida si todas las preguntas tiene una opcion elejida
+	
+		if (pag == 0) {
+			document.getElementById('pagAnterior').style.display ="none";
+			var resultado=true;
+		}else{
+			document.getElementById('pagAnterior').style.display ="block";
+			var resultado=validarRadio(pag);
+		}
+
 	if (resultado===true) {
+
 		$.ajax({
 			data:$("#formularioCuestionario").serialize()+"&pag="+pag+"&accion=paginacion",
 			type:"post",
@@ -634,6 +645,7 @@ function paginacion(pag){
 		});
 	}else{
 		//muestra un dialog con la informacion
+		document.getElementById('pagAnterior').style.display ="none";
 		document.getElementById("tituloModalPreguntas").innerHTML="Error";
 		document.getElementById("cuerpoModalPregunta").innerHTML="Falta la pregunta número "+(resultado+1)+" por responder";
 		$('#modalMensjesPreguntas').modal('show');
@@ -651,7 +663,7 @@ function preguntas(){
 		success:function(res){
 			console.log(res);
 			//location.reload(true);
-			document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+			//document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
 		}
 	});
  }

@@ -54,7 +54,7 @@
 					<tr id="tr'.$contador.'">
 						<td>'.($contador+1).'</td>
 						<td>'.$resultadoPregunta['descripcion_pregunta'].'</td>
-						<input type="hidden" name="txtPregunta'.$contador.'" value="'.$resultadoPregunta['id_pregunta'].'">
+						<input type="hidden" id="txtPregunta" name="txtPregunta'.$contador.'" value="'.$resultadoPregunta['id_pregunta'].'">
 						';
 					for ($i=0; $i < count($opciones); $i++) { 
 						echo '<td> <input type="radio" class="radio" name="radio'.$contador.'" value="'.$opciones[$i].'"> </td>';
@@ -63,14 +63,14 @@
 					$contador++;
 				}
 				echo "</from>";
-				if ($pag!==0) {
-					echo '<input type="button" class="btn" value="Anterior" onclick="paginacion('.($pag-10).')">';
+				/*if ($pag!==0) {
+					echo '<input type="button" class="btn" value="Anterior" onclick="paginacion('.($pag-10).') " style="display:none;">';
 				}
 				if ($pag<$_SESSION['infoPreguntas']['cantidad']) {
-					echo '<input type="button" class="btn" value="Siguiente" onclick="paginacion('.($pag+10).')">';
+					echo '<input type="button" class="btn" value="Siguiente" onclick="paginacion('.($pag+10).')" >';
 				}else{
 					echo '<input type="button" class="btn" value="Registrar" onclick="preguntas()">';
-				}
+				}*/
 				
 			}
 		}
