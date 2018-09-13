@@ -8,16 +8,12 @@
 			$this->objConexion=new Conexion();
 		}
 
-		public function listar(){
-			$consulta="select * from presentacion";
-			return $this->objConexion->consultaRetorno($consulta);
-		}
-
 		public function vaciarTabla(){
 			$consulta="delete from presentacion";
 			$this->objConexion->consultaSimple($consulta);
 		}
 
+		//lo llamo cuando voy a exportar los datos 
 		public function arrPresentacion(){
 			$resultado=$this->listar();
 			if (mysqli_num_rows($resultado)>0) {
@@ -41,9 +37,43 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
+		public function consultarPresentacion($idCuestionario, $cedula, $year){
+			$consulta="select presentacion.resultado_presentacion, presentacion.descripcion_presentacion from 
+			presentacion where 
+			presentacion.id_cuestionario_presentacion = ".$idCuestionario." and 
+			presentacion.id_usuario_presentacion = ".$cedula." and 
+			year(presentacion.fecha_presentacion) = ".$year;
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarUsuarios($idEmpresa, $year){
+			$consulta="select usuario.cedula_usuario, usuario.nombre_usuario, usuario.cargo_usuario, cuestionario.nombre_cuestionario
+				from usuario, presentacion, cuestionario, empresa where 
+				presentacion.id_cuestionario_presentacion = cuestionario.id_cuestionario and 
+				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
+				usuario.id_empresa_usuario = empresa.nit_empresa and 
+				empresa.nit_empresa = ".$idEmpresa." and 
+				year(presentacion.fecha_presentacion) = ".$year;
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
 		public function modificar($id, $result, $riesgo){
 			$consulta="update presentacion set resultado_presentacion = ".$result.", descripcion_presentacion = '".$riesgo."' where id_presentacion = ".$id;
 			$this->objConexion->consultaSimple($consulta);
+		}
+
+		public function usuariosRiesgoEstres($idEmpresa, $year){
+			$consulta="select usuario.cedula_usuario, usuario.nombre_usuario, usuario.cargo_usuario, 
+				presentacion.resultado_presentacion, presentacion.descripcion_presentacion
+				from usuario, presentacion, cuestionario, empresa where 
+				presentacion.id_cuestionario_presentacion = cuestionario.id_cuestionario and 
+				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
+				usuario.id_empresa_usuario = empresa.nit_empresa and 
+				empresa.nit_empresa = ".$idEmpresa." and 
+				year(presentacion.fecha_presentacion) = ".$year." and 
+				presentacion.resultado_presentacion >= 30 and 
+				(cuestionario.id_cuestionario=5 or cuestionario.id_cuestionario = 6)";
+			return $this->objConexion->consultaRetorno($consulta);
 		}
 	}
 

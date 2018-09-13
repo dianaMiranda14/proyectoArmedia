@@ -19,6 +19,19 @@
 				presentacion.id_presentacion = ".$idPresentacion;
 				return $this->objConexion->consultaRetorno($consulta);
 		}
+
+		public function consultarResultadoDimension($idCuestionario, $year, $cedula){
+			$consulta="select dimension.id_dominio_dimension, dimension.descripcion_dimension, resultado_dimension.valor_resultado_dimension, resultado_dimension.descripcion_resultado_dimension from 
+				dimension, resultado_dimension, presentacion, cuestionario, usuario where
+				dimension.id_dimension = resultado_dimension.id_dimension_resultado_dimension and 
+				resultado_dimension.id_presentacion_resultado_dimension = presentacion.id_presentacion and 
+				presentacion.id_cuestionario_presentacion = cuestionario.id_cuestionario and 
+				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
+				YEAR(presentacion.fecha_presentacion) = ".$year." and 
+				cuestionario.id_cuestionario = ".$idCuestionario." and 
+				usuario.cedula_usuario = ".$cedula;
+				return $this->objConexion->consultaRetorno($consulta);
+		}
 	}
 
 ?>
