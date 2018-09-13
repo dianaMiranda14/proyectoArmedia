@@ -47,7 +47,7 @@
 			$resultado=$this->preguntasCuestionario($_SESSION['infoPreguntas']['idCuestionario'], $_SESSION['infoPreguntas']['accion'], $pag);
 			if (mysqli_num_rows($resultado)>0) {
 				$contador=$pag;
-				echo '<form id="formularioCuestionario">';
+			//	echo '<form id="formularioCuestionario">';
 				while ($resultadoPregunta=mysqli_fetch_assoc($resultado)) {
 					$opciones=split(",",$resultadoPregunta['opciones_pregunta']);
 					echo '
@@ -62,7 +62,7 @@
 					echo '</tr>';
 					$contador++;
 				}
-				echo "</from>";
+				//echo "</from>";
 				/*if ($pag!==0) {
 					echo '<input type="button" class="btn" value="Anterior" onclick="paginacion('.($pag-10).') " style="display:none;">';
 				}

@@ -6,7 +6,6 @@
 		case 'paginacion':
 			echo $objPregunta->mostrarPreguntasCuestionario($_POST['pag']);
 			break;
-
 		default:
 			# code...
 			break;

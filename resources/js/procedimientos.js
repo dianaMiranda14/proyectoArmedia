@@ -626,7 +626,7 @@ function paginacion(pag){
 	
 		if (pag == 0) {
 			document.getElementById('pagAnterior').style.display ="none";
-			var resultado=true;
+			//var resultado=true;
 		}else{
 			document.getElementById('pagAnterior').style.display ="block";
 			var resultado=validarRadio(pag);
@@ -663,7 +663,7 @@ function preguntas(){
 		success:function(res){
 			console.log(res);
 			//location.reload(true);
-			//document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+			document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
 		}
 	});
  }

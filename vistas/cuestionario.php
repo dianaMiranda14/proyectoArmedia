@@ -30,6 +30,7 @@
 </div>
 
 <div class="table-responsive">
+	<form id="formularioCuestionario">
 	<table class="table table-hover">
 		<thead>
 			<tr>
@@ -50,16 +51,19 @@
 				<th>Nunca</th>
 			</tr>
 		</thead>
+		
 		<tbody id="cuerpoTablaCuestionario">				
 			<?php
-				/*if ($_SESSION['posCuestionario']==2) {
+				if ($_SESSION['posCuestionario']==2) {
 					$objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0);
 				}else{
 					$objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrar", 0);
-				}*/
+				}
 			?>
 		</tbody>
+		
 	</table>
+	</form>
 </div>
 <div class="col-sm-12 mx-auto">
 	<div class="col-sm-12 mx-auto ">
@@ -70,11 +74,7 @@
 	
 </div>
 <script >
-	$(document).ready(function() {
-		paginacion(0);
-	 });
-
-
+	
 	function consultarIncio(txt){
 		if(txt == "Anterior"){
 			var dato = document.getElementById('txtPregunta').value;
@@ -82,7 +82,9 @@
 			paginacion(pagina);			
 		}else{
 			var dato = document.getElementById('txtPregunta').value;
+
 			var pagina = parseInt(dato) +9;	
+			//alert(pagina);
 			paginacion(pagina);
 		}
 	}
