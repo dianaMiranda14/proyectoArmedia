@@ -73,20 +73,3 @@
 	</div>
 	
 </div>
-<script >
-	
-	function consultarIncio(txt){
-		if(txt == "Anterior"){
-			var dato = document.getElementById('txtPregunta').value;
-			var pagina = parseInt(dato) -11;	
-			paginacion(pagina);			
-		}else{
-			var dato = document.getElementById('txtPregunta').value;
-
-			var pagina = parseInt(dato) +9;	
-			//alert(pagina);
-			paginacion(pagina);
-		}
-	}
-
-</script>

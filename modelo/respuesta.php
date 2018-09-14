@@ -21,6 +21,7 @@
 		public function registrar($idPresentacion, $idPregunta, $descripcion){
 			$consulta="insert into respuesta (id_presentacion_respuesta, id_pregunta_respuesta, descripcion_respuesta) values (".$idPresentacion.",".$idPregunta.",'".$descripcion."')";
 			$this->objConexion->consultaSimple($consulta);
+			
 		}
 	}
 ?>

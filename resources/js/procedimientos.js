@@ -657,7 +657,8 @@ function paginacion(pag){
 //aqui era donde mandaba todas las respuestas cuando no tenia la paginacion, este se llama en el boton de registrar 
 function preguntas(){
  	$.ajax({
-		data:$("#formularioPreguntas").serialize(),
+	//	data:$("#formularioPreguntas").serialize()+"&accion=registrar",
+	data:$("#formularioCuestionario").serialize()+"&accion=registrar",
 		type:"post",
 		url:"controlador/respuestaControlador.php",
 		success:function(res){
@@ -727,3 +728,21 @@ function DescargarInforme(){
 		document.getElementById("mensajesInforme").style.display="block";	
 	}
 }
+
+function consultarIncio(txt){
+		var dato = document.getElementById('txtPregunta').value;
+		if(txt == "Anterior"){
+			var pagina = parseInt(dato) -11;	
+			paginacion(pagina);			
+		}else{
+			var pagina = parseInt(dato) +9;	
+		//	alert(dato);
+		
+			//alert(pagina);
+			paginacion(pagina);
+		}
+		if (dato > pagina) {
+
+			document.getElementById('btnRegistar').style.display = "block";
+		}
+	}

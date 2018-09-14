@@ -14,6 +14,7 @@
 <body>
 	<div class="container">
 		<?php
+		
 			include_once("controlador/enrutadorUsuario.php");
 			$objEnrutador=new enrutadorUsuario();
 			if ($objEnrutador->validarVista($_GET['cargar'])) {

@@ -13,7 +13,7 @@
 	$objPresentacion=new presentacion();
 	$objCuestionario=new Cuestionario();
 
-	print_r($_POST);
+	//print_r($_POST);
 	
 	session_start();
 
@@ -26,9 +26,23 @@
 			$resultado=$objPresentacion->consultarFecha(date("Y-m-d"),$_SESSION['usuarioCuestionario']['cedula_usuario']);
 			if (mysqli_num_rows($resultado)>0) {
 				$objPresent=mysqli_fetch_assoc($resultado);
-				for ($i=0; $i < $_POST['cantidad']; $i++) { 
+
+				$contadorUltimasPreguntas = count($_SESSION['pregunta'])-8;
+
+					echo $contadorUltimasPreguntas;
+
+
+				for ($i= ($contadorUltimasPreguntas); $i < (($contadorUltimasPreguntas)+2); $i++) { 
+					$_SESSION['radio'][$i] = $_POST['radio'.$i];
+					$_SESSION['pregunta'][$i] = $_POST['txtPregunta'.$i];
+
+					
+				}
+
+				for ($i=0; $i < count($_SESSION['pregunta']); $i++) { 
+					
 					//registra las respuestas con la informacion que llega por el post y la presentacion que acabo de registrar
-					$objRespuesta->registrar($objPresent['id_presentacion'],$_POST['txtPregunta'.$i],$_POST['radio'.$i]);
+					$objRespuesta->registrar($objPresent['id_presentacion'],$_SESSION['pregunta'][$i],$_SESSION['radio'][$i]);
 				}
 				//calcula los valores transformados de cada dimension y el nivel de riesgo
 				calcularValoresDimension($objPresent);
@@ -37,12 +51,17 @@
 				//calcula el valor del cuestionario y el nivel de riesgo
 				calcularValoresCuestionario($objPresent);
 				//aumenta la posicion del cuestionario para mostrar el siguiente 
+				echo "posCuestionario";
+				echo $_SESSION['posCuestionario'];
 				$_SESSION['posCuestionario']++;
+				echo "posCuestionario";
+				echo $_SESSION['posCuestionario'];
 				//valida si ya es el formulario de estres porque ese es diferente
 				if ($_SESSION['posCuestionario']==2) {
 					print_r($objPregunta->listarPreguntasCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres"));
 				}else{
-					print_r($objPregunta->listarPreguntasCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrar"));
+				//	print_r($objPregunta->listarPreguntasCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrar"));
+					print_r($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrar");
 				}
 				
 			}
