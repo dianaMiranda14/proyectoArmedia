@@ -1,4 +1,4 @@
-<?php
+ <?php
 	session_start();
 	//print_r($_SESSION['usuarioCuestionario']);
 	if (!isset($_SESSION['usuarioCuestionario'])) {
@@ -54,6 +54,9 @@
 		
 		<tbody id="cuerpoTablaCuestionario">				
 			<?php
+				//unset($_SESSION['infoPreguntas']);
+				echo "pos cuestionario";
+				print_r($_SESSION['posCuestionario']);
 				if ($_SESSION['posCuestionario']==2) {
 					$objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0);
 				}else{
@@ -67,9 +70,9 @@
 </div>
 <div class="col-sm-12 mx-auto">
 	<div class="col-sm-12 mx-auto ">
-		<input type="button" class="btn " id="pagAnterior" value="Anterior" onclick='consultarIncio("Anterior")' >
-		<input type="button" class="btn " id="pagSiguiente" value="Siguiente" onclick='consultarIncio("Siguiente")' >
-		<input type="button" class="btn" value="Registrar" id="btnRegistar" onclick="preguntas()" >
+		<input type="button" class="btn " id="pagAnterior" value="Anterior">
+		<input type="button" class="btn " id="pagSiguiente" value="Siguiente">
+		<input type="button" class="btn" value="Registrar" id="btnRegistrar" onclick="preguntas()" >
 	</div>
 	
 </div>

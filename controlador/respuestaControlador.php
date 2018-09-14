@@ -20,6 +20,11 @@
 	switch ($_POST['accion']) {
 		//aqui registrar para intralaboral forma A y B y para el extralaboral de jefes y auxiliares
 		case 'registrar':
+			for ($i=$_POST['txtCantidad']; $i < $_SESSION['infoPreguntas']['cantidad']; $i++) { 
+				$_SESSION['infoPreguntas']['radio'][$i] = $_POST['radio'.$i];
+				$_SESSION['infoPreguntas']['pregunta'][$i] = $_POST['txtPregunta'.$i];
+			}
+			//print_r($_SESSION['infoPreguntas']);
 			//registra la presentacion del cuestionario
 			$objPresentacion->registrar($_SESSION['infoPreguntas']['idCuestionario'],$_SESSION['usuarioCuestionario']['cedula_usuario'], date("Y-m-d"));
 			//consulta la presentacion que acaba de registrar
@@ -27,22 +32,9 @@
 			if (mysqli_num_rows($resultado)>0) {
 				$objPresent=mysqli_fetch_assoc($resultado);
 
-				$contadorUltimasPreguntas = count($_SESSION['pregunta'])-8;
-
-					echo $contadorUltimasPreguntas;
-
-
-				for ($i= ($contadorUltimasPreguntas); $i < (($contadorUltimasPreguntas)+2); $i++) { 
-					$_SESSION['radio'][$i] = $_POST['radio'.$i];
-					$_SESSION['pregunta'][$i] = $_POST['txtPregunta'.$i];
-
-					
-				}
-
-				for ($i=0; $i < count($_SESSION['pregunta']); $i++) { 
-					
+				for ($i=0; $i < $_SESSION['infoPreguntas']['cantidad']; $i++) { 
 					//registra las respuestas con la informacion que llega por el post y la presentacion que acabo de registrar
-					$objRespuesta->registrar($objPresent['id_presentacion'],$_SESSION['pregunta'][$i],$_SESSION['radio'][$i]);
+					$objRespuesta->registrar($objPresent['id_presentacion'],$_SESSION['infoPreguntas']['pregunta'][$i],$_SESSION['infoPreguntas']['radio'][$i]);
 				}
 				//calcula los valores transformados de cada dimension y el nivel de riesgo
 				calcularValoresDimension($objPresent);
@@ -51,17 +43,17 @@
 				//calcula el valor del cuestionario y el nivel de riesgo
 				calcularValoresCuestionario($objPresent);
 				//aumenta la posicion del cuestionario para mostrar el siguiente 
-				echo "posCuestionario";
-				echo $_SESSION['posCuestionario'];
+				echo "Antes";
+				print_r($_SESSION['posCuestionario']);
 				$_SESSION['posCuestionario']++;
-				echo "posCuestionario";
-				echo $_SESSION['posCuestionario'];
+				echo "Despues";
+				print_r($_SESSION['posCuestionario']);
+				unset($_SESSION['infoPreguntas']);
 				//valida si ya es el formulario de estres porque ese es diferente
 				if ($_SESSION['posCuestionario']==2) {
-					print_r($objPregunta->listarPreguntasCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres"));
+					print_r($objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0));
 				}else{
-				//	print_r($objPregunta->listarPreguntasCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrar"));
-					print_r($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrar");
+					print_r($objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrar", 0));
 				}
 				
 			}
@@ -76,13 +68,15 @@
 				if (mysqli_num_rows($resultado)>0) {
 					$objPresent=mysqli_fetch_assoc($resultado);
 					//guarda las respuestas del cuestionario
-					for ($i=0; $i < $_POST['cantidad']; $i++) { 
-						$objRespuesta->registrar($objPresent['id_presentacion'],$_POST['txtPregunta'.$i],$_POST['radio'.$i]);
+					for ($i=0; $i < $_SESSION['infoPreguntas']['cantidad']; $i++) { 
+						$objRespuesta->registrar($objPresent['id_presentacion'],$_SESSION['infoPreguntas']['pregunta'][$i],$_SESSION['infoPreguntas']['radio'][$i]);
 					}
 					//calcula el valor de cada dimension
 					calcularValoresDimensionEstres($objPresent);
 					//calcula el valor del cuestionario y el nivel de riesgo
 					calcularValoresCuestionarioEstres($objPresent);
+					unset($_SESSION['infoPreguntas']);
+					unset($_SESSION['posCuestionario']);
 				}
 				break;
 		default:
@@ -104,7 +98,7 @@
 						$objR=mysqli_fetch_assoc($res);
 						//hace la operacion del excel jajajaja
 						$v=round(($objR['promedio']*$objD['valor_dimension']),1);
-						print_r($objD['valor_dimension']."    ".$objD['descripcion_dimension']."    ".$objR['promedio']."    ".$v."\n");
+						//print_r($objD['valor_dimension']."    ".$objD['descripcion_dimension']."    ".$objR['promedio']."    ".$v."\n");
 						$objResultadoDimension->registrar($objPresent['id_presentacion'], $objD['id_dimension'], $v, null);
 					}
 				}
@@ -161,7 +155,7 @@
 						}else{
 							$riesgo="Riesgo muy alto";
 						}
-						print_r($objD['descripcion_dimension']."    ".$v."    ".$riesgo);
+						//print_r($objD['descripcion_dimension']."    ".$v."    ".$riesgo);
 						//registra los valores en la tabla resultado_dimension
 						$objResultadoDimension->registrar($objPresent['id_presentacion'], $objD['id_dimension'], $v, $riesgo);
 					}
@@ -194,7 +188,7 @@
 					}else{
 						$riesgo="Riesgo muy alto";
 					}
-					print_r($objDom['descripcion_dominio']."    ".$v."    ".$riesgo);
+					//print_r($objDom['descripcion_dominio']."    ".$v."    ".$riesgo);
 					//registra la información en la tabla resultado_dominio
 					$objResultadoDominio->registrar($objPresent['id_presentacion'], $objDom['id_dominio'], $v, $riesgo);
 				}

@@ -620,18 +620,8 @@ function colorTr(id, fin){
 }
 
 function paginacion(pag){
-	
-
 	//valida si todas las preguntas tiene una opcion elejida
-	
-		if (pag == 0) {
-			document.getElementById('pagAnterior').style.display ="none";
-			//var resultado=true;
-		}else{
-			document.getElementById('pagAnterior').style.display ="block";
-			var resultado=validarRadio(pag);
-		}
-
+	resultado=validarRadio(pag);
 	if (resultado===true) {
 
 		$.ajax({
@@ -639,13 +629,13 @@ function paginacion(pag){
 			type:"post",
 			url:"controlador/preguntaControlador.php",
 			success:function(res){
-				console.log(res);
+				//console.log(res);
 				document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+				validarMostrarBotones();
 			}
 		});
 	}else{
 		//muestra un dialog con la informacion
-		document.getElementById('pagAnterior').style.display ="none";
 		document.getElementById("tituloModalPreguntas").innerHTML="Error";
 		document.getElementById("cuerpoModalPregunta").innerHTML="Falta la pregunta número "+(resultado+1)+" por responder";
 		$('#modalMensjesPreguntas').modal('show');
@@ -653,6 +643,31 @@ function paginacion(pag){
 		colorTr(resultado,pag);
 	}
 }
+
+function validarMostrarBotones(){
+	console.log(document.getElementById("txtAnterior").value);
+	if (document.getElementById("txtAnterior").value!=="0") {
+		document.getElementById("pagAnterior").style.display="block";
+		document.getElementById("pagAnterior").setAttribute("onclick","paginacion("+
+			document.getElementById("txtAnterior").value+");");
+	}else{
+		document.getElementById("pagAnterior").style.display="none";
+	}
+	if (document.getElementById("txtSiguiente").value!=="0") {
+		document.getElementById("pagSiguiente").style.display="block";
+		document.getElementById("pagSiguiente").setAttribute('onclick',"paginacion("+
+			document.getElementById("txtSiguiente").value+")");
+
+		document.getElementById("btnRegistrar").style.display="none";
+	}else{
+		document.getElementById("pagSiguiente").style.display="none";
+		document.getElementById("btnRegistrar").style.display="block";
+	}
+}
+
+$(document).ready(function(){
+	validarMostrarBotones();
+});
 
 //aqui era donde mandaba todas las respuestas cuando no tenia la paginacion, este se llama en el boton de registrar 
 function preguntas(){
@@ -665,6 +680,7 @@ function preguntas(){
 			console.log(res);
 			//location.reload(true);
 			document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+			validarMostrarBotones();
 		}
 	});
  }
@@ -733,18 +749,11 @@ function DescargarInforme(){
 
 function consultarIncio(txt){
 		var dato = document.getElementById('txtPregunta').value;
+		console.log(dato);
 		if(txt == "Anterior"){
 			var pagina = parseInt(dato) -11;	
-			paginacion(pagina);			
 		}else{
 			var pagina = parseInt(dato) +9;	
-		//	alert(dato);
-		
-			//alert(pagina);
-			paginacion(pagina);
 		}
-		if (dato > pagina) {
-
-			document.getElementById('btnRegistar').style.display = "block";
-		}
+		paginacion(pagina);	
 	}
