@@ -67,7 +67,7 @@
 		}
 
 		public function vaciarTabla(){
-			$consulta="delete from usuario";
+			$consulta="delete from usuario where tipo_usuario like 'Usuario'";
 			$this->objConexion->consultaSimple($consulta);
 		}
 
@@ -95,6 +95,8 @@
 			}
 		}
 
+
+		//lo llamo cuando voy a exportar los datos
 		public function arrUsuarios($id){
 			if ($id==0) {
 				$resultado=$this->listar();

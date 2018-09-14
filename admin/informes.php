@@ -16,13 +16,12 @@
 		<select class="form-control" id="comboTipoInforme" name="comboTipoInforme" onchange="validarTipoInforme(this.value)">
 			<option value="">Seleccione</option>
 			<option value="0">Informe individual</option>
-			<option value="1">Informe cuestionario intralaboral forma A</option>
-			<option value="2">Informe cuestionario intralaboral forma B</option>
-			<option value="3">Informe cuestionario extralaboral</option>
-			<option value="4">Informe cuestionario éstres</option>
-			<option value="5">Informe de encuestados</option>
-			<option value="6">Informe de empleados en riesgo</option>
-			<option value="7">Informe riesgo de la empresa</option>
+			<option value="1">Informe cuestionario intralaboral</option>
+			<option value="2">Informe cuestionario extralaboral</option>
+			<option value="3">Informe cuestionario éstres</option>
+			<option value="4">Informe de encuestados</option>
+			<option value="5">Informe de empleados en riesgo</option>
+			<option value="6">Informe riesgo de la empresa</option>
 		</select>
 	</div>
 
@@ -39,7 +38,6 @@
 	<div class="form-group">
 		<label>Año</label>
 		<select class="form-control" name="comboYear" id="comboYear">
-			
 		</select>
 	</div>
 
@@ -49,6 +47,7 @@
 		<datalist id="listEmpleados">
 		</datalist>
 	</div>
+
 </form>
 
 <input type="button" class="btn" value="Aceptar" onclick="DescargarInforme()">

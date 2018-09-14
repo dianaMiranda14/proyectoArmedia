@@ -709,6 +709,8 @@ function DescargarInforme(){
 		mensaje="El tipo de informe es obligatorio";
 	}else if (document.getElementById("comboEmpresa").value=="") {
 		mensaje="La empresa es obligatoria";
+	}else if(document.getElementById("comboYear").value==""){
+		mensaje="El año es obligatorio";
 	}else if (document.getElementById("comboTipoInforme").value=="0" && 
 		document.getElementById("txtCedula").value=="") {
 		mensaje="La cédula del empleado es obligatoria";
@@ -722,7 +724,7 @@ function DescargarInforme(){
 			}
 		});
 	}
-	if (mensaje=="") {
+	if (mensaje!=="") {
 		document.getElementById("mensajesInforme").className="alert alert-danger";
 		document.getElementById("mensajesInforme").innerHTML=mensaje;
 		document.getElementById("mensajesInforme").style.display="block";	
