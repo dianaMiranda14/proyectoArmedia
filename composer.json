@@ -1,0 +1,13 @@
+{
+    "name": "miranda/proyecto-psicosocial1",
+    "type": "project",
+    "require": {
+        "dompdf/dompdf": "^0.8.2"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4":{
+            "miranda/proyecto-psicosocial1\\": "src/"
+        }
+    }
+}
