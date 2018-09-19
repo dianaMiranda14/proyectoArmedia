@@ -58,8 +58,12 @@
 		<tbody id="cuerpoTablaCuestionario">				
 			<?php
 				//unset($_SESSION['infoPreguntas']);
+
+				print_r($_SESSION['infoPreguntas']);
+
 				//echo "pos cuestionario";
 				//print_r($_SESSION['posCuestionario']);
+
 				if ($_SESSION['posCuestionario']==2) {
 					$objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0);
 				}else{
@@ -79,6 +83,13 @@
 	</div>
 	
 </div>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		validarMostrarBotones();
+	});
+</script>
 
 
 </div>
