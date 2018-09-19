@@ -50,22 +50,29 @@
 				$contador=$pag;
 				while ($resultadoPregunta=mysqli_fetch_assoc($resultado)) {
 					$opciones=split(",",$resultadoPregunta['opciones_pregunta']);
-					echo '
+					echo utf8_encode('
 					<tr id="tr'.$contador.'">
 						<td>'.($contador+1).'</td>
 						<td>'.$resultadoPregunta['descripcion_pregunta'].'</td>
 						<input type="hidden" id="txtPregunta" name="txtPregunta'.$contador.'" value="'.$resultadoPregunta['id_pregunta'].'">
-						';
+						');
 					for ($i=0; $i < count($opciones); $i++) { 
-						echo '<td> <input type="radio" class="radio" name="radio'.$contador.'" value="'.$opciones[$i].'"> </td>';
+						//valida si ya se registro una respuesta a la pregunta y si es asi marca la opcion seleccionada
+						if (isset($_SESSION['infoPreguntas']['radio'][$contador])&&
+							$_SESSION['infoPreguntas']['radio'][$contador]==$opciones[$i]) {
+								echo '<td> <input type="radio" class="radio" name="radio'.$contador.'" value="'.$opciones[$i].'" checked="true"> </td>';
+						}else{
+							echo '<td> <input type="radio" class="radio" name="radio'.$contador.'" value="'.$opciones[$i].'"> </td>';
+						}
+						
 					}
 					echo '</tr>';
 					$contador++;
 				}
-				if ($contador!==0) {
-					echo '<input type="hidden" value="'.($contador-10).'" id="txtAnterior">';
+				if ($pag!=0) {
+						echo '<input type="hidden" value="'.($pag-10).'" id="txtAnterior">';
 				}else{
-					echo '<input type="hidden" value="0" id="txtAnterior">';
+					echo '<input type="hidden" value="false" id="txtAnterior">';
 				}
 				//valida si la paginacion ya es mayor a la cantidad de preguntas				
 				if ($contador==$_SESSION['infoPreguntas']['cantidad']) {
@@ -73,9 +80,12 @@
 					echo '<input type="hidden" value="'.($pag).'" name="txtCantidad">';
 				}else{
 					echo '<input type="hidden" value="'.($contador).'" id="txtSiguiente">';
-				}
-				
+				}		
 			}
+		}
+
+		function seleccionarOpciones(){
+
 		}
 	}
 ?>
