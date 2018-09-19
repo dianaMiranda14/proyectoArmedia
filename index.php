@@ -11,11 +11,13 @@
 	<link rel="stylesheet" type="text/css" href="resources/css/estilos.css">
 	<title></title>
 </head>
-<body>
+<body style=" background-image: url('image/psicologia.jpg');
+  background-repeat: no-repeat;background-size: cover;">
 	<div class="container">
 		<?php
 		
 			include_once("controlador/enrutadorUsuario.php");
+		//	error_reporting(E_ALL ^ E_NOTICE);
 			$objEnrutador=new enrutadorUsuario();
 			if ($objEnrutador->validarVista($_GET['cargar'])) {
 				$objEnrutador->cargarVista($_GET['cargar']);

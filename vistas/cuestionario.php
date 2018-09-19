@@ -1,4 +1,5 @@
  <?php
+
 	session_start();
 	//print_r($_SESSION['usuarioCuestionario']);
 	if (!isset($_SESSION['usuarioCuestionario'])) {
@@ -13,6 +14,8 @@
 ?>
 
 <!-- Modal -->
+<div class="container" style="background: #fff;">
+	
 <div class="modal fade" id="modalMensjesPreguntas" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -55,8 +58,8 @@
 		<tbody id="cuerpoTablaCuestionario">				
 			<?php
 				//unset($_SESSION['infoPreguntas']);
-				echo "pos cuestionario";
-				print_r($_SESSION['posCuestionario']);
+				//echo "pos cuestionario";
+				//print_r($_SESSION['posCuestionario']);
 				if ($_SESSION['posCuestionario']==2) {
 					$objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0);
 				}else{
@@ -75,4 +78,7 @@
 		<input type="button" class="btn" value="Registrar" id="btnRegistrar" onclick="preguntas()" >
 	</div>
 	
+</div>
+
+
 </div>

@@ -17,10 +17,12 @@
 		}
 
 		public function consultaRetorno($consulta){
+			mysql_set_charset('utf8');
 			return mysqli_query($this->con, $consulta);
 		}
 
 		public function consultaSimple($consulta){
+
 			mysqli_query($this->con, $consulta);
 		}
 	}

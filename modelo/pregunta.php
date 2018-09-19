@@ -1,5 +1,6 @@
 <?php
 	include_once("conexion.php");
+	header('Content-Type: text/html; charset=UTF-8'); 
 
 	class Pregunta{
 		private $objConexion;
