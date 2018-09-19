@@ -619,6 +619,19 @@ function colorTr(id, fin){
 	}
 }
 
+function paginacionAnterior(pag){
+	$.ajax({
+		data:"pag="+pag+"&accion=paginacionAnterior",
+		type:"post",
+		url:"controlador/preguntaControlador.php",
+		success:function(res){
+			//console.log(res);
+			document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+			validarMostrarBotones();
+		}
+	});
+}
+
 function paginacion(pag){
 	//valida si todas las preguntas tiene una opcion elejida
 	resultado=validarRadio(pag);
@@ -645,10 +658,9 @@ function paginacion(pag){
 }
 
 function validarMostrarBotones(){
-	console.log(document.getElementById("txtAnterior").value);
-	if (document.getElementById("txtAnterior").value!=="0") {
+	if (document.getElementById("txtAnterior").value!=="false") {
 		document.getElementById("pagAnterior").style.display="block";
-		document.getElementById("pagAnterior").setAttribute("onclick","paginacion("+
+		document.getElementById("pagAnterior").setAttribute("onclick","paginacionAnterior("+
 			document.getElementById("txtAnterior").value+");");
 	}else{
 		document.getElementById("pagAnterior").style.display="none";
@@ -665,15 +677,11 @@ function validarMostrarBotones(){
 	}
 }
 
-$(document).ready(function(){
-	validarMostrarBotones();
-});
-
 //aqui era donde mandaba todas las respuestas cuando no tenia la paginacion, este se llama en el boton de registrar 
 function preguntas(){
  	$.ajax({
 	//	data:$("#formularioPreguntas").serialize()+"&accion=registrar",
-	data:$("#formularioCuestionario").serialize()+"&accion=registrar",
+	data:$("#formularioCuestionario").serialize(),
 		type:"post",
 		url:"controlador/respuestaControlador.php",
 		success:function(res){
@@ -693,8 +701,7 @@ function preguntas(){
  	}
  }
 
- function mostrarUsuarios(valor){
- 	console.log(valor);
+ function mostrarYear(valor){
  	$("#comboYear > option").remove();
 	$.ajax({
 		data:"accion=mostrarOptionYear&idEmpresa="+valor,
@@ -704,7 +711,11 @@ function preguntas(){
 			console.log(res);
 			$('#comboYear').append(res);		
 		}
-	});	
+	});
+ }
+
+ function mostrarUsuarios(valor){
+ 	mostrarYear(valor);
  	if (valor!=="0") {
 		$("#listEmpleados > option").remove();
 		$.ajax({
@@ -719,7 +730,7 @@ function preguntas(){
  	}
  }
 
-function DescargarInforme(){
+function descargarInforme(){
 	var mensaje="";
 	if (document.getElementById("comboTipoInforme").value=="") {
 		mensaje="El tipo de informe es obligatorio";
@@ -731,29 +742,63 @@ function DescargarInforme(){
 		document.getElementById("txtCedula").value=="") {
 		mensaje="La cédula del empleado es obligatoria";
 	}else{
+		//return true;
 		$.ajax({
-			data:$("#formularioInforme").serialize(),
+			data:$("#formularioInforme").serialize()+"&accion=validarCedula",
 			type:"post",
-			url:"../controlador/informeControlador.php",
+			url:"../controlador/usuarioControlador.php",
 			success:function(res){
 				console.log(res);
+				if (res=="true") {
+					document.getElementById("mensajesInforme").style.display="none";
+					return true;
+				}else{
+					document.getElementById("mensajesInforme").className="alert alert-danger";
+					document.getElementById("mensajesInforme").innerHTML=res;
+					document.getElementById("mensajesInforme").style.display="block";
+					return false;	
+				}
 			}
 		});
 	}
 	if (mensaje!=="") {
 		document.getElementById("mensajesInforme").className="alert alert-danger";
 		document.getElementById("mensajesInforme").innerHTML=mensaje;
-		document.getElementById("mensajesInforme").style.display="block";	
+		document.getElementById("mensajesInforme").style.display="block";
+		return false;	
 	}
 }
 
-function consultarIncio(txt){
-		var dato = document.getElementById('txtPregunta').value;
-		console.log(dato);
-		if(txt == "Anterior"){
-			var pagina = parseInt(dato) -11;	
-		}else{
-			var pagina = parseInt(dato) +9;	
-		}
-		paginacion(pagina);	
-	}
+/*function generarDiagramas(){
+  // Our ajax data renderer which here retrieves a text file.
+  // it could contact any source and pull data, however.
+  // The options argument isn't used in this renderer.
+    var ret = null;
+    $.ajax({
+      // have to use synchronous here, else the function 
+      // will return before the data is fetched
+      async: false,
+      url: "../controlador/graficosControlador.php",
+      dataType:"json",
+      success: function(data) {
+      	  var plot2 = $.jqplot('chart2', jsonurl,{
+			    title: "AJAX JSON Data Renderer",
+			    dataRenderer: ajaxDataRenderer,
+			    dataRendererOptions: {
+			      unusedOptionalUrl: jsonurl
+			    }
+			  });
+			});
+      }
+    });
+    //return ret;
+
+}
+
+  // The url for our json data
+  var jsonurl = "./jsondata.txt";
+ 
+  // passing in the url string as the jqPlot data argument is a handy
+  // shortcut for our renderer.  You could also have used the
+  // "dataRendererOptions" option to pass in the url.
+*/

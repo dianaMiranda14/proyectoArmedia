@@ -89,6 +89,13 @@
 			echo $objUsuario->mostrarOption($_POST['idEmpresa']);
 			break;
 
+		case 'validarCedula':
+			if (mysqli_num_rows($objUsuario->consultarCedula($_POST['txtCedula']))>0) {
+				echo "true";
+			}else{
+				echo "No hay un registro de usuario con ese número de cédula";
+			}
+			break;
 		default:
 			# code...
 			break;

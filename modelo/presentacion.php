@@ -37,8 +37,8 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function consultarPresentacion($idCuestionario, $cedula, $year){
-			$consulta="select presentacion.resultado_presentacion, presentacion.descripcion_presentacion from 
+		public function consultarResultadoPresentacion($idCuestionario, $cedula, $year){
+			$consulta="select resultado_presentacion, descripcion_presentacion from 
 			presentacion where 
 			presentacion.id_cuestionario_presentacion = ".$idCuestionario." and 
 			presentacion.id_usuario_presentacion = ".$cedula." and 
@@ -47,7 +47,7 @@
 		}
 
 		public function consultarUsuarios($idEmpresa, $year){
-			$consulta="select usuario.cedula_usuario, usuario.nombre_usuario, usuario.cargo_usuario, cuestionario.nombre_cuestionario
+			$consulta="select cedula_usuario, nombre_usuario, cargo_usuario, id_cuestionario
 				from usuario, presentacion, cuestionario, empresa where 
 				presentacion.id_cuestionario_presentacion = cuestionario.id_cuestionario and 
 				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
@@ -63,8 +63,8 @@
 		}
 
 		public function usuariosRiesgoEstres($idEmpresa, $year){
-			$consulta="select usuario.cedula_usuario, usuario.nombre_usuario, usuario.cargo_usuario, 
-				presentacion.resultado_presentacion, presentacion.descripcion_presentacion
+			$consulta="select cedula_usuario, nombre_usuario, cargo_usuario, 
+				resultado_presentacion, descripcion_presentacion
 				from usuario, presentacion, cuestionario, empresa where 
 				presentacion.id_cuestionario_presentacion = cuestionario.id_cuestionario and 
 				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 

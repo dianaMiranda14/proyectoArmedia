@@ -10,10 +10,11 @@
 	$objUsuario=new Usuario();
 ?>
 <div id="mensajesInforme"></div>
-<form id="formularioInforme">
+<form id="formularioInforme" method="post" action="../controlador/informeControlador.php" onsubmit="return descargarInforme();">
 	<div class="form-group">
 		<label>Tipo de informe</label>
-		<select class="form-control" id="comboTipoInforme" name="comboTipoInforme" onchange="validarTipoInforme(this.value)">
+		<select class="form-control" id="comboTipoInforme" name="comboTipoInforme" onchange="validarTipoInforme(this.value)"
+			required="true">
 			<option value="">Seleccione</option>
 			<option value="0">Informe individual</option>
 			<option value="1">Informe cuestionario intralaboral</option>
@@ -27,7 +28,7 @@
 
 	<div class="form-group">
 		<label>Empresa</label>
-		<select class="form-control" name="comboEmpresa" id="comboEmpresa" onchange="mostrarUsuarios(this.value)">
+		<select class="form-control" name="comboEmpresa" id="comboEmpresa" onchange="mostrarUsuarios(this.value)" required="true">
 			<option value="">Seleccione</option>
 			<?php
 				$objEmpresa->mostrarOption();
@@ -37,17 +38,16 @@
 
 	<div class="form-group">
 		<label>Año</label>
-		<select class="form-control" name="comboYear" id="comboYear">
+		<select class="form-control" name="comboYear" id="comboYear" required="true">
 		</select>
 	</div>
 
 	<div class="form-group" id="divCedula" style="display: none">
 		<label>Cédula empleado</label>
-		<input type="text" class="form-control" name="txtCedula" id="txtCedula" list="listEmpleados">
+		<input type="text" class="form-control" name="txtCedula" id="txtCedula" list="listEmpleados" autocomplete="off">
 		<datalist id="listEmpleados">
 		</datalist>
 	</div>
-
+	<input type="submit" class="btn" value="Aceptar" >
 </form>
 
-<input type="button" class="btn" value="Aceptar" onclick="DescargarInforme()">

@@ -21,7 +21,7 @@
 		}
 
 		public function consultarResultadoDominio($idCuestionario, $year, $idCedula){
-			$consulta='select dominio.descripcion_dominio, resultado_dominio.valor_resultado_dominio, resultado_dominio.descripcion_resultado_dominio
+			$consulta='select id_dominio, descripcion_dominio, valor_resultado_dominio, descripcion_resultado_dominio
 				from dominio, resultado_dominio, presentacion, usuario, cuestionario where
 				dominio.id_dominio = resultado_dominio.id_dominio_resultado_dominio and 
 				presentacion.id_presentacion = resultado_dominio.id_presentacion_resultado_dominio and 

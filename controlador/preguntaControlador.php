@@ -13,6 +13,10 @@
 			}
 			echo $objPregunta->mostrarPreguntasCuestionario($_POST['pag']);
 			break;
+
+		case 'paginacionAnterior':
+			echo $objPregunta->mostrarPreguntasCuestionario($_POST['pag']);
+			break;
 		default:
 			# code...
 			break;

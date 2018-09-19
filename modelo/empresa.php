@@ -114,8 +114,11 @@
 				usuario.id_empresa_usuario = empresa.nit_empresa and 
 				empresa.nit_empresa = ".$idEmpresa;
 			$resultado= $this->objConexion->consultaRetorno($consulta);
-			while ($obj=mysqli_fetch_assoc($resultado)) {
-			    echo '<option>'.$obj['year'].'</option>';
+			echo "<option value=''>Seleccione</option>";
+			if (mysqli_num_rows($resultado)>0) {
+				while ($obj=mysqli_fetch_assoc($resultado)) {
+				    echo '<option>'.$obj['year'].'</option>';
+				}
 			}
 		}
 

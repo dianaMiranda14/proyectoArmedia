@@ -13,11 +13,11 @@
 	$objPresentacion=new presentacion();
 	$objCuestionario=new Cuestionario();
 
-	//print_r($_POST);
+	print_r($_POST);
 	
 	session_start();
 
-	switch ($_POST['accion']) {
+	switch ($_SESSION['infoPreguntas']['accion']) {
 		//aqui registrar para intralaboral forma A y B y para el extralaboral de jefes y auxiliares
 		case 'registrar':
 			for ($i=$_POST['txtCantidad']; $i < $_SESSION['infoPreguntas']['cantidad']; $i++) { 
@@ -61,6 +61,10 @@
 
 			//registra el cuestionario de estres para jefes y auxiliares
 			case 'registrarEstres':
+				for ($i=$_POST['txtCantidad']; $i < $_SESSION['infoPreguntas']['cantidad']; $i++) { 
+					$_SESSION['infoPreguntas']['radio'][$i] = $_POST['radio'.$i];
+					$_SESSION['infoPreguntas']['pregunta'][$i] = $_POST['txtPregunta'.$i];
+				}
 				//registra la presentacion del cuestionario
 				$objPresentacion->registrar($_SESSION['infoPreguntas']['idCuestionario'],$_SESSION['usuarioCuestionario']['cedula_usuario'], date("Y-m-d"));
 				//consulta la presentacion que acaba de registrar
@@ -70,7 +74,7 @@
 					//guarda las respuestas del cuestionario
 					for ($i=0; $i < $_SESSION['infoPreguntas']['cantidad']; $i++) { 
 						$objRespuesta->registrar($objPresent['id_presentacion'],$_SESSION['infoPreguntas']['pregunta'][$i],$_SESSION['infoPreguntas']['radio'][$i]);
-					}
+					} 
 					//calcula el valor de cada dimension
 					calcularValoresDimensionEstres($objPresent);
 					//calcula el valor del cuestionario y el nivel de riesgo

@@ -36,6 +36,22 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
+		public function consultarUsuarioPresentacion($cedula, $idCuestionario, $year){
+			$consulta="select usuario.*, nombre_empresa, fecha_presentacion, nombre_cuestionario from usuario, empresa, presentacion, cuestionario where 
+				usuario.id_empresa_usuario = empresa.nit_empresa and 
+				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
+				cuestionario.id_cuestionario = presentacion.id_cuestionario_presentacion and 
+				presentacion.id_cuestionario_presentacion = ".$idCuestionario." and 
+				year(presentacion.fecha_presentacion) = ".$year." and 
+				usuario.cedula_usuario = ".$cedula;
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function consultarEvaluador(){
+			$consulta="select usuario.* from usuario where tipo_usuario like 'Evaluador'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
 		public function consultarCedulaEstado($cedula){
 			$consulta="select usuario.*,nombre_empresa from usuario, empresa where cedula_usuario = ".$cedula." and tipo_usuario like 'Usuario' and empresa.nit_empresa = usuario.id_empresa_usuario and estado_usuario like 'Activo'";
 			return $this->objConexion->consultaRetorno($consulta);

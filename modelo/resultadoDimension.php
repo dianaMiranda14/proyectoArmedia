@@ -21,7 +21,7 @@
 		}
 
 		public function consultarResultadoDimension($idCuestionario, $year, $cedula){
-			$consulta="select dimension.id_dominio_dimension, dimension.descripcion_dimension, resultado_dimension.valor_resultado_dimension, resultado_dimension.descripcion_resultado_dimension from 
+			$consulta="select id_dominio_dimension, descripcion_dimension, valor_resultado_dimension, descripcion_resultado_dimension from 
 				dimension, resultado_dimension, presentacion, cuestionario, usuario where
 				dimension.id_dimension = resultado_dimension.id_dimension_resultado_dimension and 
 				resultado_dimension.id_presentacion_resultado_dimension = presentacion.id_presentacion and 
