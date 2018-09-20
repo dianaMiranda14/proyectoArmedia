@@ -12,7 +12,7 @@
 			break;
 
 		case 'mostrarContenido':
-			echo $resultado=$objDimension->mostrarContenido();
+			echo $resultado=$objDimension->mostrarContenido($_POST['idCuestionario']);
 			break;
 		
 		default:

@@ -18,8 +18,8 @@
 			$this->objConexion->consultaSimple($consulta);
 		}
 
-		public function modificar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto, $habilitado, $estado){
-			$consulta="update empresa set nombre_empresa = '".$nombre."', ciudad_empresa = '".$ciudad."', direccion_empresa = '".$direccion."', telefono_empresa = '".$telefono."', contacto_empresa = '".$contacto."', habilitado_empresa = '".$habilitado."', estado_empresa = '".$estado."' where nit_empresa = ".$nit;
+		public function modificar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto, $estado){
+			$consulta="update empresa set nombre_empresa = '".$nombre."', ciudad_empresa = '".$ciudad."', direccion_empresa = '".$direccion."', telefono_empresa = '".$telefono."', contacto_empresa = '".$contacto."', estado_empresa = '".$estado."' where nit_empresa = ".$nit;
 			$this->objConexion->consultaSimple($consulta);
 		}
 
@@ -72,7 +72,7 @@
 		public function mostrar($resultado){
 			if (mysqli_num_rows($resultado)>0) {
 	    		while ($obj=mysqli_fetch_assoc($resultado)) {
-	    			$mostrar=
+	    			echo 
 	    			'<tr>
 	    				<td>'.$obj['nit_empresa'].'</td>
 	    				<td>'.$obj['nombre_empresa'].'</td>
@@ -80,17 +80,8 @@
 	    				<td>'.$obj['direccion_empresa'].'</td>
 	    				<td>'.$obj['telefono_empresa'].'</td>
 	    				<td>'.$obj['contacto_empresa'].'</td>
-	    				<td>'.$obj['estado_empresa'].'</td>';
-	    			if ($obj['habilitado_empresa']=='0') {
-	    				$habilitado="x";
-	    			}else{
-	    				$habilitado="✓";
-	    			}
-
-	    			$mostrar.='
-	    				<td>'.$habilitado.'</td>
-	    				<td>
-	    				<img src="../image/exchange.png" onclick=\'modalEmpresa("modificar",'.json_encode($obj).')\' > </td>
+	    				<td>'.$obj['estado_empresa'].'</td>
+	    				<td><img src="../image/exchange.png" onclick=\'modalEmpresa("modificar",'.json_encode($obj).')\' > </td>
 	    				<td> <img src="../image/x.png" onclick=\'modalEmpresa("eliminar",'.json_encode($obj).')\'></td>
 	    			</tr>';
 
@@ -105,7 +96,6 @@
 
 
 	    			</tr>';*/
-	    			echo $mostrar;
 	    		}
 	    	}else{
 	    		echo '

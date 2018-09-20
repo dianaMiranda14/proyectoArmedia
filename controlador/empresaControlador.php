@@ -16,7 +16,7 @@
 		case 'modificar':
 			$val=validarDatos(false);
 			if ($val===true) {
-				$objEmpresa->modificar($_POST['txtNit'],$_POST['txtNombre'],$_POST['comboCiudad'],$_POST['txtDireccion'],$_POST['txtTelefono'],$_POST['txtContacto'],(isset($_POST['checkHabilitado']) ? $_POST['checkHabilitado'] : 0),$_POST['comboEstado']);
+				$objEmpresa->modificar($_POST['txtNit'],$_POST['txtNombre'],$_POST['comboCiudad'],$_POST['txtDireccion'],$_POST['txtTelefono'],$_POST['txtContacto'],$_POST['comboEstado']);
 				echo "0";
 			}else{
 				echo $val;

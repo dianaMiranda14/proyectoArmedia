@@ -5,6 +5,7 @@
 	include_once("../modelo/presentacion.php");
 	include_once("../modelo/empresa.php");
 	include_once("../modelo/cuestionario.php");
+	include_once("../modelo/observacion.php");
 	include_once("../vendor/autoload.php");
 	use Dompdf\Dompdf;
 
@@ -13,6 +14,8 @@
 	$objEmpresa=new Empresa();
 	$objPresentacion=new Presentacion();
 	$nombreEmpresa=mysqli_fetch_assoc($objEmpresa->consultarNit($_POST['comboEmpresa']))['nombre_empresa'];
+	session_start();
+	//unset($_SESSION["arrayObservaciones"]);
 	$html='<!DOCTYPE html>
 				<html>
 				<head>
@@ -192,6 +195,10 @@
 		if (mysqli_num_rows($resultadoDimension)) {
 			$contador=0;
 			while ($obj=mysqli_fetch_assoc($resultadoDimension)) {
+				if ($obj['descripcion_resultado_dimension']=="Riesgo alto"
+					 || $obj['descripcion_resultado_dimension']=="Riesgo muy alto") {
+					array_push($_SESSION['arrayObservaciones'], $obj['descripcion_dimension']);
+				}
 				$arrResultadoDimension[$contador]=$obj;
 				$contador++;
 			}
@@ -216,6 +223,7 @@
 		}else{
 			$idCuestionario=2;
 		}
+		$_SESSION['arrayObservaciones']['idCuestionario']=$idCuestionario;
 		$objU=$objUsuario->consultarUsuarioPresentacion($cedula, $idCuestionario, $year);
 		if (mysqli_num_rows($objU)>0) {
 			$html=datosUsuario(mysqli_fetch_assoc($objU));
@@ -230,7 +238,7 @@
 				$html.=mostrarContenidoDominio($resultadoDominio[$i]);
 			}
 			$html.=mostrarContenidoCuestionario($resultadoCuestionario);
-			return $html;
+			return $html.=observaciones();
 		}
 	}
 
@@ -243,6 +251,7 @@
 		}else{
 			$idCuestionario=4;
 		}
+		$_SESSION['arrayObservaciones']['idCuestionario']=$idCuestionario;
 		$objU=$objUsuario->consultarUsuarioPresentacion($cedula, $idCuestionario, $year);
 		if (mysqli_num_rows($objU)>0) {
 			$html=datosUsuario(mysqli_fetch_assoc($objU));
@@ -253,7 +262,7 @@
 			$resultadoCuestionario=resultadoCuestionario($idCuestionario, $cedula);
 			$html.=mostrarContenidoDimension($resultadoDimension,null);
 			$html.=mostrarContenidoCuestionario($resultadoCuestionario);
-			return $html;
+			return $html.observaciones();
 		}
 	}
 
@@ -266,6 +275,7 @@
 		}else{
 			$idCuestionario=6;
 		}
+		$_SESSION['arrayObservaciones']['idCuestionario']=$idCuestionario;
 		$objU=$objUsuario->consultarUsuarioPresentacion($cedula, $idCuestionario, $year);
 		if (mysqli_num_rows($objU)>0) {
 			$html=datosUsuario(mysqli_fetch_assoc($objU));
@@ -274,7 +284,7 @@
 			</tr>';
 			$resultadoCuestionario=resultadoCuestionario($idCuestionario, $cedula);
 			$html.=mostrarContenidoCuestionario($resultadoCuestionario);
-			return $html;
+			return $html.observaciones();
 		}
 
 	}
@@ -318,6 +328,7 @@
 	}
 
 	function mostrarContenidoCuestionario($objInfo){
+		$_SESSION['arrayObservaciones']['valorCuestionario']=$objInfo['descripcion_presentacion'];
 		$html='
 			<tr style="background:red">
 				<td>total</td>
@@ -433,6 +444,34 @@
 			';
 		return $html.=datosEvaluador();
 		
+	}
+
+	function datosObservaciones($resultado){
+			if (mysqli_num_rows($resultado)>0) {
+				$html="";
+				while ($obj=mysqli_fetch_assoc($resultado)) {
+					$html.='<tr>
+						<td colspan="3">'.' id '.$obj['id_observacion'].' descripcion '.$obj['descripcion_observacion'].'</td>
+					</tr>';
+				}
+				return $html;
+			}
+	}
+
+	function observaciones(){
+		$objObservacion=new Observacion();
+		$html="<tr>
+			<td colspan='3'>OBSERVACIONES Y COMENTARIOS DEL EVALUADOR</td>
+			<td colspan='3'>".datosObservaciones($objObservacion->consultarCuestionarioContenido($_SESSION['arrayObservaciones']['idCuestionario'], $_SESSION['arrayObservaciones']['valorCuestionario']))."</td>
+		</tr>
+		<tr>
+			<td>RECOMENDACIONES PARTICULARES</td>
+		</tr>";
+		for ($i=0; $i < (count($_SESSION['arrayObservaciones'])-2); $i++) { 
+			$html.=datosObservaciones($objObservacion->consultarCuestionarioContenido($_SESSION['arrayObservaciones']['idCuestionario'], $_SESSION['arrayObservaciones'][$i]));
+		}
+		unset($_SESSION['arrayObservaciones']);
+		return $html;
 	}
 
 	function descargarPDF($html,$nombrePDF){

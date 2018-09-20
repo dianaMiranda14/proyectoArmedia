@@ -90,7 +90,7 @@
 		public function mostrar($resultado){
 			if (mysqli_num_rows($resultado)>0) {
 					while ($obj=mysqli_fetch_assoc($resultado)) {
-						echo
+						echo 
 						'<tr>
 							<td>'.$obj['cedula_usuario'].'</td>
 							<td>'.$obj['nombre_usuario'].'</td>

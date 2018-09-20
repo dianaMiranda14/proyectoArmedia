@@ -65,7 +65,7 @@
 							<td>'.$obj['descripcion_observacion'].'</td>
 							<td>'.$obj['estado_observacion'].'</td>
 							<td> <img src="../image/exchange.png" onclick=\'modalObservacion("modificar",'.json_encode($obj).')\' /></td>
-							<td> <img src="../image/exchange.png" onclick=\'modalObservacion("eliminar",'.json_encode($obj).')\' /></td>
+							<td> <img src="../image/x.png" onclick=\'modalObservacion("eliminar",'.json_encode($obj).')\' /></td>
 						</tr>';
 						/*<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalObservacion("modificar",'.json_encode($obj).')\' /></td>
 							<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalObservacion("eliminar",'.json_encode($obj).')\' /></td>*/
@@ -74,6 +74,11 @@
 			}else{
 				return '<tr><td colspan="6">No hay registros</td></tr>';
 			}
+		}
+
+		public function consultarCuestionarioContenido($idCuestionario, $contenido){
+			$consulta="select observacion.*, nombre_cuestionario from observacion, cuestionario where contenido_observacion like '".$contenido."%' and id_cuestionario_observacion = id_cuestionario and estado_observacion like 'Activo' and id_cuestionario = ".$idCuestionario;
+			return $this->objConexion->consultaRetorno($consulta);
 		}
 	}
 

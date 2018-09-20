@@ -58,7 +58,7 @@
 						/*<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalPlan("modificar",'.json_encode($obj).')\' /></td>
 								<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalPlan("eliminar",'.json_encode($obj).')\' /></td>*/
 				}
-				return $datos;
+				return utf8_encode($datos);
 			}else{
 				return 
 					'<tr>

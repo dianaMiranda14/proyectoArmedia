@@ -77,23 +77,23 @@
 	      		<input type="hidden" name="accion" id="accionObservacion">
 	      		<input type="hidden" name="txtId" id="txtId">
 	      		<div class="row">
+
 	      			<div class="col">
 	      				<div class="form-group">
-			      			<label>Cuestionario</label>
-			      			<select class="form-control" name="comboCuestionario" id="comboCuestionario">
-			      				<option value="">Seleccione</option>
-			      				<?php echo $objCuestionario->mostrarOption(); ?>
+			      			<label>Tipo observación</label>
+			      			<select class="form-control" name="comboTipo" id="comboTipo" onchange="validarContenidoCuestionario(this.value)">
+			      				<option value="">Seleccione</option> 
+			      				<option>Dimension</option>
+			      				<option>Riesgo</option>
 			      			</select>
 			      		</div>
 	      			</div>
 
 	      			<div class="col">
 	      				<div class="form-group">
-			      			<label>Tipo observación</label>
-			      			<select class="form-control" name="comboTipo" id="comboTipo" onchange="actualizarContenido(this.value)">
-			      				<option value="">Seleccione</option> 
-			      				<option>Dimension</option>
-			      				<option>Riesgo</option>
+			      			<label>Cuestionario</label>
+			      			<select class="form-control" name="comboCuestionario" id="comboCuestionario" onchange="actualizarContenido(this.value)">
+			      				<option value="">Seleccione</option>
 			      			</select>
 			      		</div>
 	      			</div>

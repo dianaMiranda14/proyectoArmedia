@@ -59,8 +59,6 @@
 			<?php
 				//unset($_SESSION['infoPreguntas']);
 
-				print_r($_SESSION['infoPreguntas']);
-
 				//echo "pos cuestionario";
 				//print_r($_SESSION['posCuestionario']);
 

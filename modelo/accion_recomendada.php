@@ -44,9 +44,8 @@
 
 		public function mostrar($resultado){
 			if (mysqli_num_rows($resultado)>0) {
-					$datos="";
 					while ($obj=mysqli_fetch_assoc($resultado)) {
-						$datos.=
+						echo 
 							'<tr>
 								<td>'.$obj['descripcion_dimension'].'</td>
 								<td>'.$obj['descripcion_accion_recomendada'].'</td>
@@ -57,9 +56,9 @@
 							/*<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalAccion("modificar",'.json_encode($obj).')\' /></td>
 								<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalAccion("eliminar",'.json_encode($obj).')\' /></td>*/
 					}
-					return $datos;
+					//return utf8_encode($datos);
 				}else{
-					return 
+					echo 
 						'<tr>
 							<td colspan="3">No se encontraron registros</td>
 						</tr>';

@@ -13,14 +13,19 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function mostrarOption(){
-			$resultado=$this->listar();
+		public function mostrarOption($resultado){
 			if (mysqli_num_rows($resultado)>0) {
 				while ($obj=mysqli_fetch_assoc($resultado)) {
-					echo '<option value="'.$obj['id_cuestionario'].'">'.$obj['nombre_cuestionario'].'</option>';
+					echo utf8_encode('<option value="'.$obj['id_cuestionario'].'">'.$obj['nombre_cuestionario'].' '.$obj['tipo_usuario_cuestionario'].'</option>');
 				}
 			}
 		}
+
+		public function listarSinEstres(){
+			$consulta="select * from cuestionario where nombre_cuestionario != 'estres'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
 
 		public function consultarId($id){
 			$consulta="select * from cuestionario where id_cuestionario = ".$id;

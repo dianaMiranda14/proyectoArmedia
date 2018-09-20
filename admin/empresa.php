@@ -37,9 +37,6 @@
 		      			<option>Inactivo</option>
 		      		</select>
 		      </th>
-				<th scope="col" class="table-primary">
-					<input type="text" class="form-control readOnly" placeholder="Habilitado" disabled="true" >
-				</th>
 		      <th scope="col" class="table-primary"></th>
 		      <th scope="col" class="table-primary"></th>
 		    </tr>
@@ -132,15 +129,6 @@
 				      				<option value="Inactivo">Inactivo</option>
 				      			</select>
 				      		</div>
-		      			</div>
-
-		      			<div class="col">
-		      				<div class="form-check">
-							  <input class="form-check-input" type="checkbox" id="checkHabilitado" name="checkHabilitado" value="1">
-							  <label class="form-check-label" for="checkHabilitado">
-							    Habilitado
-							  </label>
-							</div>
 		      			</div>
 		      		</div>
 	      		</div>

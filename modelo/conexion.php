@@ -21,7 +21,6 @@
 		}
 
 		public function consultaSimple($consulta){
-
 			mysqli_query($this->con, $consulta);
 		}
 	}

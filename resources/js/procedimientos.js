@@ -44,11 +44,6 @@ function modalEmpresa(accion,objEmpresa){
 		document.getElementById("txtContacto").value=objEmpresa['contacto_empresa'];
 		document.getElementById("comboEstado").value=objEmpresa['estado_empresa'];
 		document.getElementById("txtNit").value=objEmpresa['nit_empresa'];
-		if (objEmpresa['habilitado_empresa']=="1") {
-			document.getElementById("checkHabilitado").checked = true;
-		}else{
-			document.getElementById("checkHabilitado").checked = false;
-		}
 		document.getElementById("adicional").style.display="grid";
 	}
 	$('#modalEmpresa').modal('show');
@@ -413,17 +408,41 @@ function validarModalPlan(){
 	}
 }
 
+function validarContenidoCuestionario(valor){
+	var caccion="";
+	var select=document.getElementById("comboCuestionario");
+	$("#comboCuestionario > option").remove();
+	var option=document.createElement("option");
+	option.value="";
+	option.text="Seleccione"
+	select.appendChild(option);
+	if (valor=="Dimension") {
+		accion="listarSinEstres";
+	}else{
+		accion="listarOption";
+	}
+	$.ajax({
+		data:"accion="+accion,
+		type:"post",
+		url:"../controlador/cuestionarioControlador.php",
+		success:function(res){
+			$('#comboCuestionario').append(res);		
+		}
+	});
+}
+
 function actualizarContenido(valor){
 	console.log(valor);
 	var select=document.getElementById("comboContenido");
 	$("#comboContenido > option").remove();
 	var option=document.createElement("option");
 	option.value="";
-	option.text="Seleccione"
+	option.text="Seleccione";
 	select.appendChild(option);
-	if (valor=="Dimension") {
+	tipo=document.getElementById("comboTipo").value;
+	if (tipo=="Dimension") {
 		$.ajax({
-			data:"accion=mostrarContenido",
+			data:"accion=mostrarContenido&idCuestionario="+valor,
 			type:"post",
 			url:"../controlador/dimensionControlador.php",
 			success:function(res){
@@ -431,21 +450,21 @@ function actualizarContenido(valor){
 				
 			}
 		});
-	}else if(valor=="Riesgo"){
+	}else if(tipo=="Riesgo"){
 		var option=document.createElement("option");
-		option.text="Muy bajo";
+		option.text="Riesgo muy bajo";
 		select.appendChild(option);
 		option=document.createElement("option");
-		option.text="Bajo";
+		option.text="Riesgo bajo";
 		select.appendChild(option);
 		option=document.createElement("option");
-		option.text="Medio";
+		option.text="Riesgo medio";
 		select.appendChild(option);
 		option=document.createElement("option");
-		option.text="Alto";
+		option.text="Riesgo alto";
 		select.appendChild(option);
 		option=document.createElement("option");
-		option.text="Muy alto";
+		option.text="Riesgo muy alto";
 		select.appendChild(option);
 	}
 }
@@ -458,11 +477,16 @@ function modalObservacion(accion, objObservacion){
 	if (objObservacion==null) {
 		document.getElementById("adicionalObservacion").style.display="none";
 	}else{
+		console.log(objObservacion);
+		validarContenidoCuestionario(objObservacion['tipo_observacion']);
+		actualizarContenido(objObservacion['id_cuestionario_observacion']);
 		document.getElementById("adicionalObservacion").style.display="grid";
 		document.getElementById("txtId").value=objObservacion['id_observacion'];
-		document.getElementById("comboCuestionario").value=objObservacion['id_cuestionario_observacion'];
 		document.getElementById("comboTipo").value=objObservacion['tipo_observacion'];
-		actualizarContenido(objObservacion['tipo_observacion']);
+		console.log(document.getElementById("comboCuestionario"));
+		console.log(objObservacion['id_cuestionario_observacion']);
+		document.getElementById("comboCuestionario").value=objObservacion['id_cuestionario_observacion'];
+		console.log(document.getElementById("comboCuestionario").value);
 		document.getElementById("comboContenido").value=objObservacion['contenido_observacion'];
 		document.getElementById("txtDescripcion").value=objObservacion['descripcion_observacion'];
 		document.getElementById("comboEstado").value=objObservacion['estado_observacion'];
@@ -714,8 +738,14 @@ function preguntas(){
 	});
  }
 
- function mostrarUsuarios(valor){
+ function mostrarDatos(valor){
  	mostrarYear(valor);
+ 	if (document.getElementById("comboTipoInforme").value=="0") {
+ 		mostrarUsuarios(valor);
+ 	}
+ }
+
+ function mostrarUsuarios(valor){
  	if (valor!=="0") {
 		$("#listEmpleados > option").remove();
 		$.ajax({

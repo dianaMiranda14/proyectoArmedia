@@ -8,7 +8,8 @@
 		}
 
 		public function listar(){
-			$consulta="select * from dimension";
+			$consulta="select dimension.* from dimension where dimension.id_dominio_dimension != 11 and dimension.id_dominio_dimension != 12
+				group by dimension.descripcion_dimension";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
@@ -29,7 +30,7 @@
 				while ($obj=mysqli_fetch_assoc($resultado)) {
 					$option.= '<option value="'.$obj['id_dimension'].'">'.$obj['descripcion_dimension'].'</option>';
 				}
-				return $option;
+				return utf8_encode($option);
 			}
 		}
 
@@ -49,14 +50,14 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function mostrarContenido(){
-			$resultado=$this->listar();
+		public function mostrarContenido($id){
+			$resultado=$this->consultarCuestionario($id);
 			if (mysqli_num_rows($resultado)>0) {
 				$option="";
 				while ($obj=mysqli_fetch_assoc($resultado)) {
 					$option.= '<option >'.$obj['descripcion_dimension'].'</option>';
 				}
-				return $option;
+				return utf8_encode($option);
 			}
 		}
 	}
