@@ -52,9 +52,11 @@
 							<td>'.$obj['descripcion_dimension'].'</td>
 							<td>'.$obj['descripcion_plan_accion'].'</td>
 							<td>'.$obj['estado_plan_accion'].'</td>
-							<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalPlan("modificar",'.json_encode($obj).')\' /></td>
-								<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalPlan("eliminar",'.json_encode($obj).')\' /></td>
+							<td> <img src="../image/exchange.png" onclick=\'modalPlan("modificar",'.json_encode($obj).')\' /></td>
+								<td>  <img src="../image/x.png" onclick=\'modalPlan("eliminar",'.json_encode($obj).')\' /></td>
 						</tr>';
+						/*<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalPlan("modificar",'.json_encode($obj).')\' /></td>
+								<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalPlan("eliminar",'.json_encode($obj).')\' /></td>*/
 				}
 				return $datos;
 			}else{

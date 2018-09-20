@@ -4,52 +4,56 @@
 		header('Location:?cargar=login');
 	}
 ?>
-<input type="button" class="btn btn-primary" value="Registrar" onclick='modalEmpresa("registrar",null)'>
-<div class="table-responsive">
-	<table class="table table-hover">
-	  <thead class="thead">
-	    <tr>
-	      <th scope="col" class="table-primary">
-	      	<input class="form-control filtro" type="text" name="txtConsultaNit" id="txtConsultaNit" placeholder="Nit" onkeyup='filtrarEmpresa("consultarNit",this.value)' >
-	      </th>
-	      <th scope="col" class="table-primary">
-	      	<input class="form-control filtro" type="text" name="txtConsultaNombre" id="txtConsultaNombre" placeholder="Nombre" onkeyup='filtrarEmpresa("consultarNombre",this.value)'>
-	      </th>
-	      <th scope="col" class="table-primary">
-	      	<input class="form-control filtro" type="text" name="txtConsultaCiudad" id="txtConsultaCiudad" placeholder="Ciudad" onkeyup='filtrarEmpresa("consultarCiudad",this.value)'>
-	      </th>
-	      <th scope="col" class="table-primary">
-	      	<input type="text" class="form-control readOnly" placeholder="Dirección" disabled="true" >
-	      </th>
-	      <th scope="col" class="table-primary">
-	      	<input type="text" class="form-control readOnly" placeholder="Telefono" disabled="true" >
-	      </th>
-	      <th scope="col" class="table-primary">
-	      	<input class="form-control filtro" type="text" name="txtConsultaContacto" id="txtConsultaContacto" placeholder="Contacto" onkeyup='filtrarEmpresa("consultarContacto",this.value)'>
-	      </th>
-	      <th scope="col" class="table-primary">
-	      		<select class="form-control filtro" name="comboConsultaEstado" id="comboConsultaEstado" onchange='filtrarEmpresa("consultarEstado",this.value)'>
-	      			<option>Estado</option>
-	      			<option>Activo</option>
-	      			<option>Inactivo</option>
-	      		</select>
-	      </th>
-			<th scope="col" class="table-primary">
-				<input type="text" class="form-control readOnly" placeholder="Habilitado" disabled="true" >
-			</th>
-	      <th scope="col" class="table-primary"></th>
-	    </tr>
-	  </thead>
-	  <tbody id="cuerpoTablaEmpresa">
-	    <?php
-	    	include_once("../modelo/empresa.php");
-	    	$objEmpresa=new Empresa();
-	    	echo $objEmpresa->mostrar($objEmpresa->listar());
-	    ?>
-	  </tbody>
-	</table>
+<div class="container mt-5 pt-2 pb-4" style="background: #fff;">
+	<h1 class="text-center">Empresas</h1>
+		<div class="dropdown-divider " style="color: #839af8;"></div>
+	<input type="button" class="btn btn-primary float-right m-2 mb-4" value="Registrar" onclick='modalEmpresa("registrar",null)'>
+	<div class="table-responsive">
+		<table class="table table-hover">
+		  <thead class="thead">
+		    <tr>
+		      <th scope="col" class="table-primary">
+		      	<input class="form-control filtro" type="text" name="txtConsultaNit" id="txtConsultaNit" placeholder="Nit" onkeyup='filtrarEmpresa("consultarNit",this.value)' >
+		      </th>
+		      <th scope="col" class="table-primary">
+		      	<input class="form-control filtro" type="text" name="txtConsultaNombre" id="txtConsultaNombre" placeholder="Nombre" onkeyup='filtrarEmpresa("consultarNombre",this.value)'>
+		      </th>
+		      <th scope="col" class="table-primary">
+		      	<input class="form-control filtro" type="text" name="txtConsultaCiudad" id="txtConsultaCiudad" placeholder="Ciudad" onkeyup='filtrarEmpresa("consultarCiudad",this.value)'>
+		      </th>
+		      <th scope="col" class="table-primary">
+		      	<input type="text" class="form-control readOnly" placeholder="Dirección" disabled="true" >
+		      </th>
+		      <th scope="col" class="table-primary">
+		      	<input type="text" class="form-control readOnly" placeholder="Telefono" disabled="true" >
+		      </th>
+		      <th scope="col" class="table-primary">
+		      	<input class="form-control filtro" type="text" name="txtConsultaContacto" id="txtConsultaContacto" placeholder="Contacto" onkeyup='filtrarEmpresa("consultarContacto",this.value)'>
+		      </th>
+		      <th scope="col" class="table-primary">
+		      		<select class="form-control filtro" name="comboConsultaEstado" id="comboConsultaEstado" onchange='filtrarEmpresa("consultarEstado",this.value)'>
+		      			<option>Estado</option>
+		      			<option>Activo</option>
+		      			<option>Inactivo</option>
+		      		</select>
+		      </th>
+				<th scope="col" class="table-primary">
+					<input type="text" class="form-control readOnly" placeholder="Habilitado" disabled="true" >
+				</th>
+		      <th scope="col" class="table-primary"></th>
+		      <th scope="col" class="table-primary"></th>
+		    </tr>
+		  </thead>
+		  <tbody id="cuerpoTablaEmpresa">
+		    <?php
+		    	include_once("../modelo/empresa.php");
+		    	$objEmpresa=new Empresa();
+		    	echo $objEmpresa->mostrar($objEmpresa->listar());
+		    ?>
+		  </tbody>
+		</table>
+	</div>
 </div>
-
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="modalEmpresa" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg">

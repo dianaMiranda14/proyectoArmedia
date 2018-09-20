@@ -6,8 +6,10 @@
 		header('Location:?cargar=login');
 	}
 ?>
-
-<input type="button" class="btn btn-primary" value="Registrar" onclick="modalObservacion('registrar',null)">
+<div class="container mt-5 pt-2 pb-4" style="background: #fff;">
+	<h1 class="text-center">Observaciones</h1>
+	<div class="dropdown-divider " style="color: #839af8;"></div>
+<input type="button" class="btn btn-primary  float-right m-2 mb-4" value="Registrar" onclick="modalObservacion('registrar',null)">
 
 <div class="table-responsive">
 	<table class="table table-hover">
@@ -55,7 +57,7 @@
 		</tbody>
 	</table>
 </div>
-
+</div>
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="modalObservacion" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg">

@@ -6,7 +6,10 @@
 		header('Location:?cargar=login');
 	}
 ?>
-<input type="button" class="btn btn-primary" value="Registrar" onclick="modalUsuario('registrar',null)">
+<div class="container mt-5 pt-2 pb-4" style="background:  #fff;">
+	<h1 class="text-center">Usuarios</h1>
+		<div class="dropdown-divider " style="color: #839af8;"></div>
+<input type="button" class="btn btn-primary float-right  m-2 mb-4" value="Registrar" onclick="modalUsuario('registrar',null)">
 <div class="table-responsive">
 	<table class="table table-hover">
 		<thead class="thead">
@@ -51,7 +54,11 @@
 			      		<option>Inactivo</option>
 			      	</select>
 			    </th>
+			    <th scope="col" class="table-primary">
+			      
+			    </th>
 			</tr>
+
 		</thead>
 		<tbody id="cuerpoTablaUsuario">
 			<?php
@@ -61,6 +68,8 @@
 			?>
 		</tbody>
 	</table>
+</div>
+
 </div>
 
 <!-- Modal -->

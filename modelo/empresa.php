@@ -86,11 +86,25 @@
 	    			}else{
 	    				$habilitado="✓";
 	    			}
+
 	    			$mostrar.='
+	    				<td>'.$habilitado.'</td>
+	    				<td>
+	    				<img src="../image/exchange.png" onclick=\'modalEmpresa("modificar",'.json_encode($obj).')\' > </td>
+	    				<td> <img src="../image/x.png" onclick=\'modalEmpresa("eliminar",'.json_encode($obj).')\'></td>
+	    			</tr>';
+
+
+	    			/*$mostrar.='
 	    				<td>'.$habilitado.'</td>
 	    				<td> <input type="button" class="btn btn-primary" onclick=\'modalEmpresa("modificar",'.json_encode($obj).')\' value="Modificar"></td>
 	    				<td> <input type="button" class="btn btn-primary" onclick=\'modalEmpresa("eliminar",'.json_encode($obj).')\' value="Eliminar"></td>
-	    			</tr>';
+
+	    				<img src="../image/x.png" >
+	    				<img src="../image/exchange.png" >
+
+
+	    			</tr>';*/
 	    			echo $mostrar;
 	    		}
 	    	}else{

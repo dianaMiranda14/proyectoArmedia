@@ -6,15 +6,17 @@
 		header('Location:?cargar=login');
 	}
 ?>
-
-<input type="button" class="btn btn-primary" value="Registrar" onclick="modalAccion('registrar',null)">
+<div class="container mt-5 pt-2 pb-4" style="background: #fff;">
+	<h1 class="text-center">Acciones Recomendadas</h1>
+	<div class="dropdown-divider " style="color: #839af8;"></div>
+<input type="button" class="btn btn-primary float-right m-2 mb-4" value="Registrar" onclick="modalAccion('registrar',null)">
 
 <div class="table-responsive">
 	<table class="table table-hover">
 		<thead class="thead">
 			<tr>
 				<th scope="col" class="table-primary">
-					<select class="form-control filtro" onchange="filtrarAccion('consultarDimension',this.value)">
+					<select class="form-control filtro " onchange="filtrarAccion('consultarDimension',this.value)">
 						<option>Dimensión</option>
 						<?php
 							echo $objDimension->mostrarOption();
@@ -22,7 +24,7 @@
 					</select>
 				</th>
 				<th scope="col" class="table-primary">
-					<input type="text" class="form-control filtro" placeholder="Descripción" onkeyup="filtrarAccion('consultarDescripcion',this.value)">
+					<input type="text" class="form-control filtro " placeholder="Descripción" onkeyup="filtrarAccion('consultarDescripcion',this.value)">
 				</th>
 				<th scope="col" class="table-primary">
 					<select class="form-control filtro" onchange="filtrarAccion('consultarEstado',this.value)">
@@ -41,7 +43,7 @@
 			?>
 		</tbody>
 	</table>
-
+</div>
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="modalAccion" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg">

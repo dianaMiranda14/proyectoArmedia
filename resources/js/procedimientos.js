@@ -14,7 +14,7 @@ function validarLogin(){
 				location.href="?cargar=inicio";
 				return true;
 			}else{
-				document.getElementById("mensajes").className="alert alert-danger";
+				document.getElementById("mensajes").className="alert alert-danger";			
 				document.getElementById("mensajes").style.display="inline";
 				document.getElementById("mensajes").innerHTML=res;
 				document.getElementById("validacion").value="false";

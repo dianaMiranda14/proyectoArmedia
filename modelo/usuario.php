@@ -100,8 +100,10 @@
 							<td>'.$obj['nombre_empresa'].'</td>
 							<td>'.$obj['cargo_usuario'].'</td>
 							<td>'.$obj['estado_usuario'].'</td>
-							<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalUsuario("modificar",'.json_encode($obj).')\' /></td>
+							<td><img src="../image/exchange.png" onclick=\'modalUsuario("modificar",'.json_encode($obj).')\'> </td>
+							
 						</tr>';
+						//<input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalUsuario("modificar",'.json_encode($obj).')\' />
 					}
 			}else{
 				echo 

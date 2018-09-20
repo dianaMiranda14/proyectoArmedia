@@ -64,9 +64,11 @@
 							<td>'.$obj['contenido_observacion'].'</td>
 							<td>'.$obj['descripcion_observacion'].'</td>
 							<td>'.$obj['estado_observacion'].'</td>
-							<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalObservacion("modificar",'.json_encode($obj).')\' /></td>
-							<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalObservacion("eliminar",'.json_encode($obj).')\' /></td>
+							<td> <img src="../image/exchange.png" onclick=\'modalObservacion("modificar",'.json_encode($obj).')\' /></td>
+							<td> <img src="../image/exchange.png" onclick=\'modalObservacion("eliminar",'.json_encode($obj).')\' /></td>
 						</tr>';
+						/*<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalObservacion("modificar",'.json_encode($obj).')\' /></td>
+							<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalObservacion("eliminar",'.json_encode($obj).')\' /></td>*/
 				}
 				return $datos;
 			}else{

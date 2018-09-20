@@ -11,10 +11,15 @@
 	<script type="text/javascript" src="../resources/js/procedimientos.js"></script>
 	<link rel="stylesheet" type="text/css" href="../resources/css/estilos.css">
 </head>
-<body>
-	<div class="container">
+<body style=" background-image: url('../image/psicologia.jpg');
+  background-repeat: no-repeat;background-size: cover;" >
+	<div class="container-fluid" style="
+    padding-left: 0px;
+    padding-right: 0px;
+">
 		<?php
 			include_once("../controlador/enrutadorAdmin.php");
+			error_reporting(E_ALL ^ E_NOTICE);
 			$objEnrutador=new enrutadorAdmin();
 			if ($objEnrutador->validarVista($_GET['cargar'])) {
 				$objEnrutador->cargarVista($_GET['cargar']);

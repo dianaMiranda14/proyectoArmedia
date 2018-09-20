@@ -51,9 +51,11 @@
 								<td>'.$obj['descripcion_dimension'].'</td>
 								<td>'.$obj['descripcion_accion_recomendada'].'</td>
 								<td>'.$obj['estado_accion_recomendada'].'</td>
-								<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalAccion("modificar",'.json_encode($obj).')\' /></td>
-								<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalAccion("eliminar",'.json_encode($obj).')\' /></td>
+								<td> <img src="../image/exchange.png" onclick=\'modalAccion("modificar",'.json_encode($obj).')\' /></td>
+								<td> <img src="../image/x.png" onclick=\'modalAccion("eliminar",'.json_encode($obj).')\' /></td>
 							</tr>';
+							/*<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalAccion("modificar",'.json_encode($obj).')\' /></td>
+								<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalAccion("eliminar",'.json_encode($obj).')\' /></td>*/
 					}
 					return $datos;
 				}else{
