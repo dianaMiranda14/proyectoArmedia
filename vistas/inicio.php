@@ -29,6 +29,7 @@ $objEmpresa=new Empresa();
 					<div class="form-group">
 						<label>Cedula</label>
 						<input type="text" name="txtCedula" id="txtCedula" class="form-control" onblur="validarExistenciaUsuario(this.value)" >
+						<input type="hidden" name="comboEmpresa" id="comboEmpresa">
 					</div>
 				</div>
 
@@ -188,30 +189,20 @@ $objEmpresa=new Empresa();
 
 				<div class="col">
 					<div class="form-group">
-						<label>Empresa</label>
-						<select name="comboEmpresa" id="comboEmpresa" class="form-control" >
-							<option value="">Seleccione</option>
-							<?php
-							echo $objEmpresa->mostrarOption();
-							?>
-						</select>
-					</div>
-				</div>
-
-				<div class="col">
-					<div class="form-group">
 						<label>Departamento de la empresa</label>
 						<input type="text" name="txtDepartamentoLaboral" id="txtDepartamentoLaboral" class="form-control" >
 					</div>
 				</div>
-			</div>
-			<div class="row" style="margin-bottom: 38px;">
+
 				<div class="col">
 					<div class="form-group">
 						<label>Cantidad de años con la empresa</label>
 						<input type="number" name="txtYearsTrabajo" id="txtYearsTrabajo" class="form-control" >
 					</div>
 				</div>
+			</div>
+			<div class="row" style="margin-bottom: 38px;">
+				
 				<div class="col">
 					<div class="form-group">
 						<label>Tipo de cargo</label>
@@ -231,33 +222,35 @@ $objEmpresa=new Empresa();
 						</select>
 					</div>
 				</div>
-			</div>
-		</div>
 
-		<div class="tab-pane fade" id="info4" role="tabpanel" aria-labelledby="info4-tab">
-			<div class="row">
 				<div class="col">
 					<div class="form-group">
 						<label>Cargo</label>
 						<input type="text" name="txtCargo" id="txtCargo" class="form-control" >
 					</div>
 				</div>
+			</div>
+		</div>
 
+		<div class="tab-pane fade" id="info4" role="tabpanel" aria-labelledby="info4-tab">
+			<div class="row">
+				
 				<div class="col">
 					<div class="form-group">
 						<label>Cantidad de años en el cargo</label>
 						<input type="number" name="txtYearsCargo" id="txtYearsCargo" class="form-control" >
 					</div>
 				</div>
-			</div>
 
-			<div class="row">
 				<div class="col">
 					<div class="form-group">
 						<label>Cantidad de horas de trabajo diarias</label>
 						<input type="number" name="txtHorasTrabajo" id="txtHorasTrabajo" class="form-control" >
 					</div>
 				</div>
+			</div>
+
+			<div class="row">
 
 				<div class="col">
 					<div class="form-group">
@@ -273,9 +266,6 @@ $objEmpresa=new Empresa();
 						</select>
 					</div>
 				</div>
-			</div>
-
-			<div class="row">
 
 				<div class="col">
 					<div class="form-group">
@@ -289,6 +279,7 @@ $objEmpresa=new Empresa();
 					</div>
 				</div>
 			</div>
+
 			<input type="button" class="btn btn-primary" value="Siguiente" onclick="modificarUsuario()">
 		</div>
 

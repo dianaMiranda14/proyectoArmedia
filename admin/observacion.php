@@ -18,7 +18,7 @@
 				<th scope="col" class="table-primary">
 					<select class="form-control filtro" onchange="filtrarObservacion('consultarCuestionario',this.value)">
 						<option>Cuestionario</option>
-						<?php echo $objCuestionario->mostrarOption()?>
+						<?php echo $objCuestionario->mostrarOption($objCuestionario->listar())?>
 					</select>
 				</th>
 

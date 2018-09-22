@@ -25,8 +25,9 @@
       <div class="modal-body" id="cuerpoModalPregunta">
         ...
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Save changes</button>
+      <div id="botones">
+      	<input type="button" class="btn " id="btnSi" value="Si">
+      	<input type="button" class="btn " id="btnNo" value="No">
       </div>
     </div>
   </div>

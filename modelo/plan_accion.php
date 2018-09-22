@@ -28,17 +28,17 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function listarDescripcion($descripcion){
-			$consulta="select plan_accion.*,descripcion_dimension from plan_accion, dimension where descripcion_plan_accion like '".$descripcion."' and id_dimension_plan_accion = id_dimension";
+		public function consultarDescripcion($descripcion){
+			$consulta="select plan_accion.*,descripcion_dimension from plan_accion, dimension where descripcion_plan_accion like '".$descripcion."%' and id_dimension_plan_accion = id_dimension";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function listarDimension($idDimension){
+		public function consultarDimension($idDimension){
 			$consulta="select plan_accion.*,descripcion_dimension from plan_accion, dimension where id_dimension_plan_accion = ".$idDimension." and id_dimension_plan_accion = id_dimension";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function listarEstado($estado){
+		public function consultarEstado($estado){
 			$consulta="select plan_accion.*,descripcion_dimension from plan_accion, dimension where estado_plan_accion like '".$estado."'  and id_dimension_plan_accion = id_dimension";
 			return $this->objConexion->consultaRetorno($consulta);
 		}
@@ -47,6 +47,7 @@
 			if (mysqli_num_rows($resultado)>0) {
 				$datos="";
 				while ($obj=mysqli_fetch_assoc($resultado)) {
+					$obj['descripcion_dimension']=utf8_encode($obj['descripcion_dimension']);
 					$datos.=
 						'<tr>
 							<td>'.$obj['descripcion_dimension'].'</td>
@@ -58,7 +59,7 @@
 						/*<td> <input type="button" class="btn btn-primary" value="Modificar" onclick=\'modalPlan("modificar",'.json_encode($obj).')\' /></td>
 								<td> <input type="button" class="btn btn-primary" value="Eliminar" onclick=\'modalPlan("eliminar",'.json_encode($obj).')\' /></td>*/
 				}
-				return utf8_encode($datos);
+				return $datos;
 			}else{
 				return 
 					'<tr>

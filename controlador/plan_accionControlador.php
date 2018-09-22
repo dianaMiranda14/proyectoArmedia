@@ -61,24 +61,24 @@
 
 	function consultarDescripcion(){
 		$objPlanAccion= new PlanAccion();
-		print_r($objPlanAccion->mostrar($objPlanAccion->consultarDescripcion($_POST['txtConsultaDescripcion'])));
+		print_r($objPlanAccion->mostrar($objPlanAccion->consultarDescripcion($_POST['valor'])));
 	}
 
-	function listarDimension(){
+	function consultarDimension(){
 		$objPlanAccion= new PlanAccion();
 		if ($_POST['valor']=="Dimensión") {
 			print_r($objPlanAccion->mostrar($objPlanAccion->listar()));
 		}else{
-			print_r($objPlanAccion->mostrar($objPlanAccion->consultarDimension($_POST['comboConsultaDimension'])));
+			print_r($objPlanAccion->mostrar($objPlanAccion->consultarDimension($_POST['valor'])));
 		}
 	}
 
-	function listarEstado(){
+	function consultarEstado(){
 		$objPlanAccion= new PlanAccion();
 		if ($_POST['valor']=="Estado") {
 			print_r($objPlanAccion->mostrar($objPlanAccion->listar()));
 		}else{
-			print_r($objPlanAccion->mostrar($objPlanAccion->consultarEstado($_POST['comboConsultaEstado'])));
+			print_r($objPlanAccion->mostrar($objPlanAccion->consultarEstado($_POST['valor'])));
 		}
 	}
 

@@ -19,11 +19,11 @@
 	$html='<!DOCTYPE html>
 				<html>
 				<head>
-					<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+					
 				</head>
 				<body>
 				
-				<table class="table">';
+				';
 	$nombrePDF="";
 	switch ($_POST['comboTipoInforme']) {
 		case '0':
@@ -132,11 +132,10 @@
 
 	}
 	$html."
-	</table>
 	</body>
 	</html>";
-	echo $html;
-	//descargarPDF($html, $nombrePDF);
+	//echo $html;
+	descargarPDF($html, $nombrePDF);
 
 	function consultarCuestionarios($id){
 		$objCuestionario=new Cuestionario();
@@ -387,7 +386,7 @@
 	}
 
 	function datosUsuario($objU){
-		$html='
+		$html='<table class="table">
 			<tr>
 				<th colspan="2">Datos Generales del trabajdor</th>
 			</tr>
@@ -471,7 +470,7 @@
 			$html.=datosObservaciones($objObservacion->consultarCuestionarioContenido($_SESSION['arrayObservaciones']['idCuestionario'], $_SESSION['arrayObservaciones'][$i]));
 		}
 		unset($_SESSION['arrayObservaciones']);
-		return $html;
+		return $html.='</table><div style="page-break-after: always;"></div><div>&nbsp;</div>';
 	}
 
 	function descargarPDF($html,$nombrePDF){

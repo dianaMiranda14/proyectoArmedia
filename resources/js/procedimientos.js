@@ -574,7 +574,7 @@ function validarExistenciaUsuario(valor){
 		type:"post",
 		url:"controlador/usuarioControlador.php",
 		success:function(res){
-			console.log(res);
+			//console.log(res);
 			var datos = JSON.parse(res);
 			document.getElementById("txtCedula").readOnly=true;
 			document.getElementById("txtNombre").value=datos.nombre_usuario;
@@ -615,7 +615,8 @@ function validarExistenciaUsuario(valor){
 //funcion para validar que elija una opcion de una pregunta
 function validarRadio(fin){
 	//recorre todas las preguntas
-	for(var i=(fin-10); i< fin; i++){
+	console.log(document.getElementById("txtInicio").value);
+	for(var i=document.getElementById("txtInicio").value; i< fin; i++){
 		var radio=document.getElementsByName("radio"+i);
 		var validacion=false;
 		//recorre las opciones de cada pregunta
@@ -634,7 +635,7 @@ function validarRadio(fin){
 
 //pinta la fila de la pregunta que no se ha seleccionado
 function colorTr(id, fin){
-	for (var i = (fin-10); i < fin; i++) {
+	for (var i = document.getElementById("txtInicio").value; i < fin; i++) {
 		if (i==id) {
 			document.getElementById("tr"+i).style.background="red";
 		}else{
@@ -675,13 +676,50 @@ function paginacion(pag){
 		//muestra un dialog con la informacion
 		document.getElementById("tituloModalPreguntas").innerHTML="Error";
 		document.getElementById("cuerpoModalPregunta").innerHTML="Falta la pregunta número "+(resultado+1)+" por responder";
+		document.getElementById("botones").style.display="none";
 		$('#modalMensjesPreguntas').modal('show');
 		setTimeout("$('#modalMensjesPreguntas').modal('hide')",2000);
 		colorTr(resultado,pag);
 	}
 }
 
+function mostrar(valor,pag,descripcion){
+	$('#modalMensjesPreguntas').modal('hide');	
+		$.ajax({
+			data:"idDimension="+valor+"&accion=mostrar&pag="+pag+"&descripcion="+descripcion,
+			type:"post",
+			url:"controlador/preguntaControlador.php",
+			success:function(res){
+				//console.log(res);
+				document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+				validarMostrarBotones();
+			}
+		});
+}
+
 function validarMostrarBotones(){
+	if (document.getElementById("txtSiguiente").value=="modal") {
+		var datos = document.getElementById("txtModal").value.split("&");
+		document.getElementById("cuerpoModalPregunta").innerHTML=datos[0];
+		document.getElementById("botones").style.display="grid";
+		document.getElementById("btnSi").setAttribute('onclick',
+			"mostrar("+datos[1]+","+datos[2]+",'si')");
+		//var suma=parseInt(datos[2])+9;
+		document.getElementById("btnNo").setAttribute('onclick',
+			"mostrar("+datos[1]+","+datos[2]+",'no')");
+		$('#modalMensjesPreguntas').modal('show');
+		document.getElementById("pagAnterior").style.display="none";
+		document.getElementById("pagSiguiente").setAttribute('onclick',"paginacion("+
+			datos[2]+")");
+	}else if (document.getElementById("txtSiguiente").value!=="0") {
+		document.getElementById("pagSiguiente").style.display="block";
+		document.getElementById("pagSiguiente").setAttribute('onclick',"paginacion("+
+			document.getElementById("txtSiguiente").value+")");
+		document.getElementById("btnRegistrar").style.display="none";
+	}else{
+		document.getElementById("pagSiguiente").style.display="none";
+		document.getElementById("btnRegistrar").style.display="block";
+	}
 	if (document.getElementById("txtAnterior").value!=="false") {
 		document.getElementById("pagAnterior").style.display="block";
 		document.getElementById("pagAnterior").setAttribute("onclick","paginacionAnterior("+
@@ -689,17 +727,8 @@ function validarMostrarBotones(){
 	}else{
 		document.getElementById("pagAnterior").style.display="none";
 	}
-	if (document.getElementById("txtSiguiente").value!=="0") {
-		document.getElementById("pagSiguiente").style.display="block";
-		document.getElementById("pagSiguiente").setAttribute('onclick',"paginacion("+
-			document.getElementById("txtSiguiente").value+")");
-
-		document.getElementById("btnRegistrar").style.display="none";
-	}else{
-		document.getElementById("pagSiguiente").style.display="none";
-		document.getElementById("btnRegistrar").style.display="block";
-	}
 }
+
 
 //aqui era donde mandaba todas las respuestas cuando no tenia la paginacion, este se llama en el boton de registrar 
 function preguntas(){
@@ -732,7 +761,6 @@ function preguntas(){
 		type:"post",
 		url:"../controlador/EmpresaControlador.php",
 		success:function(res){
-			console.log(res);
 			$('#comboYear').append(res);		
 		}
 	});

@@ -105,7 +105,7 @@
 	    	}
 		}
 
-		public function mostrarOption(){
+		public function mostrarOption(){		
 			$resultado=$this->consultarEstado("Activo");
 			while ($obj=mysqli_fetch_assoc($resultado)) {
 			    echo '<option value="'.$obj['nit_empresa'].'">'.$obj['nombre_empresa'].'</option>';
