@@ -69,7 +69,7 @@
 		case '4':
 			$resultadoEncuestados=$objPresentacion->consultarUsuarios($_POST['comboEmpresa'], $_POST['comboYear']);
 			if (mysqli_num_rows($resultadoEncuestados)>0) {
-				$html.="<tr>
+				$html.="<table class='table'> <tr>
 					<th>Número de indentificación</th>
 					<th>Nombre</th>
 					<th>Cargo</th>
@@ -99,6 +99,7 @@
 						
 					}
 				}
+				$html.="</table>";
 			}
 			$nombrePDF="InformeParticipacion-Empresa:".$nombreEmpresa.'-'.$_POST['comboYear'];
 			break;
@@ -106,7 +107,7 @@
 		case '5':
 			$resultadoRiesgo=$objPresentacion->usuariosRiesgoEstres($_POST['comboEmpresa'], $_POST['comboYear']);
 			if (mysqli_num_rows($resultadoRiesgo)>0) {
-				$html.="<tr>
+				$html.="<table class='table'> <tr>
 					<th>Número de indentificación</th>
 					<th>Nombre</th>
 					<th>Cargo</th>
@@ -122,6 +123,7 @@
 						<td>'.$objR['descripcion_presentacion'].'</td>
 					</tr>';
 				}
+				$html.="</table>";
 			}
 			$nombrePDF="InformeEmpleadosRiesgo-Empresa:".$nombreEmpresa.'-'.$_POST['comboYear'];
 			break;
@@ -136,6 +138,7 @@
 	</html>";
 	//echo $html;
 	descargarPDF($html, $nombrePDF);
+	header('Location:?cargar=informe');
 
 	function consultarCuestionarios($id){
 		$objCuestionario=new Cuestionario();

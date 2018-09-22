@@ -76,6 +76,7 @@
 		case 'mostrarOptionYear':
 			echo $objEmpresa->mostrarOptionYear($_POST['idEmpresa']);
 			break;
+
 		default:
 			# code...
 			break;

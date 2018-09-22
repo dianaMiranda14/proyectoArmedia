@@ -67,5 +67,15 @@
 					</tr>';
 			}
 		}
+
+		public function mostrarOption($idDimension){
+			$resultado=$this->consultarDimension($idDimension);
+			if (mysqli_num_rows($resultado)>0) {
+				echo "<option value=''>Seleccione</option>";
+				while ($obj=mysqli_fetch_assoc($resultado)) {
+					echo "<option value=".$obj["id_plan_accion"].">".$obj["descripcion_plan_accion"]."</option>";
+				}
+			}
+		}
 	}
 ?>

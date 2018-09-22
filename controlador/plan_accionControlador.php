@@ -82,5 +82,9 @@
 		}
 	}
 
+	function mostrarOption(){
+		$objPlanAccion= new PlanAccion();
+		echo $objPlanAccion->mostrarOption($_POST["idDimension"]);
+	}
 
 ?>

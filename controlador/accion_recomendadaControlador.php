@@ -82,4 +82,9 @@
 			echo $objAccionRecomendada->mostrar($objAccionRecomendada->consultarDimension($_POST['valor']));
 		}
 	}
+
+	function mostrarOption(){
+		$objAccionRecomendada=new AccionRecomendada();
+		echo $objAccionRecomendada->mostrarOption($_POST["idDimension"]);
+	}
 ?>

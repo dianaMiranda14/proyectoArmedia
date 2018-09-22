@@ -799,9 +799,10 @@ function descargarInforme(){
 	}else if (document.getElementById("comboTipoInforme").value=="0" && 
 		document.getElementById("txtCedula").value=="") {
 		mensaje="La cédula del empleado es obligatoria";
-	}else{
+	}else if(document.getElementById("comboTipoInforme").value=="0"){
 		//return true;
 		$.ajax({
+			async: false,
 			data:$("#formularioInforme").serialize()+"&accion=validarCedula",
 			type:"post",
 			url:"../controlador/usuarioControlador.php",
@@ -811,13 +812,12 @@ function descargarInforme(){
 					document.getElementById("mensajesInforme").style.display="none";
 					return true;
 				}else{
-					document.getElementById("mensajesInforme").className="alert alert-danger";
-					document.getElementById("mensajesInforme").innerHTML=res;
-					document.getElementById("mensajesInforme").style.display="block";
-					return false;	
+					mensaje=res;
 				}
 			}
 		});
+	}else{
+		return true;
 	}
 	if (mensaje!=="") {
 		document.getElementById("mensajesInforme").className="alert alert-danger";
@@ -825,6 +825,58 @@ function descargarInforme(){
 		document.getElementById("mensajesInforme").style.display="block";
 		return false;	
 	}
+}
+
+function validarPlanAccion(){
+	var mensaje="";
+	if (document.getElementById("comboEmpresa").value=="") {
+		mensaje="La empresa es obligatoria";
+	}else if (document.getElementById("comboYear").value=="") {
+		mensaje="El año es obligatorio";
+	}else{
+		$.ajax({
+			data:$("#formularioPlanAccion").serialize(),
+			type:"post",
+			url:"../controlador/dimensionControlador.php",
+			success:function(res){
+				document.getElementById("tablaPlanAccion").innerHTML=res;
+			}
+		});
+	}
+	if (mensaje!=="") {
+		document.getElementById("mensajesPlanAccion").className="alert alert-danger";
+		document.getElementById("mensajesPlanAccion").innerHTML=mensaje;
+		document.getElementById("mensajesPlanAccion").style.display="block";
+	}
+}
+
+function modalPlanAccion(objD,objP){
+	console.log(objP);
+	document.getElementById("descipcionDimesion").innerHTML=objD['descripcion_dimension'];
+	document.getElementById("definicionDimension").innerHTML=objD['definicion_dimension'];
+	document.getElementById("nivelRiesgoDimension").innerHTML=objP;
+	document.getElementById("indicadorDimension").innerHTML=objD['indicador_dimension'];
+	$("#comboPlan > option").remove();
+	$.ajax({
+		data:"accion=mostrarOption&idDimension="+objD["id_dimension"],
+		type:"post",
+		url:"../controlador/plan_accionControlador.php",
+		success:function(res){
+			console.log(res);
+			$('#comboPlan').append(res);		
+		}
+	});
+	$("#comboAccion > option").remove();
+	$.ajax({
+		data:"accion=mostrarOption&idDimension="+objD["id_dimension"],
+		type:"post",
+		url:"../controlador/accion_recomendadaControlador.php",
+		success:function(res){
+			console.log(res);
+			$('#comboAccion').append(res);		
+		}
+	});
+	$('#modalPlanAccion').modal('show');
 }
 
 /*function generarDiagramas(){

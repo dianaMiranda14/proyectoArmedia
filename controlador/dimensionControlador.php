@@ -8,11 +8,15 @@
 			break;
 
 		case 'mostrarOption':
-			echo $resultado=$objDimension->mostrarOption();
+			echo $objDimension->mostrarOption();
 			break;
 
 		case 'mostrarContenido':
-			echo $resultado=$objDimension->mostrarContenido($_POST['idCuestionario']);
+			echo $objDimension->mostrarContenido($_POST['idCuestionario']);
+			break;
+
+		case 'planAccion':
+			echo $objDimension->porcentaje($_POST['comboEmpresa'],$_POST["comboYear"]);
 			break;
 		
 		default:
