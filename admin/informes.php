@@ -14,8 +14,7 @@
 	<form id="formularioInforme" method="post" action="../controlador/informeControlador.php" onsubmit="return descargarInforme();">
 		<div class="form-group">
 			<label>Tipo de informe</label>
-			<select class="form-control" id="comboTipoInforme" name="comboTipoInforme" onchange="validarTipoInforme(this.value)"
-				required="true">
+			<select class="form-control" id="comboTipoInforme" name="comboTipoInforme" onchange="validarTipoInforme(this.value)">
 				<option value="">Seleccione</option>
 				<option value="0">Informe individual</option>
 				<option value="1">Informe cuestionario intralaboral</option>
@@ -29,7 +28,7 @@
 
 		<div class="form-group">
 			<label>Empresa</label>
-			<select class="form-control" name="comboEmpresa" id="comboEmpresa" onchange="mostrarDatos(this.value)" required="true">
+			<select class="form-control" name="comboEmpresa" id="comboEmpresa" onchange="mostrarDatos(this.value)" >
 				<option value="">Seleccione</option>
 				<?php
 					$objEmpresa->mostrarOption();
@@ -39,7 +38,7 @@
 
 		<div class="form-group">
 			<label>Año</label>
-			<select class="form-control" name="comboYear" id="comboYear" required="true">
+			<select class="form-control" name="comboYear" id="comboYear" >
 			</select>
 		</div>
 

@@ -104,7 +104,7 @@
 	function validarDatos($validacion){
 		$objUsuario=new Usuario();
 		$objEmpresa=new Empresa();
-		print_r($_POST);
+		//print_r($_POST);
 		if ($_POST['txtCedula']=="") {
 			return "La cedula es obligatoria";
 		}else{

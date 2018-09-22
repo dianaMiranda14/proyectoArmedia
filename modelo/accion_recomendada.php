@@ -45,6 +45,8 @@
 		public function mostrar($resultado){
 			if (mysqli_num_rows($resultado)>0) {
 					while ($obj=mysqli_fetch_assoc($resultado)) {
+						//convierte el texto en utf8 porque sale error cuando envia el json por parametros
+						$obj['descripcion_dimension']=utf8_encode($obj['descripcion_dimension']);
 						echo 
 							'<tr>
 								<td>'.$obj['descripcion_dimension'].'</td>
@@ -63,6 +65,16 @@
 							<td colspan="3">No se encontraron registros</td>
 						</tr>';
 				}
+		}
+
+		public function mostrarOption($idDimension){
+			$resultado=$this->consultarDimension($idDimension);
+			if (mysqli_num_rows($resultado)>0) {
+				echo "<option value=''>Seleccione</option>";
+				while ($obj=mysqli_fetch_assoc($resultado)) {
+					echo "<option value=".$obj["id_accion_recomendada"].">".$obj["descripcion_accion_recomendada"]."</option>";
+				}
+			}
 		}
 	}
 

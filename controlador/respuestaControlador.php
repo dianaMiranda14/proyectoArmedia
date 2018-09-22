@@ -13,7 +13,7 @@
 	$objPresentacion=new presentacion();
 	$objCuestionario=new Cuestionario();
 
-	print_r($_POST);
+	//print_r($_POST);
 	
 	session_start();
 
@@ -21,8 +21,10 @@
 		//aqui registrar para intralaboral forma A y B y para el extralaboral de jefes y auxiliares
 		case 'registrar':
 			for ($i=$_POST['txtCantidad']; $i < $_SESSION['infoPreguntas']['cantidad']; $i++) { 
-				$_SESSION['infoPreguntas']['radio'][$i] = $_POST['radio'.$i];
-				$_SESSION['infoPreguntas']['pregunta'][$i] = $_POST['txtPregunta'.$i];
+				if (isset($_POST['radio'.$i])) {
+					$_SESSION['infoPreguntas']['radio'][$i] = $_POST['radio'.$i];
+					$_SESSION['infoPreguntas']['pregunta'][$i] = $_POST['txtPregunta'.$i];
+				}	
 			}
 			//print_r($_SESSION['infoPreguntas']);
 			//registra la presentacion del cuestionario

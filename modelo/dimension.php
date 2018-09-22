@@ -1,10 +1,13 @@
 <?php
 	include_once("conexion.php");
+	include_once("resultadoDimension.php");
 	class Dimension{
 		private $objConexion;
+		private $objResultadoDimension;
 
 		public function __construct(){
 			$this->objConexion=new Conexion();
+			$this->objResultadoDimension=new ResultadoDimension();
 		}
 
 		public function listar(){
@@ -58,6 +61,29 @@
 					$option.= '<option >'.$obj['descripcion_dimension'].'</option>';
 				}
 				return utf8_encode($option);
+			}
+		}
+
+		public function porcentaje($idEmpresa, $year){
+			$resultado=$this->listar();
+			if (mysqli_num_rows($resultado)>0) {
+				echo "<table class='table'>";
+				while ($objD=mysqli_fetch_assoc($resultado)) {
+					//$objD['descripcion_dimension']=utf8_encode($objD['descripcion_dimension']);
+					$result=$this->objResultadoDimension->consultarPorcentajeDimension($idEmpresa, $year, 
+						$objD['descripcion_dimension']);
+					if (mysqli_num_rows($result)>0) {
+						while ($objR=mysqli_fetch_assoc($result)) {
+							if ($objR["porcentaje"]>=10) {
+								echo "<tr> <td>".utf8_encode($objD["descripcion_dimension"])."</td>";
+								echo "<td>".$objR["porcentaje"]."</td>
+								<td><input type='button' class='btn' value='+' onclick='modalPlanAccion(".json_encode($objD).",".json_encode($objR["porcentaje"]).")'></td>
+								</tr>";
+							}
+						}
+					}
+				}
+				echo "</table>";
 			}
 		}
 	}

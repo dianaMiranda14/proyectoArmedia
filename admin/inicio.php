@@ -65,18 +65,7 @@
 		    	</div>
 			</div>
 		</div>
-		<div class="col-md-3 ">	
-			<div class="row">
-				<div class="mx-auto"> 
-		    		
-		    		<a class="text-center" href="?cargar=configuracionLocal" class="btn">
-		    			<img class="mx-auto d-block" src="../image/settings.png">
-		    			Configuración local
-		    		</a>
-		    	</div>
-		  	
-			</div>
-		</div>
+		
 		<div class="col-md-3 ">	
 			<div class="row">
 				<div class="mx-auto"> 
@@ -97,9 +86,37 @@
 		    	</div>		  	
 			</div>
 		</div>
+
+		<div class="col-md-3 ">	
+			<div class="row">
+				<div class="mx-auto"> 
+		    		
+		    		<a class="text-center" href="?cargar=planAccion" class="btn">
+		    			<img class="mx-auto d-block" src="../image/settings.png">
+		    			Plan de Acción por empresa
+		    		</a>
+		    	</div>
+		  	
+			</div>
+		</div>
 	</div>
+
 	<div class="dropdown-divider mt-4 mb-4" style="color: #839af8;"></div>
+
 	<div class="row">
+		<div class="col-md-3 ">	
+			<div class="row">
+				<div class="mx-auto"> 
+		    		
+		    		<a class="text-center" href="?cargar=configuracionLocal" class="btn">
+		    			<img class="mx-auto d-block" src="../image/settings.png">
+		    			Configuración local
+		    		</a>
+		    	</div>
+		  	
+			</div>
+		</div>
+
 		<div class="col-md-3">	
 			<div class="row">
 				<div class="mx-auto"> 
