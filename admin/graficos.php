@@ -47,8 +47,16 @@
 			<select name="cmbnombreGrafico" class="form-control" id="cmbnombreGrafico" onchange="mostarGrafico()">
 				<option>Seleccione Un Grafico</option>
 				<option value="1">Distrubucion por Genero</option>
-				<option value="2">Distrubucion por Grupo Etario</option>
+				<option value="2">Distrubucion por Grupo Etario | falta</option>
 				<option value="3">Distrubucion por Estado Civil</option>
+				<option value="4">Distrubucion por Grado de Escolaridad</option>
+				<option value="5">Distrubucion por Estrato</option>
+				<option value="6">Distribución Por Tenencia de la Vivienda</option>
+				<option value="7">Distribución Por Personas a Cargo | falta</option>			
+				<option value="8">Distribución Por Tiempo en la Empresa | falta</option>	
+				<option value="9">Distribución Por Tipo de Cargo</option>	
+				<option value="10">Distribución Por Teimpo en el Cargo | falta</option>	
+
 			</select>
 		</div>
 	</div>

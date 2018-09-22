@@ -159,6 +159,41 @@
 
 		}
 
+		public function consultarDistribucionPorGradoEscolaridad($id_empresa){
+			$consulta = "SELECT usuario.nivel_estudio_usuario,COUNT(usuario.nivel_estudio_usuario) * 100 / (SELECT COUNT(usuario.cedula_usuario) from usuario  where usuario.id_empresa_usuario = ".$id_empresa." )as porcentaje From usuario where usuario.id_empresa_usuario = ".$id_empresa." GROUP BY usuario.nivel_estudio_usuario";
+			//echo $consulta;
+
+			return $this->objConexion->consultaRetorno($consulta);
+
+		}
+
+		public function consultarDistribucionPorEstrato($id_empresa){
+			$consulta = "SELECT usuario.estrato_usuario,COUNT(usuario.estrato_usuario) * 100 / (SELECT COUNT(usuario.cedula_usuario) from usuario  where usuario.id_empresa_usuario = ".$id_empresa." )as porcentaje From usuario where usuario.id_empresa_usuario = ".$id_empresa." GROUP BY usuario.estrato_usuario";
+			//echo $consulta;
+
+			return $this->objConexion->consultaRetorno($consulta);
+
+		}
+		
+		public function consultarDistribucionVivienda($id_empresa){
+			$consulta = "SELECT usuario.tipo_vivienda_usuario,COUNT(usuario.tipo_vivienda_usuario) * 100 / (SELECT COUNT(usuario.cedula_usuario) from usuario  where usuario.id_empresa_usuario = ".$id_empresa." )as porcentaje From usuario where usuario.id_empresa_usuario = ".$id_empresa." GROUP BY usuario.tipo_vivienda_usuario
+";
+			//echo $consulta;
+
+			return $this->objConexion->consultaRetorno($consulta);
+
+		}
+
+		public function consultarDistribucionPorCargo($id_empresa){
+			$consulta = "SELECT usuario.tipo_cargo_usuario,COUNT(usuario.tipo_cargo_usuario) * 100 / (SELECT COUNT(usuario.cedula_usuario) from usuario  where usuario.id_empresa_usuario = ".$id_empresa." )as porcentaje From usuario where usuario.id_empresa_usuario = ".$id_empresa." GROUP BY usuario.tipo_cargo_usuario
+";
+			//echo $consulta;
+
+			return $this->objConexion->consultaRetorno($consulta);
+
+		}
+		
+
 	}
 
 ?>
