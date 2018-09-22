@@ -1,3 +1,5 @@
+var myObj;
+
 function validarLogin(){
 	var validacion;
 	$.ajax({
@@ -797,6 +799,41 @@ function descargarInforme(){
 		document.getElementById("mensajesInforme").style.display="block";
 		return false;	
 	}
+}
+
+
+
+function mostarGrafico() {
+	var myObj = new Array();
+	var tittle = document.getElementById('cmbnombreGrafico').value;
+	 var options ={
+          chart: {
+              renderTo: 'container',
+              type: 'pie',
+
+        },
+          title: {
+            text: tittle
+        },
+          yAxis: {
+            title: {
+                text: 'Fruits Amount'
+            }
+        },
+           series: [{
+           }]
+        };
+
+		$.ajax({
+			data: $("#frmGraficos").serialize(),
+			type:"post",
+			url:"../controlador/graficosControlador.php",
+			success:function(res){
+				myObj = JSON.parse(res);
+				options.series[0].data = myObj;
+				var chart = new Highcharts.Chart(options);
+			}
+		});
 }
 
 /*function generarDiagramas(){

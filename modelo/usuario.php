@@ -142,6 +142,23 @@
 			}
 		}
 
+
+		public function consultarDistribucionPorGenero($id_empresa){
+			$consulta = "SELECT usuario.sexo_usuario,COUNT(usuario.sexo_usuario) * 100 / (SELECT COUNT(usuario.cedula_usuario) from usuario  where usuario.id_empresa_usuario = ".$id_empresa." )as porcentaje From usuario where usuario.id_empresa_usuario = ".$id_empresa." GROUP BY usuario.sexo_usuario";
+			//echo $consulta;
+
+			return $this->objConexion->consultaRetorno($consulta);
+
+		}
+
+		public function consultarDistribucionPorEstadoCivil($id_empresa){
+			$consulta = "SELECT usuario.estado_civil_usuario,COUNT(usuario.estado_civil_usuario) * 100 / (SELECT COUNT(usuario.cedula_usuario) from usuario  where usuario.id_empresa_usuario = ".$id_empresa." )as porcentaje From usuario where usuario.id_empresa_usuario = ".$id_empresa." GROUP BY usuario.estado_civil_usuario";
+			//echo $consulta;
+
+			return $this->objConexion->consultaRetorno($consulta);
+
+		}
+
 	}
 
 ?>
