@@ -801,8 +801,6 @@ function descargarInforme(){
 	}
 }
 
-
-
 function mostarGrafico() {
 	var myObj = new Array();
 	var tittle = document.getElementById('cmbnombreGrafico').value;
@@ -835,6 +833,8 @@ function mostarGrafico() {
 			}
 		});
 }
+
+
 
 /*function generarDiagramas(){
   // Our ajax data renderer which here retrieves a text file.
