@@ -42,6 +42,12 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
+		public function consultarDimensionEstado($idDimension){
+			$consulta="select accion_recomendada.*, descripcion_dimension from accion_recomendada, dimension where id_dimension_accion_recomendada = ".$idDimension." and id_dimension_accion_recomendada = id_dimension 
+				and estado_accion_recomendada like 'Activo'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}		
+
 		public function mostrar($resultado){
 			if (mysqli_num_rows($resultado)>0) {
 					while ($obj=mysqli_fetch_assoc($resultado)) {
@@ -68,11 +74,10 @@
 		}
 
 		public function mostrarOption($idDimension){
-			$resultado=$this->consultarDimension($idDimension);
+			$resultado=$this->consultarDimensionEstado($idDimension);
 			if (mysqli_num_rows($resultado)>0) {
-				echo "<option value=''>Seleccione</option>";
 				while ($obj=mysqli_fetch_assoc($resultado)) {
-					echo "<option value=".$obj["id_accion_recomendada"].">".$obj["descripcion_accion_recomendada"]."</option>";
+					echo ' <a onclick="marcarSeleccionAccion('.$obj["id_accion_recomendada"].')" id="opcionAccion-'.$obj["id_accion_recomendada"].'" class="list-group-item ">'.$obj["descripcion_accion_recomendada"].'</a>';
 				}
 			}
 		}

@@ -774,21 +774,17 @@ function descargarInforme(){
 		document.getElementById("txtCedula").value=="") {
 		mensaje="La cédula del empleado es obligatoria";
 	}else{
-		//return true;
 		$.ajax({
+			async: false,
 			data:$("#formularioInforme").serialize()+"&accion=validarCedula",
 			type:"post",
 			url:"../controlador/usuarioControlador.php",
 			success:function(res){
-				console.log(res);
 				if (res=="true") {
 					document.getElementById("mensajesInforme").style.display="none";
 					return true;
 				}else{
-					document.getElementById("mensajesInforme").className="alert alert-danger";
-					document.getElementById("mensajesInforme").innerHTML=res;
-					document.getElementById("mensajesInforme").style.display="block";
-					return false;	
+					mensaje=res;
 				}
 			}
 		});
@@ -798,6 +794,164 @@ function descargarInforme(){
 		document.getElementById("mensajesInforme").innerHTML=mensaje;
 		document.getElementById("mensajesInforme").style.display="block";
 		return false;	
+	}
+}
+
+function validarPlanAccion(){
+	var mensaje="";
+	if (document.getElementById("comboEmpresa").value=="") {
+		mensaje="La empresa es obligatoria";
+	}else if (document.getElementById("comboYear").value=="") {
+		mensaje="El año es obligatorio";
+	}else{
+		actualizatTablaPlanEmpresa();
+	}
+	if (mensaje!="") {
+		document.getElementById("mensajesPlanAccion").className="alert alert-danger";
+		document.getElementById("mensajesPlanAccion").innerHTML=mensaje;
+		document.getElementById("mensajesPlanAccion").style.display="block";
+	}
+}
+
+function modalPlanAccion(objD){
+	console.log(objD);
+	document.getElementById("mensajesModalPlanAccion").style.display="none";
+	document.getElementById("formularioModalPlanAccion").reset();
+	document.getElementById("descipcionDimesion").innerHTML=objD["descripcion_dimension"];
+	document.getElementById("definicionDimension").innerHTML=objD["definicion_dimension"];
+	document.getElementById("indicadorDimension").innerHTML=objD["indicador_dimension"];
+	document.getElementById("idDimension").value=objD["id_dimension"];
+	document.getElementById("accionModal").value=objD["accion"];
+
+	$.ajax({
+		async:false,
+		data:"accion=mostrarOption&idDimension="+objD["id_dimension"],
+		type:"post",
+		url:"../controlador/plan_accionControlador.php",
+		success:function(res){
+			console.log(res);
+			document.getElementById("listaPlan").innerHTML=res;		
+		}
+	});
+	$.ajax({
+		async:false,
+		data:"accion=mostrarOption&idDimension="+objD["id_dimension"],
+		type:"post",
+		url:"../controlador/accion_recomendadaControlador.php",
+		success:function(res){
+			console.log(res);
+			document.getElementById("listaAccion").innerHTML=res;		
+		}
+	});
+
+	if (objD["accion"]=="modificar") {
+		document.getElementById("nivelRiesgoDimension").innerHTML=objD["plan"]["valor_dimension_plan_accion_empresa"];
+		document.getElementById("valorDimension").value=objD["plan"]["valor_dimension_plan_accion_empresa"];
+		document.getElementById("idEmpresa").value=objD["plan"]["id_empresa_plan_accion_empresa"];
+		document.getElementById("year").value=objD["plan"]["year_plan_accion_empresa"];
+
+		for(var i=0;i< objD["plan"]["idAcciones"].length; i++){
+			document.getElementById("opcionAccion-"+objD["plan"]["idAcciones"][i]).className=
+				"list-group-item list-group-item-action active";
+			document.getElementById("idAccion").value+=objD["plan"]["idAcciones"][i]+",";
+		}
+		for(var i=0;i< objD["plan"]["idPlanes"].length; i++){
+			document.getElementById("opcionPlan-"+objD["plan"]["idPlanes"][i]).className=
+				"list-group-item list-group-item-action active";
+			document.getElementById("idPlan").value+=objD["plan"]["idPlanes"][i]+",";
+		}
+		document.getElementById("comboArea").value=objD["plan"]["area_plan_accion_empresa"];
+		document.getElementById("comboResponsable").value=objD["plan"]["responsable_plan_accion_empresa"];
+		document.getElementById("id").value=objD["plan"]["id_plan_accion_empresa"];
+	}else{
+		document.getElementById("nivelRiesgoDimension").innerHTML=objD["porcentaje"];
+		document.getElementById("idEmpresa").value=objD["idEmpresa"];
+		document.getElementById("year").value=objD["year"];
+		document.getElementById("valorDimension").value=objD["porcentaje"];
+	}
+	$("#modalPlanAccion").modal("show");
+}
+
+function marcarSeleccionPlan(id){
+	var clases=document.getElementById("opcionPlan-"+id).className;
+	if (clases=="list-group-item list-group-item-action active") {
+		document.getElementById("opcionPlan-"+id).className="list-group-item";
+		var datos=document.getElementById("idPlan").value.split(",");
+		var indice = datos.indexOf(id.toString());
+		datos.splice(indice,1);
+		document.getElementById("idPlan").value="";
+		for(var i=0; i<(datos.length-1); i++){
+			document.getElementById("idPlan").value+=datos[i]+",";
+		}
+	}else{
+		document.getElementById("opcionPlan-"+id).className="list-group-item list-group-item-action active";
+		document.getElementById("idPlan").value+=document.getElementById("opcionPlan-"+id).id.split("-")[1]+",";
+	}
+}
+
+function marcarSeleccionAccion(id){
+	var clases=document.getElementById("opcionAccion-"+id).className;
+	if (clases=="list-group-item list-group-item-action active") {
+		document.getElementById("opcionAccion-"+id).className="list-group-item";
+		var datos=document.getElementById("idAccion").value.split(",");
+		var indice = datos.indexOf(id.toString());
+		datos.splice(indice,1);
+		document.getElementById("idAccion").value="";
+		for(var i=0; i<(datos.length-1); i++){
+			document.getElementById("idAccion").value+=datos[i]+",";
+		}
+	}else{
+		document.getElementById("opcionAccion-"+id).className="list-group-item list-group-item-action active";
+		document.getElementById("idAccion").value+=document.getElementById("opcionAccion-"+id).id.split("-")[1]+",";
+	}
+}
+
+function actualizatTablaPlanEmpresa() {
+	$.ajax({
+		data: $("#formularioPlanAccion").serialize(),
+		type:"post",
+		url:"../controlador/plan_accion_empresaControlador.php",
+		success:function(res){
+			document.getElementById("tablaPlanAccion").innerHTML=res;
+		}
+	});
+}
+
+function validarModalPlanAccion(){
+	var mensaje="";
+	if (document.getElementById("comboArea").value=="") {
+		mensaje="El área es obligatoria";
+	}else if (document.getElementById("comboResponsable").value=="") {
+		mensaje="El responsable es obligatorio";
+	}else if (document.getElementById("idPlan").value=="") {
+		mensaje="Debe elegir al menos un plan de acción";
+	}else if (document.getElementById("idAccion").value=="") {
+		mensaje="Debe elegir al menos una acción recomendada";
+	}
+		
+	if (mensaje!="") {
+		document.getElementById("mensajesModalPlanAccion").className="alert alert-danger";
+		document.getElementById("mensajesModalPlanAccion").innerHTML=mensaje;
+		document.getElementById("mensajesModalPlanAccion").style.display="block";
+	}else{
+		$.ajax({
+			data:$("#formularioModalPlanAccion").serialize(),
+			type:"post",
+			url:"../controlador/plan_accion_empresaControlador.php",
+			success:function(res){
+				if (res=="0") {
+					document.getElementById("mensajesModalPlanAccion").className="alert alert-success";
+					document.getElementById("mensajesModalPlanAccion").innerHTML="Registro Exitoso";
+					document.getElementById("mensajesModalPlanAccion").style.display="block";
+					setTimeout("$('#modalPlanAccion').modal('hide')",1500);
+					actualizatTablaPlanEmpresa();
+				}else{
+					document.getElementById("mensajesModalPlanAccion").className="alert alert-danger";
+					document.getElementById("mensajesModalPlanAccion").innerHTML=res;
+					document.getElementById("mensajesModalPlanAccion").style.display="block";
+				}
+			}
+		});
 	}
 }
 

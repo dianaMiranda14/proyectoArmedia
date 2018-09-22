@@ -14,10 +14,6 @@
 		case 'mostrarContenido':
 			echo $objDimension->mostrarContenido($_POST['idCuestionario']);
 			break;
-
-		case 'planAccion':
-			echo $objDimension->porcentaje($_POST['comboEmpresa'],$_POST["comboYear"]);
-			break;
 		
 		default:
 			# code...

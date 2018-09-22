@@ -32,28 +32,6 @@
 				usuario.cedula_usuario = ".$cedula;
 				return $this->objConexion->consultaRetorno($consulta);
 		}
-
-		public function consultarPorcentajeDimension($idEmpresa, $year, $descripcion){
-			$consulta="select round(sum(resultado_dimension.valor_resultado_dimension) /
-				(select sum(resultado_dimension.valor_resultado_dimension) 
-				from resultado_dimension, presentacion, usuario, empresa where 
-				resultado_dimension.id_presentacion_resultado_dimension = presentacion.id_presentacion and 
-				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
-				usuario.id_empresa_usuario = empresa.nit_empresa and 
-				empresa.nit_empresa = ".$idEmpresa." and 
-				YEAR(presentacion.fecha_presentacion) = ".$year." ) * 100) as porcentaje
-				from resultado_dimension, dimension, presentacion, usuario, empresa where
-				resultado_dimension.id_dimension_resultado_dimension = dimension.id_dimension and 
-				resultado_dimension.id_presentacion_resultado_dimension = presentacion.id_presentacion and 
-				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
-				usuario.id_empresa_usuario = empresa.nit_empresa and 
-				empresa.nit_empresa = ".$idEmpresa." and 
-				year(presentacion.fecha_presentacion) = ".$year." and 
-				dimension.descripcion_dimension like '".$descripcion."'";
-				//echo $consulta."\n";
-				//echo "------------------------------------------------------------------------------------------------";
-				return $this->objConexion->consultaRetorno($consulta);
-		}
 	}
 
 ?>

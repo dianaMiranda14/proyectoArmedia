@@ -10,7 +10,7 @@
 <div class="container">
 	<div id="mensajesPlanAccion"></div>
 	<form id="formularioPlanAccion">
-		<input type="hidden" name="accion" id="accion" value="planAccion">
+		<input type="hidden" name="accion" id="accion" value="porcentaje">
 		<div class="form-group">
 			<label>Empresa</label>
 			<select class="form-control" id="comboEmpresa" name="comboEmpresa" onchange="mostrarYear(this.value)">
@@ -54,45 +54,58 @@
       			<tr id="nivelRiesgoDimension"></tr>
       			<tr id="indicadorDimension"></tr>
       		</table>
-
 	      	<form id="formularioModalPlanAccion">
-	      		<div class="form-group">
-	      			<label>Area</label>
-	      			<select class="form-control" id="comboArea" name="comboArea">
-	      				<option value="">Seleccione</option>
-	      				<option>Administrativa</option>
-	      				<option>Operativa</option>
-	      			</select>
-	      		</div>
+	      		<input type="hidden" id="idEmpresa" name="idEmpresa">
+	      		<input type="hidden" id="idDimension" name="idDimension">
+	      		<input type="hidden" id="valorDimension" name="valorDimension">
+	      		<input type="hidden" id="year" name="year">
+	      		<input type="hidden" name="accion" id="accionModal">
+	      		<input type="hidden" name="id" id="id">
+	      		<div class="row">
+	      			<div class="col">
+	      				<div class="form-group">
+			      			<label>Area</label>
+			      			<select class="form-control" id="comboArea" name="comboArea">
+			      				<option value="">Seleccione</option>
+			      				<option>Administrativa</option>
+			      				<option>Operativa</option>
+			      			</select>
+			    		</div>
+	      			</div>
 
+	      			<div class="col">
+	      				<div class="form-group">
+			      			<label>Responsable</label>
+			      			<select class="form-control" id="comboResponsable" name="comboResponsable" >
+			      				<option value="">Seleccione</option>
+			      				<option>Empresa</option>
+			      				<option>A.R.L</option>
+			      				<option>Empresa y A.R.L</option>
+			      			</select>
+			      		</div>
+	      			</div>
+	      		</div>
+	      		
 	      		<div class="form-group">
 	      			<label>Planes de acción</label>
-	      			<select class="form-control" id="comboPlan" name="comboPlan" multiple="true">
-	      				<option value="">Seleccione</option>
-	      			</select>
+	      			<div class="list-group" id="listaPlan">
+	      				
+	      			</div>
 	      		</div>
 
 	      		<div class="form-group">
 	      			<label>Acciones recomendadas</label>
-	      			<select class="form-control" id="comboAccion" name="comboAccion" multiple="true">
-	      				<option value="">Seleccione</option>
-	      			</select>
+	      			<div class="list-group" id="listaAccion">
+	      				
+	      			</div>
 	      		</div>
-
-	      		<div class="form-group">
-	      			<label>Responsable</label>
-	      			<select class="form-control" id="comboResponsable" name="comboResponsable" >
-	      				<option value="">Seleccione</option>
-	      				<option>Empresa</option>
-	      				<option>A.R.L</option>
-	      				<option>Empresa y A.R.L</option>
-	      			</select>
-	      		</div>
+	      		<input type="hidden" id="idPlan" name="idPlan" value="">
+	      		<input type="hidden" id="idAccion" name="idAccion" value="">
 	      	</form>
       	</div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" onclick="validarModalAccion()">Aceptar</button>
+        <button type="button" class="btn btn-primary" onclick="validarModalPlanAccion()">Aceptar</button>
       </div>
     </div>
   </div>

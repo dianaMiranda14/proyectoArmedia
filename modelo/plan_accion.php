@@ -38,6 +38,11 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
+		public function consultarDimensioEstado($idDimension){
+			$consulta="select plan_accion.*,descripcion_dimension from plan_accion, dimension where id_dimension_plan_accion = ".$idDimension." and id_dimension_plan_accion = id_dimension and estado_plan_accion like 'Activo'";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
 		public function consultarEstado($estado){
 			$consulta="select plan_accion.*,descripcion_dimension from plan_accion, dimension where estado_plan_accion like '".$estado."'  and id_dimension_plan_accion = id_dimension";
 			return $this->objConexion->consultaRetorno($consulta);
@@ -69,11 +74,11 @@
 		}
 
 		public function mostrarOption($idDimension){
-			$resultado=$this->consultarDimension($idDimension);
+			//echo "<option value=''>Seleccione</option>";
+			$resultado=$this->consultarDimensioEstado($idDimension);
 			if (mysqli_num_rows($resultado)>0) {
-				echo "<option value=''>Seleccione</option>";
 				while ($obj=mysqli_fetch_assoc($resultado)) {
-					echo "<option value=".$obj["id_plan_accion"].">".$obj["descripcion_plan_accion"]."</option>";
+					echo ' <a onclick="marcarSeleccionPlan('.$obj["id_plan_accion"].')" id="opcionPlan-'.$obj["id_plan_accion"].'" class="list-group-item ">'.$obj["descripcion_plan_accion"].'</a>';
 				}
 			}
 		}
