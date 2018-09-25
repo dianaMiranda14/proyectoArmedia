@@ -9,15 +9,14 @@
 			$this->objConexion=new Conexion();
 		}
 
-		public function consultarPorcentajeDimension($idEmpresa, $year, $descripcion){
-			$consulta="select round(sum(resultado_dimension.valor_resultado_dimension) /
-				(select sum(resultado_dimension.valor_resultado_dimension) 
-				from resultado_dimension, presentacion, usuario, empresa where 
-				resultado_dimension.id_presentacion_resultado_dimension = presentacion.id_presentacion and 
+		public function consultarPorcentajeDimension($idEmpresa, $year, $descripcion,$nivel){
+			$consulta="select round(count(resultado_dimension.id_presentacion_resultado_dimension) /
+				(select count(presentacion.id_presentacion) 
+				from presentacion, usuario, empresa where 
 				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
 				usuario.id_empresa_usuario = empresa.nit_empresa and 
 				empresa.nit_empresa = ".$idEmpresa." and 
-				YEAR(presentacion.fecha_presentacion) = ".$year." ) * 100) as porcentaje
+				YEAR(presentacion.fecha_presentacion) = ".$year.") * 100) as porcentaje
 				from resultado_dimension, dimension, presentacion, usuario, empresa where
 				resultado_dimension.id_dimension_resultado_dimension = dimension.id_dimension and 
 				resultado_dimension.id_presentacion_resultado_dimension = presentacion.id_presentacion and 
@@ -25,9 +24,8 @@
 				usuario.id_empresa_usuario = empresa.nit_empresa and 
 				empresa.nit_empresa = ".$idEmpresa." and 
 				year(presentacion.fecha_presentacion) = ".$year." and 
-				dimension.descripcion_dimension like '".$descripcion."'";
-				//echo $consulta."\n";
-				//echo "------------------------------------------------------------------------------------------------";
+				dimension.descripcion_dimension like '".$descripcion."' and 
+				resultado_dimension.descripcion_resultado_dimension like '".$nivel."'";
 				return $this->objConexion->consultaRetorno($consulta);
 		}
 
@@ -83,30 +81,48 @@
 
 		public function porcentaje($idEmpresa, $year,$resultado){
 			if (mysqli_num_rows($resultado)>0) {
-				echo "<table class='table'>";
+				echo "<table class='table'>
+					<tr>
+						<th>Dimensión</th>
+						<th>Riesgo Muy Alto</th>
+						<th>Riesgo Alto</th>
+						<th>Riesgo medio</th>
+					</tr>";
 				while ($objD=mysqli_fetch_assoc($resultado)) {
-					//$objD['descripcion_dimension']=utf8_encode($objD['descripcion_dimension']);
-					$result=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension']);
-					if (mysqli_num_rows($result)>0) {
-						while ($objR=mysqli_fetch_assoc($result)) {
-							if ($objR["porcentaje"]>=10) {
-								echo "<tr> <td>".utf8_encode($objD["descripcion_dimension"])."</td>";
-								echo "<td>".$objR["porcentaje"]."</td>";
+					$resultMuyAlto=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo muy alto");
+					$resultAlto=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo alto");
+					$resultMedio=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo medio");
+					if ((mysqli_num_rows($resultMuyAlto)>0) &&
+							(mysqli_num_rows($resultAlto)>0) &&
+							(mysqli_num_rows($resultMedio)>0)) {
+						//while ($objR=mysqli_fetch_assoc($result)) {
+							$objPorMuyAlto=mysqli_fetch_assoc($resultMuyAlto);
+							$objPorAlto=mysqli_fetch_assoc($resultAlto);
+							$objPorMedio=mysqli_fetch_assoc($resultMedio);
+							if (($objPorMuyAlto["porcentaje"]>25) ||
+								($objPorAlto["porcentaje"]>25) ||
+								($objPorMedio["porcentaje"]>25)) {
+								echo "<tr> <td>".utf8_encode($objD["descripcion_dimension"])."</td>
+								<td>".$objPorMuyAlto["porcentaje"]."</td>
+								<td>".$objPorAlto["porcentaje"]."</td>
+								<td>".$objPorMedio["porcentaje"]."</td>";
 								$resultadoConsulta=$this->consultarPlanEmpresaCompleto($idEmpresa, $year, $objD["id_dimension"]);
+								$objD['descripcion_dimension']=utf8_encode($objD['descripcion_dimension']);
 								if ($resultadoConsulta!==0) {
 									$objD["plan"]=$resultadoConsulta;
 									$objD["accion"]="modificar";
 								}else{
 									$objD["idEmpresa"]=$idEmpresa;
 									$objD["year"]=$year;
-									$objD["porcentaje"]=$objR["porcentaje"];
+									$objD["porcentaje"]=($objPorMuyAlto["porcentaje"]>25) ? $objPorMuyAlto["porcentaje"] :
+										(($objPorAlto["porcentaje"]>25) ? $objPorAlto["porcentaje"] : 
+										(($objPorMedio["porcentaje"]>25) ? $objPorMedio["porcentaje"] : 0));
 									$objD["accion"]="registrar";
 								}
-								echo "<td><input type='button' class='btn' value='+' onclick='modalPlanAccion(".json_encode($objD).")'></td>
-								</tr>";
+								echo "<td><input type='button' class='btn' value='+' onclick='modalPlanAccion(".json_encode($objD).")'></td></tr>";
 								
 							}
-						}
+						//}
 					}
 				}
 				echo "</table>";
