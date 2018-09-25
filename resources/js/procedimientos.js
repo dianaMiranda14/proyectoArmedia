@@ -7,7 +7,6 @@ function validarLogin(){
 		type:"post",
 		url:"../controlador/usuarioControlador.php",
 		success:function(res){
-			console.log(res);
 			if (res==0) {
 				document.getElementById("mensajes").className="alert alert-success";
 				document.getElementById("mensajes").style.display="inline";
@@ -24,7 +23,6 @@ function validarLogin(){
 			}
 		}
 	});
-	console.log(document.getElementById("validacion").value);
 }
 
 function modalEmpresa(accion,objEmpresa){
@@ -93,7 +91,6 @@ function validarModalEmpresa(){
 			type:"post",
 			url:"../controlador/empresaControlador.php",
 			success:function(res){
-				console.log(res);
 				if (res==0) {
 					document.getElementById("mensajesEmpresa").className="alert alert-success";
 					document.getElementById("mensajesEmpresa").style.display="block";
@@ -239,7 +236,6 @@ function validarModalUsuario(){
 			type:"post",
 			url:"../controlador/usuarioControlador.php",
 			success:function(res){
-				console.log(res);
 				if (res==0) {
 					document.getElementById("mensajesUsuario").className="alert alert-success";
 					document.getElementById("mensajesUsuario").style.display="block";
@@ -313,7 +309,6 @@ function validarModalAccion(){
 			type:"post",
 			url:"../controlador/accion_recomendadaControlador.php",
 			success:function(res){
-				console.log(res);
 				if (res==0) {
 					document.getElementById("mensajesAccion").className="alert alert-success";
 					document.getElementById("mensajesAccion").style.display="block";
@@ -387,7 +382,6 @@ function validarModalPlan(){
 			type:"post",
 			url:"../controlador/plan_accionControlador.php",
 			success:function(res){
-				console.log(res);
 				if (res==0) {
 					document.getElementById("mensajesPlan").className="alert alert-success";
 					document.getElementById("mensajesPlan").style.display="block";
@@ -434,7 +428,6 @@ function validarContenidoCuestionario(valor){
 }
 
 function actualizarContenido(valor){
-	console.log(valor);
 	var select=document.getElementById("comboContenido");
 	$("#comboContenido > option").remove();
 	var option=document.createElement("option");
@@ -479,16 +472,12 @@ function modalObservacion(accion, objObservacion){
 	if (objObservacion==null) {
 		document.getElementById("adicionalObservacion").style.display="none";
 	}else{
-		console.log(objObservacion);
 		validarContenidoCuestionario(objObservacion['tipo_observacion']);
 		actualizarContenido(objObservacion['id_cuestionario_observacion']);
 		document.getElementById("adicionalObservacion").style.display="grid";
 		document.getElementById("txtId").value=objObservacion['id_observacion'];
 		document.getElementById("comboTipo").value=objObservacion['tipo_observacion'];
-		console.log(document.getElementById("comboCuestionario"));
-		console.log(objObservacion['id_cuestionario_observacion']);
 		document.getElementById("comboCuestionario").value=objObservacion['id_cuestionario_observacion'];
-		console.log(document.getElementById("comboCuestionario").value);
 		document.getElementById("comboContenido").value=objObservacion['contenido_observacion'];
 		document.getElementById("txtDescripcion").value=objObservacion['descripcion_observacion'];
 		document.getElementById("comboEstado").value=objObservacion['estado_observacion'];
@@ -559,7 +548,6 @@ function validarModalObservacion(){
 }
 
 function config(formulario){
-	console.log(formulario);
 	$.ajax({
 		data:$(formulario).serialize(),
 		type:"post",
@@ -576,7 +564,6 @@ function validarExistenciaUsuario(valor){
 		type:"post",
 		url:"controlador/usuarioControlador.php",
 		success:function(res){
-			console.log(res);
 			var datos = JSON.parse(res);
 			document.getElementById("txtCedula").readOnly=true;
 			document.getElementById("txtNombre").value=datos.nombre_usuario;
@@ -651,7 +638,6 @@ function paginacionAnterior(pag){
 		type:"post",
 		url:"controlador/preguntaControlador.php",
 		success:function(res){
-			//console.log(res);
 			document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
 			validarMostrarBotones();
 		}
@@ -668,7 +654,6 @@ function paginacion(pag){
 			type:"post",
 			url:"controlador/preguntaControlador.php",
 			success:function(res){
-				//console.log(res);
 				document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
 				validarMostrarBotones();
 			}
@@ -711,7 +696,6 @@ function preguntas(){
 		type:"post",
 		url:"controlador/respuestaControlador.php",
 		success:function(res){
-			console.log(res);
 			//location.reload(true);
 			document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
 			validarMostrarBotones();
@@ -734,7 +718,6 @@ function preguntas(){
 		type:"post",
 		url:"../controlador/EmpresaControlador.php",
 		success:function(res){
-			console.log(res);
 			$('#comboYear').append(res);		
 		}
 	});
@@ -755,7 +738,6 @@ function preguntas(){
 			type:"post",
 			url:"../controlador/UsuarioControlador.php",
 			success:function(res){
-				console.log(res);
 				$('#listEmpleados').append(res);		
 			}
 		});
@@ -814,7 +796,6 @@ function validarPlanAccion(){
 }
 
 function modalPlanAccion(objD){
-	console.log(objD);
 	document.getElementById("mensajesModalPlanAccion").style.display="none";
 	document.getElementById("formularioModalPlanAccion").reset();
 	document.getElementById("descipcionDimesion").innerHTML=objD["descripcion_dimension"];
@@ -829,7 +810,6 @@ function modalPlanAccion(objD){
 		type:"post",
 		url:"../controlador/plan_accionControlador.php",
 		success:function(res){
-			console.log(res);
 			document.getElementById("listaPlan").innerHTML=res;		
 		}
 	});
@@ -839,7 +819,6 @@ function modalPlanAccion(objD){
 		type:"post",
 		url:"../controlador/accion_recomendadaControlador.php",
 		success:function(res){
-			console.log(res);
 			document.getElementById("listaAccion").innerHTML=res;		
 		}
 	});
