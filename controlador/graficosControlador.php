@@ -1,7 +1,9 @@
 <?php 
 	//print_r($_POST);
 	include_once("../modelo/usuario.php");
+	include_once("../modelo/plan_accion_empresa.php");
 	$objUsuario = new Usuario();
+	$objPlan=new PlanAccionEmpresa();
 
 	switch ($_POST["cmbnombreGrafico"]) {
 		case '1':
@@ -52,6 +54,20 @@
 			while ($mostrarUsuario = mysqli_fetch_assoc($usuario)) {
 				$datos[] = [(string)$mostrarUsuario['tipo_cargo_usuario'],(double)$mostrarUsuario['porcentaje']];
 			}
+			echo json_encode($datos);
+			break;
+
+		case 'Capacitacion':
+			$objMuyAlto = mysqli_fetch_assoc($objPlan->consultarPorcentajeDimension($_POST["cbmidEmpresa"], $_POST["comboYear"], $_POST["cmbnombreGrafico"],"Riesgo muy alto", 1));
+			$objAlto = mysqli_fetch_assoc($objPlan->consultarPorcentajeDimension($_POST["cbmidEmpresa"], $_POST["comboYear"], $_POST["cmbnombreGrafico"],"Riesgo alto", 1));
+			$objMedio = mysqli_fetch_assoc($objPlan->consultarPorcentajeDimension($_POST["cbmidEmpresa"], $_POST["comboYear"], $_POST["cmbnombreGrafico"],"Riesgo medio", 1));
+			$objBajo = mysqli_fetch_assoc($objPlan->consultarPorcentajeDimension($_POST["cbmidEmpresa"], $_POST["comboYear"], $_POST["cmbnombreGrafico"],"Riesgo bajo", 1));
+			$objSin = mysqli_fetch_assoc($objPlan->consultarPorcentajeDimension($_POST["cbmidEmpresa"], $_POST["comboYear"], $_POST["cmbnombreGrafico"],"Sin riesgo", 1));
+			$datos[] = [(string)"Riesgo muy alto",(double)$objMuyAlto['porcentaje']];
+			$datos[] = [(string)"Riesgo alto",(double)$objAlto['porcentaje']];
+			$datos[] = [(string)"Riesgo medio",(double)$objMedio['porcentaje']];
+			$datos[] = [(string)"Riesgo bajo",(double)$objBajo['porcentaje']];
+			$datos[] = [(string)"Sin riesgo",(double)$objSin['porcentaje']];
 			echo json_encode($datos);
 			break;
 		default:

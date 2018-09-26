@@ -50,6 +50,7 @@
 				<option value="8">Distribución Por Tiempo en la Empresa | falta</option>	
 				<option value="9">Distribución Por Tipo de Cargo</option>	
 				<option value="10">Distribución Por Teimpo en el Cargo | falta</option>	
+				<option value="Capacitacion">Dimension Capacitación</option>
 
 			</select>
 		</div>
