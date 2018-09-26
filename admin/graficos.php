@@ -25,22 +25,16 @@
 	<form id="frmGraficos" name="frmGraficos">
 	<div class="row mb-5">
 		<div class="col-sm-4">
-			<select name="cbmidEmpresa" id="cbmidEmpresa" class="form-control">
+			<select name="cbmidEmpresa" id="cbmidEmpresa" class="form-control" onchange="mostrarYear(this.value)">
 				<option>Seleccione Una Empresa</option>
 				<?php 
-					$empresas = $objEmpresa->listar();
-					while ($mostrarEmpresas = mysqli_fetch_assoc($empresas)) {
-						echo '<option value="'.$mostrarEmpresas["nit_empresa"].'">'.$mostrarEmpresas["nombre_empresa"].'</option>';
-					}
+					$objEmpresa->mostrarOption();
 				 ?>
 			</select>
 		</div>
 		<div class="col-sm-4">
-			<select name="cbmidanio" id="cbmidanio" class="form-control">
-				<option>Seleccione Un Año</option>
-				<option>2018</option>
-				<option>2017</option>
-				<option>2016</option>
+			<select name="comboYear" id="comboYear" class="form-control">
+				<option>Seleccione Un Año</option>			
 			</select>
 		</div>
 		<div class="col-sm-4">

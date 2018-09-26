@@ -8,7 +8,28 @@
 		}
 
 		public function listar(){
-			$consulta="select dimension.* from dimension where dimension.id_dominio_dimension != 11 and dimension.id_dominio_dimension != 12
+			$consulta="select dimension.* from dimension where dimension.id_dominio_dimension != 11 and dimension.id_dominio_dimension != 12 group by dimension.descripcion_dimension";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function listarCuestionarioIntralaboral(){
+			$consulta="select dimension.* from dimension, dominio, cuestionario where 
+				dimension.id_dominio_dimension != 11 and 
+				dimension.id_dominio_dimension != 12 and 
+				dimension.id_dominio_dimension=dominio.id_dominio and 
+				dominio.id_cuestionario_dominio = cuestionario.id_cuestionario and 
+				(cuestionario.id_cuestionario = 1 or cuestionario.id_cuestionario=2)
+				group by dimension.descripcion_dimension";
+			return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function listarCuestionarioExtralaboral(){
+			$consulta="select dimension.* from dimension, dominio, cuestionario where 
+				dimension.id_dominio_dimension != 11 and 
+				dimension.id_dominio_dimension != 12 and 
+				dimension.id_dominio_dimension=dominio.id_dominio and 
+				dominio.id_cuestionario_dominio = cuestionario.id_cuestionario and 
+				(cuestionario.id_cuestionario = 3 or cuestionario.id_cuestionario=4)
 				group by dimension.descripcion_dimension";
 			return $this->objConexion->consultaRetorno($consulta);
 		}

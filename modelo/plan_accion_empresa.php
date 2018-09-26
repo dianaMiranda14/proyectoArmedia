@@ -9,14 +9,14 @@
 			$this->objConexion=new Conexion();
 		}
 
-		public function consultarPorcentajeDimension($idEmpresa, $year, $descripcion,$nivel){
+		public function consultarPorcentajeDimension($idEmpresa, $year, $descripcion,$nivel, $idCuestionario){
 			$consulta="select round(count(resultado_dimension.id_presentacion_resultado_dimension) /
-				(select count(presentacion.id_presentacion) 
-				from presentacion, usuario, empresa where 
-				presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
-				usuario.id_empresa_usuario = empresa.nit_empresa and 
-				empresa.nit_empresa = ".$idEmpresa." and 
-				YEAR(presentacion.fecha_presentacion) = ".$year.") * 100) as porcentaje
+				(select count(presentacion.id_presentacion) from presentacion, usuario, empresa, cuestionario
+				where presentacion.id_usuario_presentacion = usuario.cedula_usuario and 
+				usuario.id_empresa_usuario = empresa.nit_empresa and empresa.nit_empresa = ".$idEmpresa."  
+				and YEAR(presentacion.fecha_presentacion) = ".$year." and 
+				cuestionario.id_cuestionario = presentacion.id_cuestionario_presentacion and 
+				(cuestionario.id_cuestionario = ".$idCuestionario." or cuestionario.id_cuestionario= ".($idCuestionario+1).")) * 100) as porcentaje
 				from resultado_dimension, dimension, presentacion, usuario, empresa where
 				resultado_dimension.id_dimension_resultado_dimension = dimension.id_dimension and 
 				resultado_dimension.id_presentacion_resultado_dimension = presentacion.id_presentacion and 
@@ -79,19 +79,12 @@
 				return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function porcentaje($idEmpresa, $year,$resultado){
+		public function porcentaje($idEmpresa, $year,$resultado,$idCuestionario){
 			if (mysqli_num_rows($resultado)>0) {
-				echo "<table class='table'>
-					<tr>
-						<th>Dimensión</th>
-						<th>Riesgo Muy Alto</th>
-						<th>Riesgo Alto</th>
-						<th>Riesgo medio</th>
-					</tr>";
 				while ($objD=mysqli_fetch_assoc($resultado)) {
-					$resultMuyAlto=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo muy alto");
-					$resultAlto=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo alto");
-					$resultMedio=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo medio");
+					$resultMuyAlto=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo muy alto",$idCuestionario);
+					$resultAlto=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo alto",$idCuestionario);
+					$resultMedio=$this->consultarPorcentajeDimension($idEmpresa, $year, $objD['descripcion_dimension'],"Riesgo medio",$idCuestionario);
 					if ((mysqli_num_rows($resultMuyAlto)>0) &&
 							(mysqli_num_rows($resultAlto)>0) &&
 							(mysqli_num_rows($resultMedio)>0)) {
@@ -125,7 +118,6 @@
 						//}
 					}
 				}
-				echo "</table>";
 			}
 		}
 

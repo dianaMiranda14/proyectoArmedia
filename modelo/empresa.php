@@ -134,7 +134,7 @@
 			}
 			if (mysqli_num_rows($result)) {
 				while ($obj=mysqli_fetch_assoc($result)) {
-					$arrEmpresa[0]=array('nit_empresa'=>$obj['nit_empresa'], 'nombre_empresa'=>$obj['nombre_empresa'], 'ciudad_empresa'=>$obj['ciudad_empresa'], 'direccion_empresa'=>$obj['direccion_empresa'], 'telefono_empresa'=>$obj['telefono_empresa'], 'contacto_empresa'=>$obj['contacto_empresa'], 'estado_empresa'=>$obj['estado_empresa'], 'habilitado_empresa'=>$obj['habilitado_empresa']);
+					$arrEmpresa[0]=array('nit_empresa'=>$obj['nit_empresa'], 'nombre_empresa'=>$obj['nombre_empresa'], 'ciudad_empresa'=>$obj['ciudad_empresa'], 'direccion_empresa'=>$obj['direccion_empresa'], 'telefono_empresa'=>$obj['telefono_empresa'], 'contacto_empresa'=>$obj['contacto_empresa'], 'estado_empresa'=>$obj['estado_empresa']);
 				}
 				return $arrEmpresa;
 			}

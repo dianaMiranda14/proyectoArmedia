@@ -960,6 +960,7 @@ function mostarGrafico() {
 			type:"post",
 			url:"../controlador/graficosControlador.php",
 			success:function(res){
+				console.log(res);
 				myObj = JSON.parse(res);
 				options.series[0].data = myObj;
 				var chart = new Highcharts.Chart(options);

@@ -21,8 +21,7 @@
 		}
 
 		public function consultarResultadoDimension($idCuestionario, $year, $cedula){
-			$consulta="select id_dominio_dimension, descripcion_dimension, valor_resultado_dimension, descripcion_resultado_dimension from 
-				dimension, resultado_dimension, presentacion, cuestionario, usuario where
+			$consulta="select id_dominio_dimension, descripcion_dimension, valor_resultado_dimension, descripcion_resultado_dimension from dimension, resultado_dimension, presentacion, cuestionario, usuario where
 				dimension.id_dimension = resultado_dimension.id_dimension_resultado_dimension and 
 				resultado_dimension.id_presentacion_resultado_dimension = presentacion.id_presentacion and 
 				presentacion.id_cuestionario_presentacion = cuestionario.id_cuestionario and 
@@ -31,6 +30,19 @@
 				cuestionario.id_cuestionario = ".$idCuestionario." and 
 				usuario.cedula_usuario = ".$cedula;
 				return $this->objConexion->consultaRetorno($consulta);
+		}
+
+		public function arrResultadoDimension(){
+			$consulta="select * from resultado_dimension";
+			$resultado=$this->objConexion->consultaRetorno($consulta);
+			if (mysqli_num_rows($resultado)>0) {
+				$cont=0;
+				while ($obj=mysqli_fetch_assoc($resultado)) {
+					$arrResultadoDimension[$cont]= array('id_presentacion_resultado_dimension' => $obj["id_presentacion_resultado_dimension"], 'id_dimension_resultado_dimension'=>$obj["id_dimension_resultado_dimension"], 'valor_resultado_dimension' => $obj["valor_resultado_dimension"], 'descripcion_resultado_dimension'=>$obj["descripcion_resultado_dimension"]);
+					$cont++;
+				}
+				return $arrResultadoDimension;
+			}
 		}
 	}
 

@@ -8,7 +8,16 @@
 	switch ($_POST["accion"]) {
 
 		case 'porcentaje':
-			echo $objPlanEmpresa->porcentaje($_POST['comboEmpresa'],$_POST["comboYear"], $objDimension->listar());
+			echo "<table class='table'>
+					<tr>
+						<th>Dimensión</th>
+						<th>Riesgo Muy Alto</th>
+						<th>Riesgo Alto</th>
+						<th>Riesgo medio</th>
+					</tr>";
+			echo $objPlanEmpresa->porcentaje($_POST['comboEmpresa'],$_POST["comboYear"], $objDimension->listarCuestionarioIntralaboral(),1);
+			echo $objPlanEmpresa->porcentaje($_POST['comboEmpresa'],$_POST["comboYear"], $objDimension->listarCuestionarioExtralaboral(),3);
+			echo "</table>";
 			break;
 
 		case 'registrar':

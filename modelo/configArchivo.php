@@ -3,10 +3,14 @@
 	include_once("empresa.php");
 	include_once("presentacion.php");
 	include_once("respuesta.php");
+	include_once("resultadoDimension.php");
+	include_once("resultadoDominio.php");
 	$objUsuario=new Usuario();
 	$objEmpresa=new Empresa();
 	$objPresentacion=new Presentacion();
 	$objRespuesta=new Respuesta();
+	$objResultadoDimension=new resultadoDimension();
+	$objResultadoDominio=new ResultadoDominio();
 	print_r($_POST);
 	print_r($_FILES);
 	switch ($_POST['accion']) {
@@ -37,11 +41,11 @@
 			if ($jsonContenido!=="") {
 				if (count($jsonContenido['empresa'])!==0) {
 					if (count($jsonContenido['usuarios'])!==0) {
-						$objRespuesta->vaciarTabla();
-						$objPresentacion->vaciarTabla();
-						$objEmpresa->vaciarTabla();
+						//$objRespuesta->vaciarTabla();
+						//$objPresentacion->vaciarTabla();
+						//$objEmpresa->vaciarTabla();
 						$objEmpresa->registrar($jsonContenido['empresa'][0]['nit_empresa'],$jsonContenido['empresa'][0]['nombre_empresa'],$jsonContenido['empresa'][0]['ciudad_empresa'],$jsonContenido['empresa'][0]['direccion_empresa'],$jsonContenido['empresa'][0]['telefono_empresa'],$jsonContenido['empresa'][0]['contacto_empresa']);
-						$objUsuario->vaciarTabla();
+						//$objUsuario->vaciarTabla();
 						for ($i=0; $i < count($jsonContenido['usuarios']); $i++) { 
 							$objUsuario->registrar($jsonContenido['usuarios'][$i]['cedula_usuario'],
 								$jsonContenido['usuarios'][$i]['id_empresa_usuario'],
@@ -79,10 +83,10 @@
 			break;
 		
 			case 'descargarInfo':
-				$arrayData= array('empresa' => $objEmpresa->arrEmpresa(0), 'usuarios'=>$objUsuario->arrUsuarios(0), 'presentacion'=>$objPresentacion->arrPresentacion(), 'respuesta'=>$objRespuesta->arrRespuesta());
+				$arrayData= array('empresa' => $objEmpresa->arrEmpresa(0), 'usuarios'=>$objUsuario->arrUsuarios(0), 'presentacion'=>$objPresentacion->arrPresentacion(), 'respuesta'=>$objRespuesta->arrRespuesta(), 'resultadoDimension'=>$objResultadoDimension->arrResultadoDimension(), 'resultadoDominio'=>$objResultadoDominio->arrResultadoDominio());
+				//print_r($arrayData);
 				//convierte el array en un json
 					$json =json_encode($arrayData);
-					//print_r($json);
 					//crea el archivo
 					$file=fopen("datosCuestionarios.json", "w");
 					if ($file) {
@@ -98,7 +102,8 @@
 				//print_r($contenido);
 				$jsonContenido=json_decode($contenido,true);
 				if ($jsonContenido!=="") {
-					if (count($jsonContenido['empresa'])!==0 && count($jsonContenido['usuarios'])!==0 && count($jsonContenido['presentacion'])!==0 && count($jsonContenido['respuesta'])!==0) {
+					if (count($jsonContenido['empresa'])!==0 && count($jsonContenido['usuarios'])!==0 && count($jsonContenido['presentacion'])!==0 && count($jsonContenido['respuesta'])!==0 && 
+						count($jsonContenido["resultadoDimension"])!==0 && count($jsonContenido["resultadoDominio"])!==0) {
 						$objEmpresa->remplazar($jsonContenido['empresa'][0]['nit_empresa'], $jsonContenido['empresa'][0]['nombre_empresa'],$jsonContenido['empresa'][0]['ciudad_empresa'],$jsonContenido['empresa'][0]['direccion_empresa'],$jsonContenido['empresa'][0]['telefono_empresa'],$jsonContenido['empresa'][0]['contacto_empresa']);
 						for ($i=0; $i < count($jsonContenido['usuarios']) ; $i++) { 
 							$objUsuario->remplazar($jsonContenido['usuarios'][$i]['cedula_usuario'],
@@ -126,10 +131,16 @@
 								$jsonContenido['usuarios'][$i]['tipo_salario_usuario']);
 						}
 						for ($i=0; $i < count($jsonContenido['presentacion']) ; $i++) { 
-							$objPresentacion->registrar($jsonContenido['presentacion'][$i]['id_cuestionario_presentacion'],$jsonContenido['presentacion'][$i]['id_usuario_presentacion'],$jsonContenido['presentacion'][$i]['fecha_presentacion']);
+							$objPresentacion->registrar($jsonContenido['presentacion'][$i]['id_cuestionario_presentacion'],$jsonContenido['presentacion'][$i]['id_usuario_presentacion'],$jsonContenido['presentacion'][$i]['fecha_presentacion'], $jsonContenido["presentacion"][$i]["resultado_presentacion"], $jsonContenido["presentacion"][$i]["descripcion_presentacion"]);
 						}
 						for ($i=0; $i < count($jsonContenido['respuesta']) ; $i++) { 
 							$objRespuesta->registrar($jsonContenido['respuesta'][$i]['id_presentacion_respuesta'],$jsonContenido['respuesta'][$i]['id_pregunta_respuesta'],$jsonContenido['respuesta'][$i]['descripcion_respuesta']);
+						}
+						for ($i=0; $i < count($jsonContenido["resultadoDimension"]); $i++) { 
+							$objResultadoDimension->registrar($jsonContenido["resultadoDimension"][$i]["id_presentacion_resultado_dimension"], $jsonContenido["resultadoDimension"][$i]["id_dimension_resultado_dimension"], $jsonContenido["resultadoDimension"][$i]["valor_resultado_dimension"], $jsonContenido["resultadoDimension"][$i]["descripcion_resultado_dimension"]);
+						}
+						for ($i=0; $i < count($jsonContenido["resultadoDominio"]); $i++) { 
+							$objResultadoDimension->registrar($jsonContenido["resultadoDominio"][$i]["id_presentacion_resultado_dominio"], $jsonContenido["resultadoDominio"][$i]["id_dominio_resultado_dominio"], $jsonContenido["resultadoDominio"][$i]["valor_resultado_dominio"], $jsonContenido["resultadoDominio"][$i]["descripcion_resultado_dominio"]);
 						}
 					}else{
 						echo "El archivo no tiene la informacion pertinente";
