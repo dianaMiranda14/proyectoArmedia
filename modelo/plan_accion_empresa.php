@@ -26,7 +26,7 @@
 				year(presentacion.fecha_presentacion) = ".$year." and 
 				dimension.descripcion_dimension like '".$descripcion."' and 
 				resultado_dimension.descripcion_resultado_dimension like '".$nivel."'";
-				//echo $consulta;
+				//echo $consulta."<br>";
 				return $this->objConexion->consultaRetorno($consulta);
 		}
 

@@ -13,7 +13,7 @@
 	$objPresentacion=new presentacion();
 	$objCuestionario=new Cuestionario();
 
-	//print_r($_POST);
+	print_r($_POST);
 	
 	session_start();
 

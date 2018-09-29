@@ -21,7 +21,7 @@
 				$i=0;
 				while ($obj = mysqli_fetch_assoc($resultado)) {
 					//guarda toda la informacion de la presentacion en una posicion del array
-					$arrPresentacion[$i]= array('id_cuestionario_presentacion' => $obj['id_cuestionario_presentacion'], 'id_usuario_presentacion'=>$obj['id_usuario_presentacion'],'fecha_presentacion'=>$obj['fecha_presentacion']
+					$arrPresentacion[$i]= array('id_cuestionario_presentacion' => $obj['id_cuestionario_presentacion'], 'id_usuario_presentacion'=>$obj['id_usuario_presentacion'],'fecha_presentacion'=>$obj['fecha_presentacion'],
 						'resultado_presentacion'=>$obj["resultado_presentacion"], "descripcion_presentacion"=>$obj["descripcion_presentacion"]);
 					$i++;
 				}

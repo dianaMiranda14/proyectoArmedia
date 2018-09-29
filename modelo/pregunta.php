@@ -101,8 +101,8 @@
 					
 				}
 				if ($contador==$pag) {
-					
-					echo "<input type='hidden' id='txtSiguiente' value='modal'>";
+					echo "<input type='hidden' id='txtSiguiente' value='modal'>
+					<input type='hidden' id='txtAnterior' value='false'>";
 					echo "<input type='hidden' id='txtModal' value='".$modal."&".$id."&".$pag."'>";
 				}else{
 					if ($pag!=0) {
@@ -112,15 +112,17 @@
 					}
 					//valida si la paginacion ya es mayor a la cantidad de preguntas				
 					if ($contador==$_SESSION['infoPreguntas']['cantidad']) {
-						echo '<input type="hidden" value="0" id="txtSiguiente">';
-						echo '<input type="hidden" value="'.($pag).'" name="txtCantidad">';
+						echo '<input type="hidden" value="0" id="txtSiguiente">
+						<input type="hidden" id="txtAnterior" value="false">
+						<input type="hidden" value="'.($pag).'" name="txtCantidad">';
 					}else{
 						echo '<input type="hidden" value="'.($contador).'" id="txtSiguiente">';
 					}
 				}		
 			}else{
-				echo '<input type="hidden" value="0" id="txtSiguiente">';
-				echo '<input type="hidden" value="'.($pag).'" name="txtCantidad">';
+				echo '<input type="hidden" value="0" id="txtSiguiente">
+				<input type="hidden" id="txtAnterior" value="false">
+				<input type="hidden" value="'.($pag).'" name="txtCantidad">';
 			}
 		}
 
