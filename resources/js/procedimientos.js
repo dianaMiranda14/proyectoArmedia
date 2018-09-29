@@ -12,7 +12,7 @@ function validarLogin(){
 				document.getElementById("mensajes").style.display="inline";
 				document.getElementById("mensajes").innerHTML="Login exitoso";
 				document.getElementById("validacion").value="true";
-				location.href="?cargar=inicio";
+				location.href="inicio.php?cargar=usuario";
 				return true;
 			}else{
 				document.getElementById("mensajes").className="alert alert-danger";			

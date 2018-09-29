@@ -1,4 +1,5 @@
-
+	<div class="col-md-8">
+	</div>
 	<div class="col-md-4 border float-right p-5" style="background: #fff;min-height: 660px;">
 		
 		<h2 class="text-center mt-5 ">Login Admin</h2>

@@ -4,12 +4,16 @@
 		header('Location:?cargar=login');
 	}
 ?>
-<div class="container mt-5 pt-2 pb-4" style="background: #fff;">
-	<h1 class="text-center">Empresas</h1>
+<div class="row" >
+		<div  class="col-sm-10">
+			<h1 class="text-center">Empresas</h1>
+		</div>
+		<div class="col-sm-2">
+				<input type="button" class="btn btn-primary float-right m-2 mb-4" value="Registrar" onclick='modalEmpresa("registrar",null)'>
+		</div>
 		<div class="dropdown-divider " style="color: #839af8;"></div>
-	<input type="button" class="btn btn-primary float-right m-2 mb-4" value="Registrar" onclick='modalEmpresa("registrar",null)'>
 	<div class="table-responsive">
-		<table class="table table-hover">
+		<table class="table table-sm">
 		  <thead class="thead">
 		    <tr>
 		      <th scope="col" class="table-primary">

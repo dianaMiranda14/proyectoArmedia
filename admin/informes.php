@@ -9,7 +9,7 @@
 	$objEmpresa=new Empresa();
 	$objUsuario=new Usuario();
 ?>
-<div class="container">
+<div class="row">
 	<div id="mensajesInforme"></div>
 	<form id="formularioInforme" method="post" action="../controlador/informeControlador.php" onsubmit="return descargarInforme();">
 		<div class="form-group">

@@ -6,7 +6,7 @@
 	include_once("../modelo/empresa.php");
 	$objEmpresa=new Empresa();
 ?>
-
+<div class="row">
 <div class="container">
 	<div id="mensajesPlanAccion"></div>
 	<form id="formularioPlanAccion">
@@ -28,7 +28,7 @@
 			</select>
 		</div>
 	</form>
-	<input type="button" class="btn" value="Aceptar" onclick="validarPlanAccion()">
+	<input  type="button" class="btn mb-5" value="Aceptar" onclick="validarPlanAccion()">
 
 	<div id="tablaPlanAccion"></div>
 </div>
@@ -109,4 +109,5 @@
       </div>
     </div>
   </div>
+</div>
 </div>

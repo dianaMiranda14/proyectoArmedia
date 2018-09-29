@@ -1,17 +1,26 @@
 <?php
 	include_once("../modelo/Empresa.php");
 	$objEmpresa=new Empresa();
-	session_start();
+	//session_start();
 	if (!isset($_SESSION['usuarioLogin'])) {
 		header('Location:?cargar=login');
 	}
 ?>
-<div class="container mt-5 pt-2 pb-4" style="background:  #fff;">
-	<h1 class="text-center">Usuarios</h1>
-		<div class="dropdown-divider " style="color: #839af8;"></div>
-<input type="button" class="btn btn-primary float-right  m-2 mb-4" value="Registrar" onclick="modalUsuario('registrar',null)">
+
+<div class="row">
+
+	<div class="col-sm-10">
+		<h1 class="text-center">Usuarios</h1>
+	</div>
+
+	<div class="col-sm-2">
+		
+	<input type="button" class="btn btn-primary float-right  m-2 mb-4" value="Registrar" onclick="modalUsuario('registrar',null)">
+	</div>
+	<div class="dropdown-divider " style="color: #839af8;"></div>
+		
 <div class="table-responsive">
-	<table class="table table-hover">
+	<table class="table table-sm">
 		<thead class="thead">
 			<tr>
 				<th scope="col" class="table-primary">
@@ -70,7 +79,6 @@
 	</table>
 </div>
 
-</div>
 
 <!-- Modal -->
 <div class="modal fade bd-example-modal-lg" id="modalUsuario" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -392,4 +400,6 @@
       </div>
     </div>
   </div>
+</div>
+	
 </div>
