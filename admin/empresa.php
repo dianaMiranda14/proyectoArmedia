@@ -1,9 +1,4 @@
-<?php
-	session_start();
-	if (!isset($_SESSION['usuarioLogin'])) {
-		header('Location:?cargar=login');
-	}
-?>
+
 <div class="row" >
 		<div  class="col-sm-10">
 			<h1 class="text-center">Empresas</h1>

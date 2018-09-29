@@ -1,10 +1,6 @@
 <?php
 	include_once("../modelo/dimension.php");
 	$objDimension=new Dimension();
-	//session_start();
-	if (!isset($_SESSION['usuarioLogin'])) {
-		header('Location:?cargar=login');
-	}
 ?>
 <div class="row">
 	<div class="col-sm-10">

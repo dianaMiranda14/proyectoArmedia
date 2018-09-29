@@ -1,5 +1,16 @@
-
-
+<?php 
+  session_start();
+  include_once("../controlador/enrutadorAdmin.php");
+  $objEnrutador=new enrutadorAdmin();
+  if ($_GET["cargar"]=="cerrarSesion") {
+    unset($_SESSION['usuarioLogin']);
+  }
+  if ($objEnrutador->validarVista($_GET['cargar'])) {
+    if (!isset($_SESSION['usuarioLogin'])) {
+      header('Location:http://localhost/proyectoPsicosocial1/admin/');
+    }else{
+?>
+      
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="../resources/css/estilos.css">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -222,15 +233,11 @@
         <main class="col-md-float-left col px main" >
             <a href="#" data-target="#sidebar" data-toggle="collapse"><img class="m-2" src="../image/menu.png"></a>
 
-           <?php
-			include_once("../controlador/enrutadorAdmin.php");
-			error_reporting(E_ALL ^ E_NOTICE);
-			$objEnrutador=new enrutadorAdmin();
-			if ($objEnrutador->validarVista($_GET['cargar'])) {
-				$objEnrutador->cargarVista($_GET['cargar']);
-			}
-		?>
-            
+            <?php 
+                  $objEnrutador->cargarVista($_GET['cargar']);
+                }
+              }
+            ?>
            
         </main>
     </div>

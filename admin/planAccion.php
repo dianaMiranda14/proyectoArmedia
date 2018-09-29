@@ -1,8 +1,4 @@
 <?php
-	session_start();
-	if (!isset($_SESSION['usuarioLogin'])) {
-		header('Location:?cargar=login');
-	}
 	include_once("../modelo/empresa.php");
 	$objEmpresa=new Empresa();
 ?>
