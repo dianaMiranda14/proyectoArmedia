@@ -9,12 +9,12 @@
 		}
 
 		public function registrar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto){
-			$consulta="insert into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."','Activo','0')";
+			$consulta="insert into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."','Activo')";
 			$this->objConexion->consultaSimple($consulta);
 		}
 
 		public function remplazar($nit, $nombre, $ciudad, $direccion, $telefono, $contacto){
-			$consulta="replace into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."','Activo','0')";
+			$consulta="replace into empresa values (".$nit.", '".$nombre."', '".$ciudad."', '".$direccion."', '".$telefono."', '".$contacto."','Activo')";
 			$this->objConexion->consultaSimple($consulta);
 		}
 
