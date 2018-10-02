@@ -963,6 +963,7 @@ function validarModalPlanAccion(){
 function mostarGrafico() {
 	var myObj = new Array();
 	var tittle = document.getElementById('cmbnombreGrafico').value;
+	//var valu =  document.getElementById('cmbnombreGrafico').value;
 	 var options ={
           chart: {
               renderTo: 'container',
@@ -990,6 +991,43 @@ function mostarGrafico() {
 				myObj = JSON.parse(res);
 				options.series[0].data = myObj;
 				var chart = new Highcharts.Chart(options);
+			}
+		});
+consultarComentario();
+
+}
+
+
+function consultarComentario(){
+		document.getElementById('accionComentario').value = '1';
+		$.ajax({
+			data: $("#frmGraficos").serialize(),
+			type:"post",
+			url:"../controlador/controladorComentario.php",
+			success:function(res){
+			
+					console.log(res);
+					document.getElementById('contenedorComentario').style.display = "block";
+					document.getElementById('textComentario').innerHTML = res;
+				
+				
+			}
+		});
+}
+
+function registrarComentario(){
+	document.getElementById('accionComentario').value = '2';
+	
+	$.ajax({
+			data: $("#frmGraficos").serialize(),
+			type:"post",
+			url:"../controlador/controladorComentario.php",
+			success:function(res){
+				
+				//	console.log(res);
+					
+
+				
 			}
 		});
 }

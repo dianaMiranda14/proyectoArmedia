@@ -192,7 +192,26 @@
 			return $this->objConexion->consultaRetorno($consulta);
 
 		}
+
+
+		public function consultarPorGrupoEtario($id_empresa){
+			$consulta = "select usuario.nombre_usuario,(cast(DATEDIFF(CURRENT_DATE(), usuario.fecha_nacimiento_usuario) / 365.25 as int)) as edad from usuario where usuario.id_empresa_usuario =  ".$id_empresa;
+			return $this->objConexion->consultaRetorno($consulta);
+		}
 		
+
+		public function consultarPorEmpresa($id_empresa){
+			$consulta = "select * from usuario where id_empresa_usuario = ".$id_empresa;
+
+			return $this->objConexion->consultaRetorno($consulta);	
+		}
+
+
+		public function consultarTiempoEnElCargo($id_empresa){
+			$consulta = "select * from usuario where id_empresa_usuario = ".$id_empresa;
+			
+			return $this->objConexion->consultaRetorno($consulta);	
+		}
 
 	}
 
