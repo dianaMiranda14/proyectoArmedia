@@ -13,10 +13,12 @@
 	$objPresentacion=new presentacion();
 	$objCuestionario=new Cuestionario();
 
-	print_r($_POST);
+	//print_r($_POST);
 	
-	session_start();
-
+	if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }
 	switch ($_SESSION['infoPreguntas']['accion']) {
 		//aqui registrar para intralaboral forma A y B y para el extralaboral de jefes y auxiliares
 		case 'registrar':
@@ -45,12 +47,12 @@
 				//calcula el valor del cuestionario y el nivel de riesgo
 				calcularValoresCuestionario($objPresent);
 				//aumenta la posicion del cuestionario para mostrar el siguiente 
-				echo "Antes";
+				/*echo "Antes";
 				print_r($_SESSION['posCuestionario']);
 				$_SESSION['posCuestionario']++;
 				echo "Despues";
 				print_r($_SESSION['posCuestionario']);
-				unset($_SESSION['infoPreguntas']);
+				unset($_SESSION['infoPreguntas']);*/
 				//valida si ya es el formulario de estres porque ese es diferente
 				if ($_SESSION['posCuestionario']==2) {
 					print_r($objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0));
@@ -82,7 +84,7 @@
 					//calcula el valor del cuestionario y el nivel de riesgo
 					calcularValoresCuestionarioEstres($objPresent);
 					unset($_SESSION['infoPreguntas']);
-					unset($_SESSION['posCuestionario']);
+					$_SESSION['posCuestionario']=false;
 				}
 				break;
 		default:

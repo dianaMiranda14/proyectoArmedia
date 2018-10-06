@@ -9,7 +9,23 @@
 	include_once("modelo/pregunta.php");
 	$objCuestionario=new Cuestionario();
 	$objPregunta=new Pregunta();
-	$_SESSION['posCuestionario']=0;
+	header('Location:http://localhost/proyectoPsicosocial1/');
+			
+	if (!isset($_SESSION['posCuestionario'])) {
+		$_SESSION['posCuestionario']=0;
+	}else{
+		
+		if ($_SESSION['posCuestionario']===false) {
+			echo "entro if false";
+			unset($_SESSION['posCuestionario']);
+			header('Location:http://localhost/proyectoPsicosocial1/');
+			header ("Pragma: no-cache");
+		}else{
+			$_SESSION['posCuestionario']++;
+		}
+		
+	}
+	print_r($_SESSION['posCuestionario']);
 
 ?>
 
@@ -58,10 +74,6 @@
 		
 		<tbody id="cuerpoTablaCuestionario">				
 			<?php
-				//unset($_SESSION['infoPreguntas']);
-
-				//echo "pos cuestionario";
-				//print_r($_SESSION['posCuestionario']);
 
 				if ($_SESSION['posCuestionario']==2) {
 					$objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0);

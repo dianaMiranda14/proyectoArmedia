@@ -1,6 +1,7 @@
 <?php
 include_once("modelo/empresa.php");
 $objEmpresa=new Empresa();
+header("Cache-Control: no-cache, must-revalidate");
 ?>
 <div class="container mx-auto p-5 center-block mt-5" style="background: #fff;">
 <div id="mensajesUsuario" ></div>

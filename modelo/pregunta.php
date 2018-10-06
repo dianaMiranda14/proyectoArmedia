@@ -1,13 +1,15 @@
 <?php
 	include_once("conexion.php");
 	header('Content-Type: text/html; charset=UTF-8'); 
-
+	if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }
 	class Pregunta{
 		private $objConexion;
 
 		public function __construct(){
 			$this->objConexion=new Conexion();
-			session_start();
 		}
 		
 		public function listar(){

@@ -8,13 +8,13 @@
 	switch ($_POST["accion"]) {
 
 		case 'porcentaje':
-			echo "<table class='table'>
+			echo '<table class="table table-hover">
 					<tr>
-						<th>Dimensión</th>
-						<th>Riesgo Muy Alto</th>
-						<th>Riesgo Alto</th>
-						<th>Riesgo medio</th>
-					</tr>";
+						<th scope="col" class="table-primary">Dimensión</th>
+						<th scope="col" class="table-primary">Riesgo Muy Alto</th>
+						<th scope="col" class="table-primary">Riesgo Alto</th>
+						<th scope="col" class="table-primary">Riesgo medio</th>
+					</tr>';
 			echo $objPlanEmpresa->porcentaje($_POST['comboEmpresa'],$_POST["comboYear"], $objDimension->listarCuestionarioIntralaboral(),1);
 			echo $objPlanEmpresa->porcentaje($_POST['comboEmpresa'],$_POST["comboYear"], $objDimension->listarCuestionarioExtralaboral(),3);
 			echo "</table>";

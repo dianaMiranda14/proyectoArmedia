@@ -722,9 +722,9 @@ function preguntas(){
 		type:"post",
 		url:"controlador/respuestaControlador.php",
 		success:function(res){
-			//location.reload(true);
-			document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
-			validarMostrarBotones();
+			location.reload(true);
+			//document.getElementById("cuerpoTablaCuestionario").innerHTML=res;
+			//validarMostrarBotones();
 		}
 	});
  }

@@ -7,21 +7,26 @@
 	<div id="mensajesPlanAccion"></div>
 	<form id="formularioPlanAccion">
 		<input type="hidden" name="accion" id="accion" value="porcentaje">
-		<div class="form-group">
-			<label>Empresa</label>
-			<select class="form-control" id="comboEmpresa" name="comboEmpresa" onchange="mostrarYear(this.value)">
-				<option value="">Seleccione</option>
-				<?php
-					$objEmpresa->mostrarOption($objEmpresa->listar());
-				?>
-			</select>
-		</div>
-
-		<div class="form-group">
-			<label>Año</label>
-			<select class="form-control" id="comboYear" name="comboYear">
-				<option value="">Seleccione</option>
-			</select>
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>Empresa</label>
+					<select class="form-control" id="comboEmpresa" name="comboEmpresa" onchange="mostrarYear(this.value)">
+						<option value="">Seleccione</option>
+						<?php
+							$objEmpresa->mostrarOption($objEmpresa->listar());
+						?>
+					</select>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>Año</label>
+					<select class="form-control" id="comboYear" name="comboYear">
+						<option value="">Seleccione</option>
+					</select>
+				</div>
+			</div>
 		</div>
 	</form>
 	<input  type="button" class="btn mb-5" value="Aceptar" onclick="validarPlanAccion()">

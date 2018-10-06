@@ -32,7 +32,7 @@
 			return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function consultarTipo($usuario){
+		/*public function consultarTipo($usuario){
 			$tipo=$this->tipoUsuario($usuario);
 			$consulta="select * from cuestionario where cuestionario.tipo_usuario_cuestionario like '".$tipo."'";
 			return $this->objConexion->consultaRetorno($consulta);
@@ -48,16 +48,37 @@
 				return $arrayCuestionario[$numero]['id_cuestionario'];
 				
 			}
-		}
+		}*/
 
-		public function tipoUsuario($usuario){
+		public function mostrarCuestionario($usuario,$numero){
 			if ($usuario['tipo_cargo_usuario']==='Jefatura' || 
 					$usuario['tipo_cargo_usuario']==='Profesional' ||
-					$usuario['tipo_cargo_usuario']==='analista' ||
+					$usuario['tipo_cargo_usuario']==='Analista' ||
 					$usuario['tipo_cargo_usuario']==='Tecnico especializado') {
-				return "jefe";
+				switch ($numero) {
+					case 0:
+						return 1;
+						break;
+					
+					case 1:
+						return 3;
+						break;
+					case 2:
+						return 5;
+						break;
+				}
 			}else{
-				return "auxiliar";
+				switch ($numero) {
+					case 0:
+						return 2;
+						break;
+					case 1:
+						return 4;
+						break;
+					case 2:
+						return 6;
+						break;
+				}
 			}
 		}
 
