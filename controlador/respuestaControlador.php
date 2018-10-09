@@ -47,12 +47,9 @@
 				//calcula el valor del cuestionario y el nivel de riesgo
 				calcularValoresCuestionario($objPresent);
 				//aumenta la posicion del cuestionario para mostrar el siguiente 
-				/*echo "Antes";
-				print_r($_SESSION['posCuestionario']);
 				$_SESSION['posCuestionario']++;
-				echo "Despues";
-				print_r($_SESSION['posCuestionario']);
-				unset($_SESSION['infoPreguntas']);*/
+				//borra todo el registro del anterior cuestionario
+				unset($_SESSION['infoPreguntas']);
 				//valida si ya es el formulario de estres porque ese es diferente
 				if ($_SESSION['posCuestionario']==2) {
 					print_r($objPregunta->mostrarInicioCuestionario($objCuestionario->mostrarCuestionario($_SESSION['usuarioCuestionario'], $_SESSION['posCuestionario']),"registrarEstres", 0));

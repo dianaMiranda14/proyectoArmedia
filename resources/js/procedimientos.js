@@ -564,6 +564,7 @@ function validarExistenciaUsuario(valor){
 		type:"post",
 		url:"controlador/usuarioControlador.php",
 		success:function(res){
+			//console.log(res);
 			var datos = JSON.parse(res);
 			document.getElementById("txtCedula").readOnly=true;
 			document.getElementById("txtNombre").value=datos.nombre_usuario;
@@ -625,7 +626,7 @@ function validarRadio(fin){
 function colorTr(id, fin){
 	for (var i = (document.getElementById("txtInicio").value); i < fin; i++) {
 		if (i==id) {
-			document.getElementById("tr"+i).style.background="red";
+			document.getElementById("tr"+i).style.background="rgba(193,60,60,0.5)";
 		}else{
 			document.getElementById("tr"+i).style.background="000";
 		}
@@ -690,23 +691,23 @@ function validarMostrarBotones(){
 		document.getElementById("cuerpoModalPregunta").innerHTML=datos[0];
 		document.getElementById("pagSiguiente").setAttribute('onclick',
 			"$('#modalMensjesPreguntas').modal('show')");
-		document.getElementById("botones").style.display="grid";
+		document.getElementById("botones").style.display="inline";
 		document.getElementById("btnSi").setAttribute('onclick',
 			"mostrar('si',"+datos[1]+","+datos[2]+")");
 		document.getElementById("btnNo").setAttribute('onclick',
 			"mostrar('no',"+datos[1]+","+datos[2]+")");
 	}else if (document.getElementById("txtSiguiente").value!=="0") {
-		document.getElementById("pagSiguiente").style.display="block";
+		document.getElementById("pagSiguiente").style.display="inline";
 		document.getElementById("pagSiguiente").setAttribute('onclick',"paginacion("+
 			document.getElementById("txtSiguiente").value+")");
 
 		document.getElementById("btnRegistrar").style.display="none";
 	}else{
 		document.getElementById("pagSiguiente").style.display="none";
-		document.getElementById("btnRegistrar").style.display="block";
+		document.getElementById("btnRegistrar").style.display="inline";
 	}
 	if (document.getElementById("txtAnterior").value!=="false") {
-		document.getElementById("pagAnterior").style.display="block";
+		document.getElementById("pagAnterior").style.display="inline";
 		document.getElementById("pagAnterior").setAttribute("onclick","paginacionAnterior("+
 			document.getElementById("txtAnterior").value+");");
 	}else{

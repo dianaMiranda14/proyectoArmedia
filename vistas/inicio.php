@@ -3,7 +3,7 @@ include_once("modelo/empresa.php");
 $objEmpresa=new Empresa();
 header("Cache-Control: no-cache, must-revalidate");
 ?>
-<div class="container mx-auto p-5 center-block mt-5" style="background: #fff;">
+<div class="container mx-auto p-5 center-block mt-5 fondoCuestionario">
 <div id="mensajesUsuario" ></div>
 	<legend class="text-center font-weight-bold "><h1 style="color: #000;" >Formulario de Usuario</h1></legend>
 
@@ -29,7 +29,7 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Cedula</label>
-						<input type="text" name="txtCedula" id="txtCedula" class="form-control" onblur="validarExistenciaUsuario(this.value)" >
+						<input type="text" name="txtCedula" id="txtCedula" class="form-control" placeholder="Cedula" onblur="validarExistenciaUsuario(this.value)" >
 						<input type="hidden" name="comboEmpresa" id="comboEmpresa">
 					</div>
 				</div>
@@ -37,7 +37,7 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Nombre</label>
-						<input type="text"  name="txtNombre" id="txtNombre" class="form-control" >
+						<input type="text"  name="txtNombre" id="txtNombre" class="form-control" placeholder="Nombre">
 					</div>
 				</div>
 			</div>
@@ -82,7 +82,7 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Personas que dependen económicamente de usted</label>
-						<input type="number" name="txtPersonasDependen" id="txtPersonasDependen" class="form-control" >
+						<input type="number" name="txtPersonasDependen" id="txtPersonasDependen" class="form-control" placeholder="Personas que dependen de usted">
 					</div>
 				</div>
 			</div>
@@ -93,14 +93,14 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Departamento residencia</label>
-						<input type="text" name="comboDepartamentoResidencia" id="comboDepartamentoResidencia" class="form-control" >
+						<input type="text" name="comboDepartamentoResidencia" id="comboDepartamentoResidencia" class="form-control"  placeholder="Departamento residencia">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label>Ciudad residencia</label>
-						<input type="text" name="comboCiudadResidencia" id="comboCiudadResidencia" class="form-control" >
+						<input type="text" name="comboCiudadResidencia" id="comboCiudadResidencia" class="form-control" placeholder="Ciudad residencia">
 					</div>
 				</div>
 			</div>
@@ -161,7 +161,7 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Profesión</label>
-						<input type="text" name="txtProfesion" id="txtProfesion" class="form-control" >
+						<input type="text" name="txtProfesion" id="txtProfesion" class="form-control" placeholder="Profesión">
 					</div>
 				</div>
 			</div>
@@ -174,14 +174,14 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Departamento trabajo</label>
-						<input type="text" name="comboDepartamentoTrabajo" id="comboDepartamentoTrabajo" class="form-control" >
+						<input type="text" name="comboDepartamentoTrabajo" id="comboDepartamentoTrabajo" class="form-control" placeholder="Departamento trabajo">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label>Ciudad trabajo</label>
-						<input type="text" name="comboCiudadTrabajo" id="comboCiudadTrabajo" class="form-control" >
+						<input type="text" name="comboCiudadTrabajo" id="comboCiudadTrabajo" class="form-control" placeholder="Ciudad trabajo">
 					</div>
 				</div>
 			</div>
@@ -191,14 +191,14 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Departamento de la empresa</label>
-						<input type="text" name="txtDepartamentoLaboral" id="txtDepartamentoLaboral" class="form-control" >
+						<input type="text" name="txtDepartamentoLaboral" id="txtDepartamentoLaboral" class="form-control" placeholder="Departamento empresa">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label>Cantidad de años con la empresa</label>
-						<input type="number" name="txtYearsTrabajo" id="txtYearsTrabajo" class="form-control" >
+						<input type="number" name="txtYearsTrabajo" id="txtYearsTrabajo" class="form-control" placeholder="Años en la empresa">
 					</div>
 				</div>
 			</div>
@@ -227,7 +227,7 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Cargo</label>
-						<input type="text" name="txtCargo" id="txtCargo" class="form-control" >
+						<input type="text" name="txtCargo" id="txtCargo" class="form-control" placeholder="Cargo">
 					</div>
 				</div>
 			</div>
@@ -239,14 +239,14 @@ header("Cache-Control: no-cache, must-revalidate");
 				<div class="col">
 					<div class="form-group">
 						<label>Cantidad de años en el cargo</label>
-						<input type="number" name="txtYearsCargo" id="txtYearsCargo" class="form-control" >
+						<input type="number" name="txtYearsCargo" id="txtYearsCargo" class="form-control" placeholder="Años en el cargo">
 					</div>
 				</div>
 
 				<div class="col">
 					<div class="form-group">
 						<label>Cantidad de horas de trabajo diarias</label>
-						<input type="number" name="txtHorasTrabajo" id="txtHorasTrabajo" class="form-control" >
+						<input type="number" name="txtHorasTrabajo" id="txtHorasTrabajo" class="form-control" placeholder="Horas de trabajo diario">
 					</div>
 				</div>
 			</div>
