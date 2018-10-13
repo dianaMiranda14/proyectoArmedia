@@ -32,13 +32,13 @@
 				return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function arrResultadoDimension(){
-			$consulta="select * from resultado_dimension";
+		public function arrResultadoDimension($idPresentacion){
+			$consulta="select * from resultado_dimension where id_presentacion_resultado_dimension = ".$idPresentacion;
 			$resultado=$this->objConexion->consultaRetorno($consulta);
 			if (mysqli_num_rows($resultado)>0) {
 				$cont=0;
 				while ($obj=mysqli_fetch_assoc($resultado)) {
-					$arrResultadoDimension[$cont]= array('id_presentacion_resultado_dimension' => $obj["id_presentacion_resultado_dimension"], 'id_dimension_resultado_dimension'=>$obj["id_dimension_resultado_dimension"], 'valor_resultado_dimension' => $obj["valor_resultado_dimension"], 'descripcion_resultado_dimension'=>$obj["descripcion_resultado_dimension"]);
+					$arrResultadoDimension[$cont]= array('id_dimension_resultado_dimension'=>$obj["id_dimension_resultado_dimension"], 'valor_resultado_dimension' => $obj["valor_resultado_dimension"], 'descripcion_resultado_dimension'=>$obj["descripcion_resultado_dimension"]);
 					$cont++;
 				}
 				return $arrResultadoDimension;

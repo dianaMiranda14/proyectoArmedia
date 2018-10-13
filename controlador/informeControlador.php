@@ -19,10 +19,10 @@
 	$html='<!DOCTYPE html>
 				<html>
 				<head>
-					
+					<link rel="stylesheet" type="text/css" href="../resources/css/estilosPDF.css">
 				</head>
 				<body>
-				
+				<div >
 				';
 	$nombrePDF="";
 	switch ($_POST['comboTipoInforme']) {
@@ -69,7 +69,8 @@
 		case '4':
 			$resultadoEncuestados=$objPresentacion->consultarUsuarios($_POST['comboEmpresa'], $_POST['comboYear']);
 			if (mysqli_num_rows($resultadoEncuestados)>0) {
-				$html.="<table class='table'> <tr>
+				$html.="<table> 
+				<tr>
 					<th>Número de indentificación</th>
 					<th>Nombre</th>
 					<th>Cargo</th>
@@ -107,7 +108,8 @@
 		case '5':
 			$resultadoRiesgo=$objPresentacion->usuariosRiesgoEstres($_POST['comboEmpresa'], $_POST['comboYear']);
 			if (mysqli_num_rows($resultadoRiesgo)>0) {
-				$html.="<table class='table'> <tr>
+				$html.="<table> 
+				<tr>
 					<th>Número de indentificación</th>
 					<th>Nombre</th>
 					<th>Cargo</th>
@@ -134,6 +136,7 @@
 
 	}
 	$html."
+	</div>
 	</body>
 	</html>";
 	//echo $html;
@@ -218,6 +221,7 @@
 
 	function mostrarIntralaboral($cedula, $year){
 		$objUsuario=new Usuario();
+		$objCuestionario=new Cuestionario;
 		$objResultadoUsuario=sacarDatosUsuario($cedula);
 		$tipo=tipoUsuario($objResultadoUsuario);
 		if ($tipo==="jefe") {
@@ -229,9 +233,11 @@
 		$objU=$objUsuario->consultarUsuarioPresentacion($cedula, $idCuestionario, $year);
 		if (mysqli_num_rows($objU)>0) {
 			$html=datosUsuario(mysqli_fetch_assoc($objU));
+			$obj=mysqli_fetch_assoc($objCuestionario->consultarId($idCuestionario));
 			$html.='<tr>
-				<th colspan="3">Resultados del cuestionario</th>
+				<th colspan="3" class="encabezado">Resultados del cuestionario '.$obj["nombre_cuestionario"].'</th>
 			</tr>';
+			
 			$resultadoDominio=resultadoDominio($idCuestionario, $cedula);
 			$resultadoDimension=resultadoDimension($idCuestionario, $cedula);
 			$resultadoCuestionario=resultadoCuestionario($idCuestionario, $cedula);
@@ -246,6 +252,7 @@
 
 	function mostrarExtralaboral($cedula,$year){
 		$objUsuario=new Usuario();
+		$objCuestionario=new Cuestionario();
 		$objResultadoUsuario=sacarDatosUsuario($cedula);
 		$tipo=tipoUsuario($objResultadoUsuario);
 		if ($tipo==="jefe") {
@@ -257,8 +264,9 @@
 		$objU=$objUsuario->consultarUsuarioPresentacion($cedula, $idCuestionario, $year);
 		if (mysqli_num_rows($objU)>0) {
 			$html=datosUsuario(mysqli_fetch_assoc($objU));
+			$obj=mysqli_fetch_assoc($objCuestionario->consultarId($idCuestionario));
 			$html.='<tr>
-				<th colspan="3">Resultados del cuestionario</th>
+				<th colspan="3" class="encabezado">Resultados del cuestionario '.$obj["nombre_cuestionario"].'</th>
 			</tr>';
 			$resultadoDimension=resultadoDimension($idCuestionario, $cedula);
 			$resultadoCuestionario=resultadoCuestionario($idCuestionario, $cedula);
@@ -270,6 +278,7 @@
 
 	function mostrarEstres($cedula,$year){
 		$objUsuario=new Usuario();
+		$objCuestionario=new Cuestionario();
 		$objResultadoUsuario=sacarDatosUsuario($cedula);
 		$tipo=tipoUsuario($objResultadoUsuario);
 		if ($tipo==="jefe") {
@@ -281,8 +290,9 @@
 		$objU=$objUsuario->consultarUsuarioPresentacion($cedula, $idCuestionario, $year);
 		if (mysqli_num_rows($objU)>0) {
 			$html=datosUsuario(mysqli_fetch_assoc($objU));
+			$obj=mysqli_fetch_assoc($objCuestionario->consultarId($idCuestionario));
 			$html.='<tr>
-				<th colspan="3">Resultados del cuestionario</th>
+				<th colspan="3" class="encabezado">Resultados del cuestionario '.utf8_encode($obj["nombre_cuestionario"]).'</th>
 			</tr>';
 			$resultadoCuestionario=resultadoCuestionario($idCuestionario, $cedula);
 			$html.=mostrarContenidoCuestionario($resultadoCuestionario);
@@ -320,7 +330,7 @@
 
 	function mostrarContenidoDominio($objInfo){
 		$html='
-			<tr style="background:green">
+			<tr class="resultadoDominio">
 				<td>'.$objInfo['descripcion_dominio'].'</td>
 				<td>'.$objInfo['valor_resultado_dominio'].'</td>
 				<td>'.$objInfo['descripcion_resultado_dominio'].'</td>
@@ -332,7 +342,7 @@
 	function mostrarContenidoCuestionario($objInfo){
 		$_SESSION['arrayObservaciones']['valorCuestionario']=$objInfo['descripcion_presentacion'];
 		$html='
-			<tr style="background:red">
+			<tr class="resultadoCuestionario">
 				<td>total</td>
 				<td>'.$objInfo['resultado_presentacion'].'</td>
 				<td>'.$objInfo['descripcion_presentacion'].'</td>
@@ -348,7 +358,7 @@
 			$resultadoE=mysqli_fetch_assoc($objE);
 			return '
 			<tr>
-				<th colspan="2">Datos evaluador</th>
+				<th colspan="3" class="encabezado">Datos del evaluador</th>
 			</tr>
 
 			<tr>
@@ -389,9 +399,9 @@
 	}
 
 	function datosUsuario($objU){
-		$html='<table class="table">
+		$html='<table class="col-12" >
 			<tr>
-				<th colspan="2">Datos Generales del trabajdor</th>
+				<th colspan="3" class="encabezado">Datos Generales del trabajdor</th>
 			</tr>
 
 			<tr>
@@ -425,12 +435,12 @@
 			</tr>
 
 			<tr>
-				<th colspan="2">Datos del cuestionario</th>
+				<th colspan="3" class="encabezado">Datos del cuestionario</th>
 			</tr>
 
 			<tr>
 				<td>Nombre cuestionario</td>
-				<td>'.$objU['nombre_cuestionario'].'</td>
+				<td>'.utf8_encode($objU['nombre_cuestionario']).'</td>
 			</tr>
 
 			<tr>
@@ -479,7 +489,7 @@
 	function descargarPDF($html,$nombrePDF){
 		$objDomPdf=new DOMPDF();
 		$objDomPdf->loadHtml($html);
-		$objDomPdf->setPaper('A4', 'landscape');
+		//$objDomPdf->setPaper('A4', 'landscape');
 		$objDomPdf->render();
 		$objDomPdf->stream($nombrePDF);
 	}

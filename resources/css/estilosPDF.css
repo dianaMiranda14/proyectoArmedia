@@ -1,0 +1,24 @@
+.encabezado{
+	text-align: center;
+	font-size: 20px;
+	font-weight: bold;
+	background: #B0D3F9;
+	height: 30px;
+}
+
+.resultadoDominio{
+	font-weight: bold;
+	background: #C6F9B0;
+}
+
+.resultadoCuestionario{
+	font-weight: bold;
+	text-transform: uppercase;;
+	background: #FAB573;
+	height: 30px;
+}
+
+.col-12{
+	position: relative;
+    width: 100%;
+}

@@ -3,7 +3,7 @@ include_once("modelo/empresa.php");
 $objEmpresa=new Empresa();
 header("Cache-Control: no-cache, must-revalidate");
 ?>
-<div class="container mx-auto p-5 center-block mt-5 fondoCuestionario">
+<div class="container mx-auto p-5 center-block mt-5 fondoUsuario">
 <div id="mensajesUsuario" ></div>
 	<legend class="text-center font-weight-bold "><h1 style="color: #000;" >Formulario de Usuario</h1></legend>
 

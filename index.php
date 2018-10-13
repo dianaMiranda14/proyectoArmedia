@@ -17,7 +17,7 @@
 		<?php
 		
 			include_once("controlador/enrutadorUsuario.php");
-		//	error_reporting(E_ALL ^ E_NOTICE);
+			error_reporting(E_ALL ^ E_NOTICE);
 			$objEnrutador=new enrutadorUsuario();
 			if ($objEnrutador->validarVista($_GET['cargar'])) {
 				$objEnrutador->cargarVista($_GET['cargar']);

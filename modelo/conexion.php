@@ -12,6 +12,7 @@
 			if (mysqli_errno($this->con)) {
 				echo "Fallo conexion a la bd";
 			}else{
+				mysqli_set_charset($this->con,"utf8");
 				//echo "Exito";
 			}
 		}

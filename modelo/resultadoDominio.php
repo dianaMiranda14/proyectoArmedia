@@ -33,13 +33,13 @@
 				return $this->objConexion->consultaRetorno($consulta);
 		}
 
-		public function arrResultadoDominio(){
-			$consulta="select * from resultado_dominio";
+		public function arrResultadoDominio($idPresentacion){
+			$consulta="select * from resultado_dominio where id_presentacion_resultado_dominio = ".$idPresentacion;
 			$resultado=$this->objConexion->consultaRetorno($consulta);
 			if (mysqli_num_rows($resultado)>0) {
 				$cont=0;
 				while ($obj=mysqli_fetch_assoc($resultado)) {
-					$arrResultadoDominio[$cont]= array('id_presentacion_resultado_dominio' => $obj["id_presentacion_resultado_dominio"], 'id_dominio_resultado_dominio'=>$obj["id_dominio_resultado_dominio"], 'valor_resultado_dominio' => $obj["valor_resultado_dominio"], 'descripcion_resultado_dominio'=>$obj["descripcion_resultado_dominio"]);
+					$arrResultadoDominio[$cont]= array('id_dominio_resultado_dominio'=>$obj["id_dominio_resultado_dominio"], 'valor_resultado_dominio' => $obj["valor_resultado_dominio"], 'descripcion_resultado_dominio'=>$obj["descripcion_resultado_dominio"]);
 					$cont++;
 				}
 				return $arrResultadoDominio;

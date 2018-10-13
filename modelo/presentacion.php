@@ -1,11 +1,21 @@
 <?php
 	include_once("conexion.php");
+	include_once("respuesta.php");
+	include_once("resultadoDimension.php");
+	include_once("resultadoDominio.php");
 
 	class Presentacion{
 		private $objConexion;
+		private $objRespuesta;
+		private $objResultadoDimension;
+		private $resultadoDominio;
 
 		public function __construct(){
 			$this->objConexion=new Conexion();
+			$this->objRespuesta=new Respuesta();
+			$this->objResultadoDimension=new ResultadoDimension();
+			$this->objResultadoDominio=new ResultadoDominio();
+
 		}
 
 		public function vaciarTabla(){
@@ -20,17 +30,17 @@
 			if (mysqli_num_rows($resultado)>0) {
 				$i=0;
 				while ($obj = mysqli_fetch_assoc($resultado)) {
+					//print_r($obj);
 					//guarda toda la informacion de la presentacion en una posicion del array
-					$arrPresentacion[$i]= array('id_cuestionario_presentacion' => $obj['id_cuestionario_presentacion'], 'id_usuario_presentacion'=>$obj['id_usuario_presentacion'],'fecha_presentacion'=>$obj['fecha_presentacion'],
-						'resultado_presentacion'=>$obj["resultado_presentacion"], "descripcion_presentacion"=>$obj["descripcion_presentacion"]);
+					$arrPresentacion[$i]= array('id_cuestionario_presentacion' => $obj['id_cuestionario_presentacion'], 'id_usuario_presentacion'=>$obj['id_usuario_presentacion'],'fecha_presentacion'=>$obj['fecha_presentacion'],'resultado_presentacion'=>$obj["resultado_presentacion"], "descripcion_presentacion"=>$obj["descripcion_presentacion"], 'respuestas'=>$this->objRespuesta->arrRespuesta($obj["id_presentacion"]), 'resultadoDimension'=>$this->objResultadoDimension->arrResultadoDimension($obj["id_presentacion"]), 'resultadoDominio'=>$this->objResultadoDominio->arrResultadoDominio($obj["id_presentacion"]));
 					$i++;
 				}
 				return $arrPresentacion;
 			}
 		}
 
-		public function registrar($idCuestionario, $idUsuario, $fecha){
-			$consulta="insert into presentacion (id_cuestionario_presentacion, id_usuario_presentacion, fecha_presentacion) values(".$idCuestionario.", ".$idUsuario.", '".$fecha."')";
+		public function registrar($idCuestionario, $idUsuario, $fecha, $resultado, $descripcion){
+			$consulta="insert into presentacion (id_cuestionario_presentacion, id_usuario_presentacion, fecha_presentacion, resultado_presentacion, descripcion_presentacion) values(".$idCuestionario.", ".$idUsuario.", '".$fecha."', '".$resultado."','".$descripcion."')";
 			$this->objConexion->consultaSimple($consulta);
 		}
 

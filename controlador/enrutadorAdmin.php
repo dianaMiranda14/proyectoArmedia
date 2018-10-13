@@ -9,7 +9,7 @@
 			if (empty($cargar)) { 
 				include_once("../admin/login.php");
 			}else if(file_exists("../admin/".$cargar.".php")==false){
-				include_once("../admin/incio.php");
+				include_once("../admin/index.php");
 			} else {
 				return true;
 			}

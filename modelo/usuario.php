@@ -8,9 +8,14 @@
 			$this->objConexion=new Conexion();
 		}
 
-		public function registrar($cedula, $idEmpresa, $nombre, $sexo, $estadoCivil, $fechaNacimiento, $personasDepende, $departamentoResidencia, $ciudadResidencia, $estrato, $tipoVivienda, $nivelEstudio, $profesion, $departamentoTrabajo, $ciudadTrabajo, $yearsTrabajo, $cargo, $tipoCargo, $yearsCargo, $departamentoLaboral, $tipoContrato, $horasTrabajo, $tipoSalario){
+		public function registrar($cedula, $idEmpresa, $nombre, $sexo, $estadoCivil, $fechaNacimiento, $personasDepende, $departamentoResidencia, $ciudadResidencia, $estrato, $tipoVivienda, $nivelEstudio, $profesion, $departamentoTrabajo, $ciudadTrabajo, $yearsTrabajo, $cargo, $tipoCargo, $yearsCargo, $departamentoLaboral, $tipoContrato, $horasTrabajo, $tipoSalario,$estado){
 
-			$consulta="insert into usuario (cedula_usuario, id_empresa_usuario, nombre_usuario, sexo_usuario, estado_civil_usuario, fecha_nacimiento_usuario, personas_dependen_usuario, departamento_residencia_usuario, ciudad_residencia_usuario, estrato_usuario, tipo_vivienda_usuario, nivel_estudio_usuario, profesion_usuario, departamento_trabajo_usuario, ciudad_trabajo_usuario, years_trabajo_usuario, cargo_usuario, tipo_cargo_usuario, years_cargo_usuario, departamento_laboral_usuario, tipo_contrato_usuario, horas_dia_trabajo_usuario, tipo_salario_usuario, tipo_usuario, estado_usuario) values(".$cedula.",".$idEmpresa.",'".$nombre."','".$sexo."','".$estadoCivil."','".$fechaNacimiento."',".$personasDepende.",'".$departamentoResidencia."','".$ciudadResidencia."','".$estrato."','".$tipoVivienda."','".$nivelEstudio."','".$profesion."','".$departamentoTrabajo."','".$ciudadTrabajo."',".$yearsTrabajo.",'".$cargo."','".$tipoCargo."',".$yearsCargo.",'".$departamentoLaboral."','".$tipoContrato."',".$horasTrabajo.",'".$tipoSalario."','Usuario','Activo')";
+			$consulta="insert into usuario (cedula_usuario, id_empresa_usuario, nombre_usuario, sexo_usuario, estado_civil_usuario, fecha_nacimiento_usuario, personas_dependen_usuario, departamento_residencia_usuario, ciudad_residencia_usuario, estrato_usuario, tipo_vivienda_usuario, nivel_estudio_usuario, profesion_usuario, departamento_trabajo_usuario, ciudad_trabajo_usuario, years_trabajo_usuario, cargo_usuario, tipo_cargo_usuario, years_cargo_usuario, departamento_laboral_usuario, tipo_contrato_usuario, horas_dia_trabajo_usuario, tipo_salario_usuario, tipo_usuario, estado_usuario) values(".$cedula.",".$idEmpresa.",'".$nombre."','".$sexo."','".$estadoCivil."','".$fechaNacimiento."',".$personasDepende.",'".$departamentoResidencia."','".$ciudadResidencia."','".$estrato."','".$tipoVivienda."','".$nivelEstudio."','".$profesion."','".$departamentoTrabajo."','".$ciudadTrabajo."',".$yearsTrabajo.",'".$cargo."','".$tipoCargo."',".$yearsCargo.",'".$departamentoLaboral."','".$tipoContrato."',".$horasTrabajo.",'".$tipoSalario."','Usuario','".$estado."')";
+			$this->objConexion->consultaSimple($consulta);
+		}
+
+		public function registrarBasico($cedula, $idEmpresa, $nombre, $cargo, $area){
+			$consulta="insert into usuario (cedula_usuario, id_empresa_usuario, nombre_usuario, cargo_usuario, departamento_laboral_usuario, tipo_usuario, estado_usuario) values (".$cedula.",".$idEmpresa.",'".$nombre."','".$cargo."','".$area."', 'Usuario','Activo')";
 			$this->objConexion->consultaSimple($consulta);
 		}
 

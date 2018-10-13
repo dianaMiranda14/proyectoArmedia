@@ -24,12 +24,13 @@
 			
 		}
 
-		public function arrRespuesta(){
-			$resultado=$this->listar();
+		public function arrRespuesta($idPresentacion){
+			$consulta="select respuesta.* from respuesta where id_presentacion_respuesta =".$idPresentacion;
+			$resultado=$this->objConexion->consultaRetorno($consulta);
 			if (mysqli_num_rows($resultado)>0) {
 				$cont=0;
 				while ($obj=mysqli_fetch_assoc($resultado)) {
-					$arrRespuesta[$cont]= array('id_presentacion_respuesta' => $obj["id_presentacion_respuesta"], 'id_pregunta_respuesta'=>$obj["id_pregunta_respuesta"], 'descripcion_respuesta'=>$obj["descripcion_respuesta"]);	
+					$arrRespuesta[$cont]= array('id_pregunta_respuesta'=>$obj["id_pregunta_respuesta"], 'descripcion_respuesta'=>$obj["descripcion_respuesta"]);	
 					$cont++;
 				}
 				return $arrRespuesta;

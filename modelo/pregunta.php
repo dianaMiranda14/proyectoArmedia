@@ -80,7 +80,8 @@
 						}
 					}
 					if($modal=="") {
-						$opciones=split(",",$resultadoPregunta['opciones_pregunta']);
+						//explode sustituye split porque ya no lo soporta
+						$opciones=explode(",",$resultadoPregunta['opciones_pregunta']);
 						echo utf8_encode('
 						<tr id="tr'.$contador.'">
 							<td>'.($contador+1).'</td>

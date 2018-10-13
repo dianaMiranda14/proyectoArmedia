@@ -10,7 +10,7 @@
 		case 'registrar':
 			$val=validarDatos(true);
 			if ($val===true) {
-				$objUsuario->registrar($_POST['txtCedula'],$_POST['comboEmpresa'],$_POST['txtNombre'], $_POST['comboSexo'],$_POST['comboEstadoCivil'],$_POST['txtFechaNacimiento'],$_POST['txtPersonasDependen'],$_POST['comboDepartamentoResidencia'],$_POST['comboCiudadResidencia'],$_POST['comboEstrato'], $_POST['comboTipoVivienda'],$_POST['comboNivelEstudio'],$_POST['txtProfesion'],$_POST['comboDepartamentoTrabajo'],$_POST['comboCiudadTrabajo'],$_POST['txtYearsTrabajo'],$_POST['txtCargo'],$_POST['comboTipoCargo'],$_POST['txtYearsCargo'],$_POST['txtDepartamentoLaboral'], $_POST['comboTipoContrato'],$_POST['txtHorasTrabajo'],$_POST['comboTipoSalario']);
+				$objUsuario->registrar($_POST['txtCedula'],$_POST['comboEmpresa'],$_POST['txtNombre'], $_POST['comboSexo'],$_POST['comboEstadoCivil'],$_POST['txtFechaNacimiento'],$_POST['txtPersonasDependen'],$_POST['comboDepartamentoResidencia'],$_POST['comboCiudadResidencia'],$_POST['comboEstrato'], $_POST['comboTipoVivienda'],$_POST['comboNivelEstudio'],$_POST['txtProfesion'],$_POST['comboDepartamentoTrabajo'],$_POST['comboCiudadTrabajo'],$_POST['txtYearsTrabajo'],$_POST['txtCargo'],$_POST['comboTipoCargo'],$_POST['txtYearsCargo'],$_POST['txtDepartamentoLaboral'], $_POST['comboTipoContrato'],$_POST['txtHorasTrabajo'],$_POST['comboTipoSalario'],"Activo");
 				echo "0";
 			}else{
 				echo $val;
@@ -79,7 +79,9 @@
 			$resultado=$objUsuario->consultarCedulaEstado($_POST['valor']);
 			if (mysqli_num_rows($resultado)>0) {
 				$fetch = mysqli_fetch_assoc($resultado);
-				$json = json_encode($fetch);
+				//print_r($fetch);
+				//$fetch["tipo_contrato_usuario"]=utf8_decode($fetch["tipo_contrato_usuario"]);
+				$json = json_encode($fetch, JSON_UNESCAPED_UNICODE);
 				echo $json;
 				
 			}
@@ -90,10 +92,12 @@
 			break;
 
 		case 'validarCedula':
-			if (mysqli_num_rows($objUsuario->consultarCedula($_POST['txtCedula']))>0) {
-				echo "true";
-			}else{
-				echo "No hay un registro de usuario con ese número de cédula";
+			if ($_POST['txtCedula']!=="") {
+				if (mysqli_num_rows($objUsuario->consultarCedula($_POST['txtCedula']))>0) {
+					echo "true";
+				}else{
+					echo "No hay un registro de usuario con ese número de cédula";
+				}
 			}
 			break;
 		default:

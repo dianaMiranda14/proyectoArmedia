@@ -564,7 +564,7 @@ function validarExistenciaUsuario(valor){
 		type:"post",
 		url:"controlador/usuarioControlador.php",
 		success:function(res){
-			//console.log(res);
+			console.log(res);
 			var datos = JSON.parse(res);
 			document.getElementById("txtCedula").readOnly=true;
 			document.getElementById("txtNombre").value=datos.nombre_usuario;
